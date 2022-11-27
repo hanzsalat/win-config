@@ -11,9 +11,9 @@ Import-Module "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.Full
 Import-Module “$env:ChocolateyInstall\helpers\chocolateyProfile.psm1” -Force
 
 # Quick access to navigate on system
-$dwnld = $home + '\Downloads'
-$dskt = $home + '\Desktop'
-$doc = $home + '\Documents'
+$downloads = $home + '\Downloads'
+$desktop = $home + '\Desktop'
+$documents = $home + '\Documents'
 $git = $home + '\Documents\GitHub'
 $mc = $env:SystemDrive + '\Games\Games 2\Minecraft'
 
