@@ -1,2 +1,0 @@
-# Pwsh-Profile
-PowerShell Profile 
