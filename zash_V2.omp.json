@@ -20,7 +20,7 @@
           "type": "path"
         },
         {
-          "foreground": "#D4AAFC",
+          "foreground": "#C591E8",
           "properties": {
             "branch_icon": "",
             "fetch_status": false
@@ -36,7 +36,7 @@
           "type": "exit"
         },
         {
-          "foreground": "#66F68F",
+          "foreground": "#69FF94",
           "properties": {
             "time_format": "15:04"
           },
@@ -51,7 +51,7 @@
           "type": "session"
         },
         {
-          "foreground": "#62ED8B",
+          "foreground": "#69FF94",
           "style": "plain",
           "template": "\u279c",
           "type": "text"
