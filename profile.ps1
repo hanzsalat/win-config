@@ -1,7 +1,7 @@
 # Check for installed software
 $check = @{
     Scoop = $($env:Path.Split(';').where({$_ -match 'scoop'}))
-    Posh = $($env:Path.Split(';').where({$_ -match 'oh-my-posh'}))
+    Posh = $($env:Path.Split(';').where({$_ -match 'oh-my-posh'})) + '\oh-my-posh.exe'
     Choco = $env:ChocolateyInstall + '\choco.exe'
     Packwiz = $env:GOPATH + '\bin\packwiz.exe'
     SpotifyTui = $($check.Scoop + '\spt.exe')
@@ -15,8 +15,8 @@ foreach ($content in $check.GetEnumerator()) {
 }
 
 # Import modules
-Get-InstalledModule |
-ForEach-Object { Import-Module $_.name }
+$modules = Get-InstalledModule
+foreach ($module in $modules.Name) { Import-Module $module }
 
 # Set dependecies after check
 if ($checked.Posh) { 
@@ -25,7 +25,7 @@ if ($checked.Posh) {
 }
 if ($checked.Scoop) { Import-Module "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.FullName)\modules\scoop-completion" }
 if ($checked.Choco) { Import-Module “$env:ChocolateyInstall\helpers\chocolateyProfile.psm1” }
-if ($checkde.Packwiz) { 
+if ($checked.Packwiz) { 
     Import-Module PackwizCompletion 
     Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias'
 }
@@ -36,7 +36,6 @@ $dwnld = $home + '\Downloads'
 $dskt = $home + '\Desktop'
 $doc = $home + '\Documents'
 $git = $home + '\Documents\GitHub'
-$mc = $env:SystemDrive + '\Games\Games 2\Minecraft'
 
 # Add/Change Aliases
 Set-Alias -Name 'gwu' -Value "Get-WindowsUpdate" -Description 'Get-WindowsUpdate short alias'
