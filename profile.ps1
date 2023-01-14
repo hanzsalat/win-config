@@ -1,13 +1,13 @@
 # Check for installed software
 $check = @{
-    Scoop = $($env:Path.Split(';').where({$_ -match 'scoop'}))
+    Scoop = (Get-Command scoop).Path
     ScoopCompletion = "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.FullName)\modules\scoop-completion"
-    Posh = $($env:Path.Split(';').where({$_ -match 'oh-my-posh'})) + '\oh-my-posh.exe'
-    Choco = $env:ChocolateyInstall + '\choco.exe'
-    Packwiz = $env:GOPATH + '\bin\packwiz.exe'
-    PackwizCompletion = $env:PSModulePath.split(';') | Get-ChildItem -Directory -ErrorAction SilentlyContinue | Where-Object {$_ -match 'Packwiz'}
-    SpotifyTui = $($check.Scoop + '\spt.exe')
-    SpotifyTuiCompletion = $env:PSModulePath.split(';') | Get-ChildItem -Directory -ErrorAction SilentlyContinue | Where-Object {$_ -match 'Spotify'}
+    Posh = (Get-Command oh-my-posh).Path
+    Choco = (Get-Command choco).Path
+    Packwiz = (Get-Command packwiz).Path
+    PackwizCompletion = (Get-Module -ListAvailable -Name PackwizCompletion).Path
+    SpotifyTui = (Get-Command spt).Path
+    SpotifyTuiCompletion = (Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path
 }
 
 $checked = @{}
@@ -18,8 +18,8 @@ foreach ($content in $check.GetEnumerator()) {
 }
 
 # Import modules
-$modules = Get-InstalledModule
-foreach ($module in $modules.Name) { Import-Module $module }
+#$modules = Get-InstalledModule
+#foreach ($module in $modules.Name) { Import-Module $module }
 
 # Set dependecies after check
 if ($checked.Posh) { 
