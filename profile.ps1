@@ -1,17 +1,15 @@
 # Check for installed software
-$check = @{
-    Scoop = "$($(Get-Command scoop).Path)"
-    ScoopCompletion = "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.FullName)\modules\scoop-completion"
-    Posh = "$($(Get-Command oh-my-posh).Path)"
-    Choco = "$($(Get-Command choco).Path)"
-    Packwiz = "$($(Get-Command packwiz).Path)"
-    PackwizCompletion = "$($(Get-Module -ListAvailable -Name PackwizCompletion).Path)"
-    SpotifyTui = "$($(Get-Command spt).Path)"
-    SpotifyTuiCompletion = "$($(Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path)"
-}
+$check = @{}
+$check.Add('Scoop',(Get-Command scoop).Path)
+$check.Add('ScoopCompletion',(((Get-Item (Get-Command scoop.ps1).Path).Directory.Parent.FullName) + '\modules\scoop-completion'))
+$check.Add('Posh',(Get-Command oh-my-posh).Path)
+$check.Add('Choco',(Get-Command choco).Path)
+$check.Add('Packwiz',(Get-Command packwiz).Path)
+$check.Add('PackwizCompletion',(Get-Module -Name PackwizCompletion).Path)
+$check.Add('SpotifyTui',(Get-Command spt).Path)
+$check.Add('SpotifyTuiCompletion',(Get-Module -Name SpotifyTuiCompletion).Path)
 
 $checked = @{}
-
 foreach ($content in $check.GetEnumerator()) {
     if ([System.IO.File]::Exists($content.Value)) { $checked.Add($content.Key,$true) }
     else { $checked.Add($content.Key,$false) }
