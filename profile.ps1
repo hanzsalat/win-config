@@ -1,20 +1,20 @@
 # Check for installed software
 $check = @{}
-[void]$check.Add('Scoop',(Get-Command scoop).Path)
-[void]$check.Add('ScoopCompletion',(Get-Module -ListAvailable -Name scoop-completion).Path)
-[void]$check.Add('Posh',(Get-Command oh-my-posh).Path)
-[void]$check.Add('Choco',(Get-Command choco).Path)
-[void]$check.Add('Packwiz',(Get-Command packwiz).Path)
-[void]$check.Add('PackwizCompletion',(Get-Module -ListAvailable -Name PackwizCompletion).Path)
-[void]$check.Add('SpotifyTui',(Get-Command spt).Path)
-[void]$check.Add('SpotifyTuiCompletion',(Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path)
-[void]$check.Add('RandomUtils',(Get-Module -ListAvailable -Name Random-Utils).Path)
+[void]$check.Add('Scoop', (Get-Command scoop).Path)
+[void]$check.Add('ScoopCompletion', (Get-Module -ListAvailable -Name scoop-completion).Path)
+[void]$check.Add('Posh', (Get-Command oh-my-posh).Path)
+[void]$check.Add('Choco', (Get-Command choco).Path)
+[void]$check.Add('Packwiz', (Get-Command packwiz).Path)
+[void]$check.Add('PackwizCompletion', (Get-Module -ListAvailable -Name PackwizCompletion).Path)
+[void]$check.Add('SpotifyTui', (Get-Command spt).Path)
+[void]$check.Add('SpotifyTuiCompletion', (Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path)
+[void]$check.Add('RandomUtils', (Get-Module -ListAvailable -Name Random-Utils).Path)
 
 $checked = @{}
 foreach ($content in $check.GetEnumerator()) {
-    if ($null -eq $content.Value) { [void]$checked.Add($content.Key,$false) }
-    elseif ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key,$true) }
-    else { [void]$checked.Add($content.Key,$false) }
+    if ($null -eq $content.Value) { [void]$checked.Add($content.Key, $false) }
+    elseif ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key, $true) }
+    else { [void]$checked.Add($content.Key, $false) }
 }
 
 # Set dependecies after check
@@ -37,10 +37,10 @@ if ($checked.PSWindowsUpdate) {
 # WinGet completion
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
     param($wordToComplete, $commandAst, $cursorPosition)
-        [Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
-        $Local:word = $wordToComplete.Replace('"', '""')
-        $Local:ast = $commandAst.ToString().Replace('"', '""')
-        winget complete --word="$Local:word" --commandline "$Local:ast" --position $cursorPosition | ForEach-Object {
-            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-        }
+    [Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
+    $Local:word = $wordToComplete.Replace('"', '""')
+    $Local:ast = $commandAst.ToString().Replace('"', '""')
+    winget complete --word="$Local:word" --commandline "$Local:ast" --position $cursorPosition | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
 }
