@@ -1,22 +1,21 @@
 # Check for installed software
 $check = @{}
-$check.Add('Scoop',(Get-Command scoop).Path)
-$check.Add('ScoopCompletion',(((Get-Item (Get-Command scoop.ps1).Path).Directory.Parent.FullName) + '\modules\scoop-completion'))
-$check.Add('Posh',(Get-Command oh-my-posh).Path)
-$check.Add('Choco',(Get-Command choco).Path)
-$check.Add('Packwiz',(Get-Command packwiz).Path)
-$check.Add('PackwizCompletion',(Get-Module -Name PackwizCompletion).Path)
-$check.Add('SpotifyTui',(Get-Command spt).Path)
-$check.Add('SpotifyTuiCompletion',(Get-Module -Name SpotifyTuiCompletion).Path)
+[void]$check.Add('Scoop',(Get-Command scoop).Path)
+[void]$check.Add('ScoopCompletion',(Get-Module -ListAvailable -Name scoop-completion).Path)
+[void]$check.Add('Posh',(Get-Command oh-my-posh).Path)
+[void]$check.Add('Choco',(Get-Command choco).Path)
+[void]$check.Add('Packwiz',(Get-Command packwiz).Path)
+[void]$check.Add('PackwizCompletion',(Get-Module -ListAvailable -Name PackwizCompletion).Path)
+[void]$check.Add('SpotifyTui',(Get-Command spt).Path)
+[void]$check.Add('SpotifyTuiCompletion',(Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path)
+[void]$check.Add('RandomUtils',(Get-Module -ListAvailable -Name Random-Utils).Path)
 
 $checked = @{}
 foreach ($content in $check.GetEnumerator()) {
-    if ([System.IO.File]::Exists($content.Value)) { $checked.Add($content.Key,$true) }
-    else { $checked.Add($content.Key,$false) }
+    if ($null -eq $content.Value) { [void]$checked.Add($content.Key,$false) }
+    elseif ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key,$true) }
+    else { [void]$checked.Add($content.Key,$false) }
 }
-
-# Import modules
-
 
 # Set dependecies after check
 if ($checked.Posh) { 
@@ -30,16 +29,10 @@ if ($checked.PackwizCompletion) {
     Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias'
 }
 if ($checked.SpotifyTuiCompletion) { Import-Module SpotifyTuiCompletion }
-
-# Quick access to navigate on system
-$dwnld = $home + '\Downloads'
-$dskt = $home + '\Desktop'
-$doc = $home + '\Documents'
-$git = $home + '\Documents\GitHub'
-
-# Add/Change Aliases
-Set-Alias -Name 'gwu' -Value "Get-WindowsUpdate" -Description 'Get-WindowsUpdate short alias'
-Set-Alias -Name 'iwu' -Value "Install-WindowsUpdate" -Description 'Install-WindowsUpdate short alias'
+if ($checked.PSWindowsUpdate) {
+    Set-Alias -Name 'gwu' -Value "Get-WindowsUpdate" -Description 'Get-WindowsUpdate short alias'
+    Set-Alias -Name 'iwu' -Value "Install-WindowsUpdate" -Description 'Install-WindowsUpdate short alias'
+}
 
 # WinGet completion
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
