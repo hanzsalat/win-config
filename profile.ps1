@@ -1,14 +1,19 @@
 # Check for installed software
 $check = @{}
-[void]$check.Add('Scoop', (Get-Command scoop).Path)
-[void]$check.Add('ScoopCompletion', (Get-Module -ListAvailable -Name scoop-completion).Path)
-[void]$check.Add('Posh', (Get-Command oh-my-posh).Path)
-[void]$check.Add('Choco', (Get-Command choco).Path)
-[void]$check.Add('Packwiz', (Get-Command packwiz).Path)
-[void]$check.Add('PackwizCompletion', (Get-Module -ListAvailable -Name PackwizCompletion).Path)
-[void]$check.Add('SpotifyTui', (Get-Command spt).Path)
-[void]$check.Add('SpotifyTuiCompletion', (Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path)
+# Sofware
+[void]$check.Add('Choco', (Get-Command choco -ErrorAction Ignore).Path)
+[void]$check.Add('Packwiz', (Get-Command packwiz -ErrorAction Ignore).Path)
+[void]$check.Add('Posh', (Get-Command oh-my-posh -ErrorAction Ignore).Path)
+[void]$check.Add('PSWindowsUpdate', (Get-Module -ListAvailable -Name PSWindowsUpdate).Path)
 [void]$check.Add('RandomUtils', (Get-Module -ListAvailable -Name Random-Utils).Path)
+[void]$check.Add('Scoop', (Get-Command scoop -ErrorAction Ignore).Path)
+[void]$check.Add('SpotifyTui', (Get-Command spt -ErrorAction Ignore).Path)
+# Completion
+[void]$check.Add('ChocoCompletion', "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1")
+[void]$check.Add('OpCompletion', (Get-Module -ListAvailable -Name OpCompletion).Path)
+[void]$check.Add('PackwizCompletion', (Get-Module -ListAvailable -Name PackwizCompletion).Path)
+[void]$check.Add('ScoopCompletion', (Get-Module -ListAvailable -Name scoop-completion).Path)
+[void]$check.Add('SpotifyTuiCompletion', (Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path)
 
 $checked = @{}
 foreach ($content in $check.GetEnumerator()) {
@@ -18,21 +23,22 @@ foreach ($content in $check.GetEnumerator()) {
 }
 
 # Set dependecies after check
+# Software
+if ($checked.Packwiz) { Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias' }
 if ($checked.Posh) { 
     oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" | Invoke-Expression 
     Set-Alias -Name 'omp' -Value "oh-my-posh" -Description 'Oh-My-Posh short alias'
 }
-if ($checked.ScoopCompletion) { Import-Module scoop-completion }
-if ($checked.Choco) { Import-Module “$env:ChocolateyInstall\helpers\chocolateyProfile.psm1” }
-if ($checked.PackwizCompletion) { 
-    Import-Module PackwizCompletion 
-    Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias'
-}
-if ($checked.SpotifyTuiCompletion) { Import-Module SpotifyTuiCompletion }
 if ($checked.PSWindowsUpdate) {
     Set-Alias -Name 'gwu' -Value "Get-WindowsUpdate" -Description 'Get-WindowsUpdate short alias'
     Set-Alias -Name 'iwu' -Value "Install-WindowsUpdate" -Description 'Install-WindowsUpdate short alias'
 }
+# Completion
+if ($checked.ChocoCompletion) { Import-Module $check.ChocoCompletion }
+if ($checked.OpCompletion) { Import-Module OpCompletion }
+if ($checked.PackwizCompletion) { Import-Module PackwizCompletion }
+if ($checked.ScoopCompletion) { Import-Module scoop-completion }
+if ($checked.SpotifyTuiCompletion) { Import-Module SpotifyTuiCompletion }
 
 # WinGet completion
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
