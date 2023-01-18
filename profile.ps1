@@ -4,16 +4,17 @@ $check = @{}
 [void]$check.Add('Choco', (Get-Command choco -ErrorAction Ignore).Path)
 [void]$check.Add('Packwiz', (Get-Command packwiz -ErrorAction Ignore).Path)
 [void]$check.Add('Posh', (Get-Command oh-my-posh -ErrorAction Ignore).Path)
-[void]$check.Add('PSWindowsUpdate', (Get-Module -ListAvailable -Name PSWindowsUpdate).Path)
-[void]$check.Add('RandomUtils', (Get-Module -ListAvailable -Name Random-Utils).Path)
+[void]$check.Add('PSReadLine', ((Get-Module -ListAvailable -Name PSReadLine).Path | Select-Object -First 1)) 
+[void]$check.Add('PSWindowsUpdate', ((Get-Module -ListAvailable -Name PSWindowsUpdate).Path | Select-Object -First 1))
+[void]$check.Add('RandomUtils', ((Get-Module -ListAvailable -Name Random-Utils).Path | Select-Object -First 1))
 [void]$check.Add('Scoop', (Get-Command scoop -ErrorAction Ignore).Path)
 [void]$check.Add('SpotifyTui', (Get-Command spt -ErrorAction Ignore).Path)
 # Completion
 [void]$check.Add('ChocoCompletion', "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1")
-[void]$check.Add('OpCompletion', (Get-Module -ListAvailable -Name OpCompletion).Path)
-[void]$check.Add('PackwizCompletion', (Get-Module -ListAvailable -Name PackwizCompletion).Path)
-[void]$check.Add('ScoopCompletion', (Get-Module -ListAvailable -Name scoop-completion).Path)
-[void]$check.Add('SpotifyTuiCompletion', (Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path)
+[void]$check.Add('OpCompletion', ((Get-Module -ListAvailable -Name OpCompletion).Path | Select-Object -First 1))
+[void]$check.Add('PackwizCompletion', ((Get-Module -ListAvailable -Name PackwizCompletion).Path | Select-Object -First 1))
+[void]$check.Add('ScoopCompletion', ((Get-Module -ListAvailable -Name scoop-completion).Path | Select-Object -First 1))
+[void]$check.Add('SpotifyTuiCompletion', ((Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path | Select-Object -First 1))
 
 $checked = @{}
 foreach ($content in $check.GetEnumerator()) {
@@ -29,7 +30,9 @@ if ($checked.Posh) {
     oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" | Invoke-Expression 
     Set-Alias -Name 'omp' -Value "oh-my-posh" -Description 'Oh-My-Posh short alias'
 }
+if ($checked.PSReadLine) { Import-Module PSReadLine }
 if ($checked.PSWindowsUpdate) {
+    Import-Module PSWindowsUpdate
     Set-Alias -Name 'gwu' -Value "Get-WindowsUpdate" -Description 'Get-WindowsUpdate short alias'
     Set-Alias -Name 'iwu' -Value "Install-WindowsUpdate" -Description 'Install-WindowsUpdate short alias'
 }
