@@ -1,4 +1,4 @@
-# Check for installed software
+# Generate list of Items that need to be checked
 $check = @{}
 # Sofware
 [void]$check.Add('Choco', (Get-Command choco -ErrorAction Ignore).Path)
@@ -15,14 +15,13 @@ $check = @{}
 [void]$check.Add('PackwizCompletion', ((Get-Module -ListAvailable -Name PackwizCompletion).Path | Select-Object -First 1))
 [void]$check.Add('ScoopCompletion', ((Get-Module -ListAvailable -Name scoop-completion).Path | Select-Object -First 1))
 [void]$check.Add('SpotifyTuiCompletion', ((Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path | Select-Object -First 1))
-
+# check if items are avaible
 $checked = @{}
 foreach ($content in $check.GetEnumerator()) {
     if ($null -eq $content.Value) { [void]$checked.Add($content.Key, $false) }
     elseif ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key, $true) }
     else { [void]$checked.Add($content.Key, $false) }
 }
-
 # Set dependecies after check
 # Software
 if ($checked.Packwiz) { Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias' }
@@ -42,7 +41,6 @@ if ($checked.OpCompletion) { Import-Module OpCompletion }
 if ($checked.PackwizCompletion) { Import-Module PackwizCompletion }
 if ($checked.ScoopCompletion) { Import-Module scoop-completion }
 if ($checked.SpotifyTuiCompletion) { Import-Module SpotifyTuiCompletion }
-
 # WinGet completion
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
     param($wordToComplete, $commandAst, $cursorPosition)
