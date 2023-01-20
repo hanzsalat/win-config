@@ -1,14 +1,15 @@
 # Generate list of Items that need to be checked
 $check = @{}
 # Sofware
-[void]$check.Add('Choco', (Get-Command choco -ErrorAction Ignore).Path)
-[void]$check.Add('Packwiz', (Get-Command packwiz -ErrorAction Ignore).Path)
+[void]$check.Add('Choco', (Get-Command choco -ErrorAction SilentlyContinue).Path)
+[void]$check.Add('Packwiz', (Get-Command packwiz -ErrorAction SilentlyContinue).Path)
 [void]$check.Add('Posh', (Get-Command oh-my-posh -ErrorAction Ignore).Path)
 [void]$check.Add('PSReadLine', ((Get-Module -ListAvailable -Name PSReadLine).Path | Select-Object -First 1)) 
 [void]$check.Add('PSWindowsUpdate', ((Get-Module -ListAvailable -Name PSWindowsUpdate).Path | Select-Object -First 1))
 [void]$check.Add('RandomUtils', ((Get-Module -ListAvailable -Name Random-Utils).Path | Select-Object -First 1))
-[void]$check.Add('Scoop', (Get-Command scoop -ErrorAction Ignore).Path)
-[void]$check.Add('SpotifyTui', (Get-Command spt -ErrorAction Ignore).Path)
+[void]$check.Add('Scoop', (Get-Command scoop -ErrorAction SilentlyContinue).Path)
+[void]$check.Add('SpotifyTui', (Get-Command spt -ErrorAction SilentlyContinue).Path)
+#[void]$check.add('Starship', (Get-Command starship -ErrorAction SilentlyContinue).Path)
 # Completion
 [void]$check.Add('ChocoCompletion', "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1")
 [void]$check.Add('OpCompletion', ((Get-Module -ListAvailable -Name OpCompletion).Path | Select-Object -First 1))
@@ -29,6 +30,7 @@ if ($checked.Posh) {
     oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" | Invoke-Expression 
     Set-Alias -Name 'omp' -Value "oh-my-posh" -Description 'Oh-My-Posh short alias'
 }
+if ($checked.Starship) { Invoke-Expression (&starship init powershell) }
 if ($checked.PSReadLine) { Import-Module PSReadLine }
 if ($checked.PSWindowsUpdate) {
     Import-Module PSWindowsUpdate
