@@ -4,7 +4,7 @@ $check = @{}
 [void]$check.Add('Choco', (Get-Command choco -ErrorAction SilentlyContinue).Path)
 [void]$check.Add('Packwiz', (Get-Command packwiz -ErrorAction SilentlyContinue).Path)
 [void]$check.Add('Posh', (Get-Command oh-my-posh -ErrorAction Ignore).Path)
-[void]$check.Add('PSReadLine', ((Get-Module -ListAvailable -Name PSReadLine).Path | Select-Object -First 1)) 
+[void]$check.Add('PSReadLine', ((Get-Module -ListAvailable -Name PSReadLine).Path | Select-Object -First 1))
 [void]$check.Add('PSWindowsUpdate', ((Get-Module -ListAvailable -Name PSWindowsUpdate).Path | Select-Object -First 1))
 [void]$check.Add('RandomUtils', ((Get-Module -ListAvailable -Name Random-Utils).Path | Select-Object -First 1))
 [void]$check.Add('Scoop', (Get-Command scoop -ErrorAction SilentlyContinue).Path)
@@ -26,11 +26,11 @@ foreach ($content in $check.GetEnumerator()) {
 # Set dependecies after check
 # Software
 if ($checked.Packwiz) { Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias' }
-if ($checked.Posh) { 
-    oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" | Invoke-Expression 
+if ($checked.Posh) {
+    & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" --print) -join "`n"))
     Set-Alias -Name 'omp' -Value "oh-my-posh" -Description 'Oh-My-Posh short alias'
 }
-if ($checked.Starship) { Invoke-Expression (&starship init powershell) }
+if ($checked.Starship) { &starship init powershell }
 if ($checked.PSReadLine) { Import-Module PSReadLine }
 if ($checked.PSWindowsUpdate) {
     Import-Module PSWindowsUpdate
