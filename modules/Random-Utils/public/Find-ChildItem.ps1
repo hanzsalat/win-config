@@ -18,7 +18,7 @@ function Find-ChildItem {
         [Parameter(Mandatory)][string]$Name,
         [string]$Path = $PWD
     )
-    
+
     begin {}
 
     process {
