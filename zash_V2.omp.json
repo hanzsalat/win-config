@@ -2,12 +2,13 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "blocks": [
     {
+      "type": "prompt",
       "alignment": "left",
       "segments": [
         {
           "foreground": "#ffffff",
           "style": "plain",
-          "template": "<#C591E8>\u276f</><#69FF94>\u276f</>",
+          "template": "<#C591E8>\u276f</><#69FF94>\u276f</> ",
           "type": "text"
         },
         {
@@ -16,8 +17,20 @@
             "time_format": "15:04"
           },
           "style": "plain",
-          "template": " {{ .CurrentDate | date .Format }}",
+          "template": "{{ .CurrentDate | date .Format }}",
           "type": "time"
+        },
+        {
+          "type": "wakatime",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#ffffff",
+          "background": "#007acc",
+          "properties": {
+              "url": "https://wakatime.com/api/v1/users/current/summaries?start=today&end=today&api_key=waka_9477a691-522d-4894-b8d6-1b9a3deeda78",
+              "cache_timeout": 10,
+              "http_timeout": 500
+          }
         },
         {
           "foreground": "#E36464",
@@ -50,8 +63,24 @@
           "template": " {{ if .Root }}#{{ else }}${{ end }}",
           "type": "text"
         }
-      ],
-      "type": "prompt"
+      ]
+    },
+    {
+      "type": "rprompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "spotify",
+          "style": "plain",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#69FF94",
+          "properties": {
+            "playing_icon": "\uE602 ",
+            "paused_icon": "\uF8E3 ",
+            "stopped_icon": "\uF04D "
+          }
+        }
+      ]
     }
   ],
   "transient_prompt": {
