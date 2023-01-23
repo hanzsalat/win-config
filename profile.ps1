@@ -51,3 +51,7 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
         [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
     }
 }
+# reload the profile
+function reload-profile {
+    & $profile.CurrentUserAllHosts
+}
