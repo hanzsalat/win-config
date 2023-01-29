@@ -47,3 +47,12 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
 function Initialize-Profile {
     & $profile.CurrentUserAllHosts
 }
+# Settings for PSReadLine
+$PSReadLine = @{
+    EditMode = 'Windows'
+    HistoryNoDuplicates = $true
+    BellStyle = 'Visual'
+    PredictionSource = 'HistoryAndPlugin'
+    PredictionViewStyle = 'ListView'
+}
+Set-PSReadLineOption @PSReadLine
