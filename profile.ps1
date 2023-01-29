@@ -18,23 +18,16 @@ $check = @{}
 # check if items are avaible
 $checked = @{}
 foreach ($content in $check.GetEnumerator()) {
-    if ($null -eq $content.Value) { [void]$checked.Add($content.Key, $false) }
-    elseif ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key, $true) }
+    if ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key, $true) }
     else { [void]$checked.Add($content.Key, $false) }
 }
+$checked
 # Set dependecies after check
 if ($checked.Packwiz) { Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias' }
-if ($checked.Posh) {
-    & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" --print) -join "`n"))
-    Set-Alias -Name 'omp' -Value "oh-my-posh" -Description 'Oh-My-Posh short alias'
-}
+if ($checked.Posh) { & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" --print) -join "`n")) }
 if ($checked.Starship) { & ([ScriptBlock]::Create((starship init powershell))) }
 if ($checked.PSReadLine) { Import-Module PSReadLine }
-if ($checked.PSWindowsUpdate) {
-    Import-Module PSWindowsUpdate
-    Set-Alias -Name 'gwu' -Value "Get-WindowsUpdate" -Description 'Get-WindowsUpdate short alias'
-    Set-Alias -Name 'iwu' -Value "Install-WindowsUpdate" -Description 'Install-WindowsUpdate short alias'
-}
+if ($checked.PSWindowsUpdate) { Import-Module PSWindowsUpdate }
 if ($checked.TerminalIcons) { Import-Module Terminal-Icons }
 if ($checked.ChocoCompletion) { Import-Module $check.ChocoCompletion }
 if ($checked.OpCompletion) { Import-Module OpCompletion }
