@@ -28,7 +28,7 @@ if ($checked.Posh) {
     & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" --print) -join "`n"))
     Set-Alias -Name 'omp' -Value "oh-my-posh" -Description 'Oh-My-Posh short alias'
 }
-if ($checked.Starship) { &starship init powershell }
+if ($checked.Starship) { & ([ScriptBlock]::Create((starship init powershell))) }
 if ($checked.PSReadLine) { Import-Module PSReadLine }
 if ($checked.PSWindowsUpdate) {
     Import-Module PSWindowsUpdate

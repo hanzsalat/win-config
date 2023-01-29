@@ -12,6 +12,24 @@
           "type": "text"
         },
         {
+          "type": "battery",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "foreground": "#193549",
+          "background": "#ffeb3b",
+          "background_templates": [
+            "{{if eq \"Charging\" .State.String}}#40c4ff{{end}}",
+            "{{if eq \"Discharging\" .State.String}}#ff5722{{end}}",
+            "{{if eq \"Full\" .State.String}}#4caf50{{end}}"
+          ],
+          "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}\uF295 ",
+          "properties": {
+            "discharging_icon": "\uE231 ",
+            "charging_icon": "\uE234 ",
+            "charged_icon": "\uE22F "
+          }
+        },
+        {
           "foreground": "#69FF94",
           "properties": {
             "time_format": "15:04"
@@ -21,21 +39,9 @@
           "type": "time"
         },
         {
-          "type": "wakatime",
-          "style": "powerline",
-          "powerline_symbol": "\uE0B0",
-          "foreground": "#ffffff",
-          "background": "#007acc",
-          "properties": {
-              "url": "https://wakatime.com/api/v1/users/current/summaries?start=today&end=today&api_key=waka_9477a691-522d-4894-b8d6-1b9a3deeda78",
-              "cache_timeout": 10,
-              "http_timeout": 500
-          }
-        },
-        {
           "foreground": "#E36464",
           "style": "plain",
-          "template": " {{ .HostName }}@{{ .UserName }} ",
+          "template": " {{ .HostName }}@{{ if .Root }}{{ .UserName }}</>{{ else }}<#fffb00>{{ .UserName }}</>{{ end }} ",
           "type": "session"
         },
         {
