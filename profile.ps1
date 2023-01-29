@@ -52,6 +52,6 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
     }
 }
 # reload the profile
-function reload-profile {
+function Initialize-Profile {
     & $profile.CurrentUserAllHosts
 }
