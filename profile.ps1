@@ -21,7 +21,6 @@ foreach ($content in $check.GetEnumerator()) {
     if ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key, $true) }
     else { [void]$checked.Add($content.Key, $false) }
 }
-$checked
 # Set dependecies after check
 if ($checked.Packwiz) { Set-Alias -Name 'pw' -Value "packwiz" -Description 'Packwiz short alias' }
 if ($checked.Posh) { & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:USERPROFILE\Documents\Github\Pwsh\zash_V2.omp.json" --print) -join "`n")) }
