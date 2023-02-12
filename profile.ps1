@@ -53,6 +53,7 @@ $PSReadLine = @{
     HistoryNoDuplicates = $true
     BellStyle = 'Visual'
     PredictionSource = 'HistoryAndPlugin'
-    PredictionViewStyle = 'ListView'
+    PredictionViewStyle = 'InlineView'
 }
 Set-PSReadLineOption @PSReadLine
+Set-Alias -Name 'code' -Value 'codium'
