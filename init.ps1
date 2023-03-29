@@ -7,7 +7,7 @@
 
 # create junctions for convienince
     if (!(Test-Path $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState)) {
-        $path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+        $path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState"
         $target = "$env:USERPROFILE\.config\terminal"
         New-Item -ItemType Junction -Path $path -Target $target -Force
     }
