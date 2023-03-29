@@ -7,7 +7,7 @@
     if ($checked.PSWindowsUpdate) { Import-Module PSWindowsUpdate }
     if ($checked.TerminalIcons) { Import-Module Terminal-Icons }
     if ($checked.Posh) {
-        & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$PSScriptRoot\Themes\zash_V2.omp.json"))) 
+        & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$PSScriptRoot\Themes\zash_V2.omp.json")))
         Enable-PoshLineError
         Enable-PoshTransientPrompt
     }
@@ -21,6 +21,7 @@
 
 # import user completions
     . $PSScriptRoot\Scripts\powershell.completion.ps1
+
 # settings for psreadline
     $PSReadLine = @{
         EditMode = 'Windows'

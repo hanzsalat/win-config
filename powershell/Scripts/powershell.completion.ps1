@@ -2,7 +2,7 @@
     $checked = & $PSScriptRoot\powershell.check.ps1
 
 # import modules after check
-    if ($checked.ChocoCompletion) { Import-Module $check.ChocoCompletion }
+    if ($checked.ChocoCompletion) { Import-Module -Name "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1" }
     if ($checked.OpCompletion) { Import-Module OpCompletion }
     if ($checked.PackwizCompletion) { Import-Module PackwizCompletion }
     if ($checked.ScoopCompletion) { Import-Module scoop-completion }

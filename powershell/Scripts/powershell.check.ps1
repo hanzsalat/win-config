@@ -1,5 +1,6 @@
 # general variables
     $ErrorActionPreference = 'Ignore'
+
 # generate list of items that need to be checked
     $check = @{}
     # based on commands

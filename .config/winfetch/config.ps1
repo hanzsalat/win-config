@@ -1,19 +1,19 @@
 # ===== WINFETCH CONFIGURATION =====
 
-# $image = "~/winfetch.png"
+$image = "$PSScriptRoot/winfetch.png"
 # $noimage = $true
 
 # Display image using ASCII characters
 # $ascii = $true
 
 # Set the version of Windows to derive the logo from.
-# $logo = "Windows 10"
+# $logo = "Windows 11"
 
 # Specify width for image/logo
-# $imgwidth = 24
+$imgwidth = 45
 
 # Specify minimum alpha value for image pixels to be visible
-$alphathreshold = 50
+# $alphathreshold = 50
 
 # Custom ASCII Art
 # This should be an array of strings, with positive
@@ -71,10 +71,10 @@ $alphathreshold = 50
 # 'bar' is for bar only.
 # 'textbar' is for text + bar.
 # 'bartext' is for bar + text.
-$cpustyle = 'bartext'
+$cpustyle = 'bar'
 $memorystyle = 'bartext'
-# $diskstyle = 'bartext'
-# $batterystyle = 'bartext'
+$diskstyle = 'bartext'
+$batterystyle = 'bartext'
 
 
 # Remove the '#' from any of the lines in
@@ -94,13 +94,13 @@ $memorystyle = 'bartext'
     "pwsh"
     "resolution"
     "terminal"
-    # "theme"
+    "theme"
     "cpu"
     "gpu"
     "cpu_usage"
     "memory"
     "disk"
-    # "battery"
+    "battery"
     # "locale"
     # "weather"
     # "local_ip"

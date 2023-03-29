@@ -2,7 +2,7 @@
     function Initialize-Profile {
         & $profile.CurrentUserAllHosts
     }
-    
+
 # shutdown and reboot function
     function shutdown {
         shutdown.exe /s /t 0

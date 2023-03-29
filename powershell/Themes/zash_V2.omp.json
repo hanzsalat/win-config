@@ -3,7 +3,7 @@
   "final_space": true,
   "transient_prompt": {
     "background": "transparent",
-    "foreground": "#E36464",
+    "foreground": "#fb4934",
     "template": "@{{ .UserName }} <#62ED8B>\u279c</> "
   },
   "version": 2,
@@ -13,17 +13,17 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#ffffff",
+          "foreground": "#ebdbb2",
           "style": "plain",
-          "template": "<#C591E8>\u276f</><#69FF94>\u276f</> ",
+          "template": "<#8ec07c>\u276f</><#d3869b>\u276f</> ",
           "type": "text"
         },
         {
           "type": "battery",
-          "style": "powerline",
+          "style": "plain",
           "powerline_symbol": "\uE0B0",
-          "foreground": "#193549",
-          "background": "#ffeb3b",
+          "foreground": "#83a598",
+          "background": "#fabd2f",
           "background_templates": [
             "{{if eq \"Charging\" .State.String}}#40c4ff{{end}}",
             "{{if eq \"Discharging\" .State.String}}#ff5722{{end}}",
@@ -37,7 +37,7 @@
           }
         },
         {
-          "foreground": "#69FF94",
+          "foreground": "#8ec07c",
           "properties": {
             "time_format": "15:04"
           },
@@ -46,13 +46,13 @@
           "type": "time"
         },
         {
-          "foreground": "#E36464",
+          "foreground": "#fb4934",
           "style": "plain",
-          "template": " {{ .HostName }}@{{ if .Root }}{{ .UserName }}</>{{ else }}<#fffb00>{{ .UserName }}</>{{ end }} ",
+          "template": " {{ if .SSHSession }}<#83a598>\uF310</>{{ end }}{{ if .Root }}{{ .UserName }}{{ else }}<#fabd2f>{{ .UserName }}</>{{ end }}@{{ .HostName }} ",
           "type": "session"
         },
         {
-          "foreground": "#56B6C2",
+          "foreground": "#83a598",
           "properties": {
             "style": "agnoster_short"
           },
@@ -61,17 +61,17 @@
           "type": "path"
         },
         {
-          "foreground": "#C591E8",
+          "foreground": "#d3869b",
           "properties": {
             "branch_icon": "",
             "fetch_status": false
           },
           "style": "plain",
-          "template": " <#DDB15F>git:(</>{{ .HEAD }}<#DDB15F>)</>",
+          "template": " <#fe8019>git:(</>{{ .HEAD }}<#fe8019>)</>",
           "type": "git"
         },
         {
-          "foreground": "#ffffff",
+          "foreground": "#ebdbb2",
           "style": "plain",
           "template": " {{ if .Root }}#{{ else }}${{ end }}",
           "type": "text"
