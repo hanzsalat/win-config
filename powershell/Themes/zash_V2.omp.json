@@ -21,19 +21,18 @@
         {
           "type": "battery",
           "style": "plain",
-          "powerline_symbol": "\uE0B0",
-          "foreground": "#83a598",
+          "foreground": "#8ec07c",
           "background": "#fabd2f",
           "background_templates": [
-            "{{if eq \"Charging\" .State.String}}#40c4ff{{end}}",
-            "{{if eq \"Discharging\" .State.String}}#ff5722{{end}}",
-            "{{if eq \"Full\" .State.String}}#4caf50{{end}}"
+            "{{if eq \"Charging\" .State.String}}#ebdbb2{{end}}",
+            "{{if eq \"Discharging\" .State.String}}#fabd2f{{end}}",
+            "{{if eq \"Full\" .State.String}}#8ec07c{{end}}"
           ],
-          "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}\uF295 ",
+          "template": "{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}",
           "properties": {
-            "discharging_icon": "\uE231 ",
-            "charging_icon": "\uE234 ",
-            "charged_icon": "\uE22F "
+            "discharging_icon": "",
+            "charging_icon": "\uF5F2 ",
+            "charged_icon": ""
           }
         },
         {
