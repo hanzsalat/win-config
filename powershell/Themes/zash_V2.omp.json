@@ -13,67 +13,65 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#ebdbb2",
+          "type": "text",
           "style": "plain",
-          "template": "<#8ec07c>\u276f</><#d3869b>\u276f</> ",
-          "type": "text"
+          "template": "<#8ec07c>\u276f<#d3869b>\u276f "
         },
         {
           "type": "battery",
           "style": "plain",
-          "foreground": "#8ec07c",
-          "background": "#fabd2f",
-          "background_templates": [
+          "foreground": "#ffffff",
+          "foreground_templates": [
             "{{if eq \"Charging\" .State.String}}#ebdbb2{{end}}",
             "{{if eq \"Discharging\" .State.String}}#fabd2f{{end}}",
             "{{if eq \"Full\" .State.String}}#8ec07c{{end}}"
           ],
-          "template": "{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}",
+          "template": "{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}\uF295 ",
           "properties": {
-            "discharging_icon": "",
-            "charging_icon": "\uF5F2 ",
-            "charged_icon": ""
+            "discharging_icon": "\uE231 ",
+            "charging_icon": "\uE234 ",
+            "charged_icon": "\uE22F "
           }
         },
         {
+          "type": "time",
+          "style": "plain",
           "foreground": "#8ec07c",
+          "template": "{{ .CurrentDate | date .Format }}",
           "properties": {
             "time_format": "15:04"
-          },
-          "style": "plain",
-          "template": "{{ .CurrentDate | date .Format }}",
-          "type": "time"
+          }
         },
         {
+          "type": "session",
+          "style": "plain",
           "foreground": "#fb4934",
-          "style": "plain",
-          "template": " {{ if .SSHSession }}<#83a598>\uF310</>{{ end }}{{ if .Root }}{{ .UserName }}{{ else }}<#fabd2f>{{ .UserName }}</>{{ end }}@{{ .HostName }} ",
-          "type": "session"
+          "template": " {{ if .SSHSession }}<#83a598>\uF310</>{{ end }}{{ if .Root }}{{ .UserName }}{{ else }}<#fabd2f>{{ .UserName }}</>{{ end }}@{{ .HostName }} "
         },
         {
+          "type": "path",
+          "style": "plain",
           "foreground": "#83a598",
+          "template": "{{ .Path }}",
           "properties": {
             "style": "agnoster_short"
-          },
-          "style": "plain",
-          "template": "{{ .Path }}",
-          "type": "path"
+          }
         },
         {
+          "type": "git",
+          "style": "plain",
           "foreground": "#d3869b",
+          "template": " <#fe8019>git:(</>{{ .HEAD }}<#fe8019>)</>",
           "properties": {
             "branch_icon": "",
             "fetch_status": false
-          },
-          "style": "plain",
-          "template": " <#fe8019>git:(</>{{ .HEAD }}<#fe8019>)</>",
-          "type": "git"
+          }
         },
         {
-          "foreground": "#ebdbb2",
+          "type": "text",
           "style": "plain",
-          "template": " {{ if .Root }}#{{ else }}${{ end }}",
-          "type": "text"
+          "foreground": "#ebdbb2",
+          "template": " {{ if .Root }}#{{ else }}${{ end }}"
         }
       ]
     },
