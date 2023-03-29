@@ -1,0 +1,2 @@
+komorebic.exe start
+exit

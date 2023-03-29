@@ -1,5 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "final_space": true,
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "#E36464",
+    "template": "@{{ .UserName }} <#62ED8B>\u279c</> "
+  },
+  "version": 2,
   "blocks": [
     {
       "type": "prompt",
@@ -88,12 +95,5 @@
         }
       ]
     }
-  ],
-  "transient_prompt": {
-    "background": "transparent",
-    "foreground": "#E36464",
-    "template": "@{{ .UserName }} <#62ED8B>\u279c</> "
-  },
-  "final_space": true,
-  "version": 2
+  ]
 }
