@@ -71,7 +71,7 @@ $imgwidth = 45
 # 'bar' is for bar only.
 # 'textbar' is for text + bar.
 # 'bartext' is for bar + text.
-$cpustyle = 'bar'
+$cpustyle = 'bartext'
 $memorystyle = 'bartext'
 $diskstyle = 'bartext'
 $batterystyle = 'bartext'
