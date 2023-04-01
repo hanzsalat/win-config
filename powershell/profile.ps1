@@ -6,12 +6,8 @@
     if ($checked.PSReadLine) { Import-Module PSReadLine }
     if ($checked.PSWindowsUpdate) { Import-Module PSWindowsUpdate }
     if ($checked.TerminalIcons) { Import-Module Terminal-Icons }
-    if ($checked.Posh) {
-        & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$PSScriptRoot\Themes\zash_V2.omp.json")))
-        Enable-PoshLineError
-        Enable-PoshTransientPrompt
-    }
-    if ($checked.Starship) { & ([ScriptBlock]::Create((starship init powershell))) }
+    if ($checked.Posh) { oh-my-posh init pwsh --config "$PSScriptRoot\Themes\zash_V2.omp.json" | Invoke-Expression }
+    if ($checked.Starship -and !$checked.Posh) { & ([ScriptBlock]::Create((starship init powershell))) }
 
 # import user functions
     . $PSScriptRoot\Scripts\powershell.functions.ps1

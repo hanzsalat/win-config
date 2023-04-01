@@ -1,5 +1,34 @@
 
 
+
+<# create an junction
+$createJunction = {
+    param( $path,$target )
+    $guid = New-Guid
+    $tmp = "$env:USERPROFILE\temp\$guid"
+    $null = New-Item -ItemType Directory -Path $tmp
+    if (!(Test-Path -Path $path)) {
+        $null = New-Item -ItemType Junction -Path $path -Target $target
+    } 
+    elseif ($((Get-Item $path).Attributes) -notmatch 'ReparsePoint') {
+        $items = Get-ChildItem -Path $path
+        foreach ($item in $items) {
+            Move-Item -Path $item -Destination $tmp
+        }
+        $null = New-Item -ItemType Junction -Path $path -Target $target
+        foreach ($item in $items) {
+            Move-Item -Path $tmp\$($item.Name) -Destination $target
+        }
+    }
+    Remove-Item -Path $tmp -Recurse -Force
+}
+
+$path = "$env:USERPROFILE\Documents\test"
+$target = "$env:USERPROFILE\Documents\aaa"
+
+& $createJunction -path $path -target $target
+#>
+
 <# new design to create shortcuts in startup folder for komorebi and nircmd
 # path to windows startup folder
     $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"

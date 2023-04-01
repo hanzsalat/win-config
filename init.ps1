@@ -6,15 +6,46 @@
     Copy-Item -Path $PSScriptRoot\.config\* -Destination $env:USERPROFILE\.config -Recurse -Force
 
 # create junctions for convienince
-    if (!(Test-Path $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState)) {
-        $path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
-        $target = "$env:USERPROFILE\.config\terminal"
-        New-Item -ItemType Junction -Path $path -Target $target -Force
+# Script block to copy old files to tmp and put them back into the target of junction
+    $createJunction = {
+        param( $path,$target )
+        $guid = New-Guid
+        $tmp = "$env:TEMP\$guid"
+        if (!(Test-Path -Path $path)) {
+            $null = New-Item -ItemType Junction -Path $path -Target $target
+        } 
+        elseif ($((Get-Item $path).Attributes) -notmatch 'ReparsePoint') {
+            $null = New-Item -ItemType Directory -Path $tmp
+            $items = Get-ChildItem -Path $path
+            foreach ($item in $items) {
+                Move-Item -Path $item -Destination $tmp
+            }
+            $null = New-Item -ItemType Junction -Path $path -Target $target
+            foreach ($item in $items) {
+                Move-Item -Path $tmp\$($item.Name) -Destination $target
+            }
+            Remove-Item -Path $tmp -Recurse -Force
+        }
     }
-    if (!(Test-Path $env:USERPROFILE\Documents\PowerShell)) {
-        $path = "$env:USERPROFILE\Documents\PowerShell"
-        $target = "$env:USERPROFILE\Documents\WindowsPowerShell"
-        New-Item -ItemType Junction -Path $path -Target $target -Force
+
+# init $list as arraylist
+    $list = [System.Collections.ArrayList]::new()
+
+# add WindowsTerminal localstate folder to list
+    [void]$list.Add(@{
+        path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+        target = "$env:USERPROFILE\.config\terminal"
+    })
+
+# add PowerShell user folder to list
+    [void]$list.Add(@{
+        path = "$env:USERPROFILE\Documents\PowerShell"
+        target = "$env:USERPROFILE\Documents\WindowsPowerShell"
+    })
+
+# create junctions for every item in $list
+    foreach ($item in $list) {
+        & $createJunction @item
     }
 
 # create shortcuts in startup for komorebi and nircmd
@@ -23,7 +54,7 @@
 
 # scriptblock for creating a shortcut
     $createLink = {
-        param($name,$sourceExe,$argumentsExe,$destination)
+        param( $name,$sourceExe,$argumentsExe,$destination )
         $WshShell = New-Object -comObject WScript.Shell
         $shortcut = $WshShell.CreateShortcut("$destination\$name.lnk")
         $shortcut.TargetPath = $sourceExe
