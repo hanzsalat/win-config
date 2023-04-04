@@ -1,12 +1,15 @@
-#get $checked from powershell.check.ps1 script
-    $checked = & $PSScriptRoot\powershell.check.ps1
+# set komorebi enviorment variable to put config files into .config
+    if ($checked.Komorebi) { $Env:KOMOREBI_CONFIG_HOME = "$env:USERPROFILE\.config\komorebi" }
 
-# import modules after check
-    if ($checked.ChocoCompletion) { Import-Module -Name "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1" }
-    if ($checked.OpCompletion) { Import-Module OpCompletion }
-    if ($checked.PackwizCompletion) { Import-Module PackwizCompletion }
-    if ($checked.ScoopCompletion) { Import-Module scoop-completion }
-    if ($checked.SpotifyTuiCompletion) { Import-Module SpotifyTuiCompletion }
+# settings for psreadline
+    $PSReadLine = @{
+        EditMode = 'Windows'
+        HistoryNoDuplicates = $true
+        BellStyle = 'Visual'
+        PredictionSource = 'History'
+        PredictionViewStyle = 'InlineView'
+    }
+    Set-PSReadLineOption @PSReadLine
 
 # winget completion
     Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {

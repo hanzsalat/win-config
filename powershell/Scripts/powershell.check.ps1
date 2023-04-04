@@ -13,7 +13,6 @@
     $check['Starship']        = (Get-Command starship).Path
     $check['Winfetch']        = (Get-Command winfetch).Path
     # based on modules
-    $check['PSReadLine']      = (Get-Module -ListAvailable -Name PSReadLine).Path | Select-Object -First 1
     $check['PSWindowsUpdate'] = (Get-Module -ListAvailable -Name PSWindowsUpdate).Path | Select-Object -First 1
     $check['RandomUtils']     = (Get-Module -ListAvailable -Name Random-Utils).Path | Select-Object -First 1
     $check['TerminalIcons']   = (Get-Module -ListAvailable -Name Terminal-Icons).Path | Select-Object -First 1
@@ -24,12 +23,12 @@
     $check['ScoopQAC']        = (Get-Module -ListAvailable -Name scoop-completion).Path | Select-Object -First 1
     $check['SpotifyTuiQAC']   = (Get-Module -ListAvailable -Name SpotifyTuiCompletion).Path | Select-Object -First 1
 
-# check if items are avaible
+# generate a list that holds $true/$false for each $check based on if an item exists
     $checked = @{}
     foreach ($content in $check.GetEnumerator()) {
-        if ([System.IO.File]::Exists($content.Value)) { [void]$checked.Add($content.Key, $true) }
-        else { [void]$checked.Add($content.Key, $false) }
+        if ([System.IO.File]::Exists($content.Value)) { $checked[$content.Key] = $true }
+        else { $checked[$content.Key] = $false }
     }
 
-# return a table with the name and $true/$false as value
+# return a list with the name and $true/$false as value
     return $checked
