@@ -33,7 +33,7 @@
 
 # add WindowsTerminal localstate folder to list
     [void]$list.Add(@{
-        path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+        path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
         target = "$env:USERPROFILE\.config\terminal"
     })
 
