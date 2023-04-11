@@ -5,9 +5,12 @@
     $check = @{}
     # based on commands
     $check['Choco']           = (Get-Command choco).Path
+    $check['GlazeWM']         = (Get-Command glazewm).path
+    $check['Komorebi']        = (Get-Command komorebi).Path
+    $check['Nircmd']          = (Get-Command nircmd).path
+    $check['Op']              = (Get-Command op).path
     $check['Packwiz']         = (Get-Command packwiz).Path
     $check['Posh']            = (Get-Command oh-my-posh).Path
-    $check['Komorebi']        = (Get-Command komorebi).Path
     $check['Scoop']           = (Get-Command scoop).Path
     $check['SpotifyTui']      = (Get-Command spt).Path
     $check['Starship']        = (Get-Command starship).Path

@@ -1,6 +1,6 @@
 gaps:
-  inner_gap: 20
-  outer_gap: 20
+  inner_gap: 15
+  outer_gap: 15
 
 general:
   # Whether to show floating windows as always on top.
@@ -44,8 +44,12 @@ bar:
 
 workspaces:
   - name: "1"
+    display_name: "Main Workspace"
+    bind_to_monitor: 1
   - name: "2"
+    bind_to_monitor: 2
   - name: "3"
+    bind_to_monitor: 3
   - name: "4"
   - name: "5"
   - name: "6"
@@ -54,6 +58,9 @@ workspaces:
   - name: "9"
 
 window_rules:
+  # Main Workspace
+  - command: "move to workspace 1"
+    match_process_name: "Code"
   # Dont force VM Horizon to use the WM
   - command: "ignore"
     match_process_name: "*VMware*"
