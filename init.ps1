@@ -52,6 +52,8 @@
                 Choco {}
                 ChocoQAC {}
                 GlazeWM {
+                    # .Link 
+                    # https://github.com/lars-berger/GlazeWM
                     # add glazewm to list
                         [void]$shortcuts.Add(@{
                             name = 'glaze-wm'
@@ -128,4 +130,4 @@
 
 # copy items to their destination
     Copy-Item -Path $PSScriptRoot\powershell\* -Destination $env:USERPROFILE\Documents\WindowsPowerShell\ -Recurse -Force
-    Copy-Item -Path $PSScriptRoot\.config\* -Destination $env:USERPROFILE\.config -Recurse -Force
+    Copy-Item -Path $PSScriptRoot\.config\* -Destination $env:USERPROFILE\.config -Recurse -Force 
