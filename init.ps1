@@ -66,6 +66,7 @@
     $list = [System.Collections.ArrayList]::new()
 
 # add nircmd to list
+<#
     [void]$list.Add(@{
         name = 'nircmd'
         sourceExe = (Get-Command nircmd).Path
@@ -78,6 +79,15 @@
         name = 'komorebi'
         sourceExe = "powershell.exe"
         argumentsExe = '-WindowStyle hidden -Command komorebic start --await-configuration'
+        destination = $startupPath
+    })
+#>
+
+# add glazewm to list
+    [void]$list.Add(@{
+        name = 'glaze-wm'
+        sourceExe = "powershell.exe"
+        argumentsExe = "-WindowStyle hidden -Command glazewm --config=$env:USERPROFILE\.config\glaze-wm\config.yaml"
         destination = $startupPath
     })
 
