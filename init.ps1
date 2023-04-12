@@ -1,7 +1,10 @@
 # general variable
-    $ErrorActionPreference = 'Continue'
+    $ErrorActionPreference = 'Ignore'
 
-# check fo installed software
+# import userconfig
+    $config = Import-PowerShellDataFile $PSScriptRoot\userconfig.psd1 -ErrorAction Stop
+
+# check for installed software
     $checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
 
 # path to windows startup folder
@@ -45,69 +48,65 @@
         }
     }
 
-# loop for init stuff based on installed software
-    foreach ($item in $checked.GetEnumerator() ) {
-        if ($item.value -eq $true) {
-            switch ($item.key) {
-                Choco {}
-                ChocoQAC {}
-                GlazeWM {
-                    # .Link 
-                    # https://github.com/lars-berger/GlazeWM
-                    # add glazewm to list
-                        [void]$shortcuts.Add(@{
-                            name = 'glaze-wm'
-                            sourceExe = "powershell.exe"
-                            argumentsExe = "-WindowStyle hidden -Command glazewm --config=$env:USERPROFILE\.config\glaze-wm\config.yaml"
-                            destination = $startupPath
-                        })
-                }
-                Komorebi {
-                    # add komorebi to list
-                        [void]$shortcuts.Add(@{
-                            name = 'komorebi'
-                            sourceExe = "powershell.exe"
-                            argumentsExe = '-WindowStyle hidden -Command komorebic start --await-configuration'
-                            destination = $startupPath
-                        })
-                }
-                Op {}
-                OpQAC {}
-                Packwiz {}
-                PackwizQAC {}
-                Posh {}
-                PSWindowsUpdate {}
-                RandomUtils {}
-                Scoop {}
-                ScoopQAC {}
-                SpotifyTui {}
-                SpotifyTuiQAC {}
-                Starship {}
-                TerminalIcons {}
-                Winfetch {}
-                Nircmd {
-                    # add nircmd to list
-                        [void]$shortcuts.Add(@{
-                            name = 'nircmd'
-                            sourceExe = (Get-Command nircmd).Path
-                            argumentsExe = 'win trans class Shell_TrayWnd 255'
-                            destination = $startupPath
-                        })
-                }
-            }
-        }
-        else {
+# take actions on stuff in the userconfig file
+# check config integretie
 
-        }
+
+# windowmanager
+    if ($config.windowmanager -eq 'glazewm') {
+        # check for komorebi shortcut and delete it
+            if (Test-Path "$startupPath\komorebi.lnk") {
+                Remove-Item -Path "$startupPath\komorebi.lnk"
+            }
+        # add glazewm to $shortcuts
+            [void]$shortcuts.Add(@{
+                name = 'glazewm'
+                sourceExe = "powershell.exe"
+                argumentsExe = "-WindowStyle hidden -Command glazewm --config=$env:USERPROFILE\.config\glaze-wm\$($config.workspace).yaml"
+                destination = $startupPath
+            })
+    } 
+    else {
+        # check for glazewm shortcut and delete it
+            if (Test-Path "$startupPath\glazewm.lnk") {
+                Remove-Item -Path "$startupPath\glazewm.lnk"
+            }
+        # add komorebi to $shortcuts
+            [void]$shortcuts.Add(@{
+                name = 'komorebi'
+                sourceExe = "powershell.exe"
+                argumentsExe = '-WindowStyle hidden -Command komorebic start --await-configuration'
+                destination = $startupPath
+            })
     }
 
-# add WindowsTerminal localstate folder to list
+# taskbar setting
+    if ($config.taskbar) {
+        # add nircmd to $shortcuts with 255
+            [void]$shortcuts.Add(@{
+                name = 'nircmd'
+                sourceExe = (Get-Command nircmd).Path
+                argumentsExe = 'win trans class Shell_TrayWnd 255'
+                destination = $startupPath
+            })
+    } 
+    else {
+        # add nircmd to $shortcuts with 256
+            [void]$shortcuts.Add(@{
+                name = 'nircmd'
+                sourceExe = (Get-Command nircmd).Path
+                argumentsExe = 'win trans class Shell_TrayWnd 256'
+                destination = $startupPath
+            })
+    }
+
+# add WindowsTerminal localstate folder to $junctions
     [void]$junctions.Add(@{
         path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
         target = "$env:USERPROFILE\.config\terminal"
     })
 
-# add PowerShell user folder to list
+# add PowerShell user folder to $junctions
     [void]$junctions.Add(@{
         path = "$env:USERPROFILE\Documents\PowerShell"
         target = "$env:USERPROFILE\Documents\WindowsPowerShell"
