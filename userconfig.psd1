@@ -13,5 +13,5 @@
 
     # Setting if the taskbar should be there or not
     # $true/$false
-    taskbar = $true
+    taskbar = $false
 }
