@@ -49,7 +49,6 @@ workspaces:
   - name: "2"
     bind_to_monitor: 2
   - name: "3"
-    bind_to_monitor: 3
   - name: "4"
   - name: "5"
   - name: "6"
@@ -60,7 +59,11 @@ workspaces:
 window_rules:
   # Main Workspace
   - command: "move to workspace 1"
-    match_process_name: "Code"
+    match_process_name: "WindowsTerminal"
+
+  # Browser
+  - command: "move to workspace 2"
+    match_process_name: "msedge"
 
   # Task Manager requires admin privileges to manage and should be ignored unless running
   # the WM as admin.

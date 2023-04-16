@@ -48,10 +48,9 @@
         }
     }
 
+# error out if missing software 
+
 # take actions on stuff in the userconfig file
-# check config integretie
-
-
 # windowmanager
     if ($config.windowmanager -eq 'glazewm') {
         # check for komorebi shortcut and delete it

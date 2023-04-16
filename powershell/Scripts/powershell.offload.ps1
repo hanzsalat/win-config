@@ -10,6 +10,7 @@
         PredictionViewStyle = 'InlineView'
     }
     Set-PSReadLineOption @PSReadLine
+    $null = $PSReadLine
 
 # winget completion
     Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {

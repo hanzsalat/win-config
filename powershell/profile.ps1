@@ -2,13 +2,10 @@
     #$stopwatch = [system.diagnostics.stopwatch]::StartNew()
 
 # get $checked from powershell.check.ps1 script
-    if ([System.IO.File]::Exists("$PSScriptRoot\checked.json")) {
-        $checked = [System.IO.File]::ReadAllText("$PSScriptRoot\checked.json") | ConvertFrom-Json
-    }
-    else { 
+    if (![System.IO.File]::Exists("$PSScriptRoot\checked.json")) {
         & $PSScriptRoot\Scripts\powershell.check.ps1 | ConvertTo-Json | Out-File $PSScriptRoot\checked.json
-        $checked = [System.IO.File]::ReadAllText("$PSScriptRoot\checked.json") | ConvertFrom-Json
     }
+    $checked = [System.IO.File]::ReadAllText("$PSScriptRoot\checked.json") | ConvertFrom-Json
 
 # import user aliases
     . $PSScriptRoot\Scripts\powershell.alias.ps1
