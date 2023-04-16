@@ -1,7 +1,7 @@
 @{
     # Setting for what WM config should be used
     # home/work
-    workspace = 'home'
+    workspace = 'work'
 
     # Settings for what WM should be used
     # komorebi/galzewm
@@ -13,5 +13,5 @@
 
     # Setting if the taskbar should be there or not
     # $true/$false
-    taskbar = $false
+    taskbar = $true
 }
