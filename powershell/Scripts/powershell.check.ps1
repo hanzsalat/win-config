@@ -47,5 +47,5 @@ $ErrorActionPreference = 'Ignore'
 # clear $check
     $null = $check
 
-# return the list $checked
-    return $checked
+# return the list $checked as an hashtable
+    return [hashtable]$checked

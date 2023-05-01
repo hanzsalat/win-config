@@ -7,6 +7,9 @@
     }
     $checked = [System.IO.File]::ReadAllText("$PSScriptRoot\checked.json") | ConvertFrom-Json
 
+# import content of config
+    $config = Get-Content $PSScriptRoot\config.json | ConvertFrom-Json
+
 # import user aliases
     . $PSScriptRoot\Scripts\powershell.alias.ps1
 

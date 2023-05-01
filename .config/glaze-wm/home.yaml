@@ -1,6 +1,6 @@
 gaps:
-  inner_gap: 15
-  outer_gap: 15
+  inner_gap: 0
+  outer_gap: 0
 
 general:
   # Whether to show floating windows as always on top.
@@ -65,6 +65,14 @@ window_rules:
   - command: "move to workspace 2"
     match_process_name: "msedge"
 
+  # Games
+  # Minecraft
+  - command: "ignore"
+    match_process_name: "javaw"
+  # Necrosmith
+  - command: "ignore"
+    match_process_name: "necrosmith"
+
   # Task Manager requires admin privileges to manage and should be ignored unless running
   # the WM as admin.
   - command: "ignore"
@@ -77,6 +85,8 @@ window_rules:
   # Some applications (eg. Steam) have borders that extend past the normal border size.
   - command: "resize borders 0px -7px -7px -7px"
     match_process_name: "steam"
+  - command: "resize borders 0px -7px -7px -5px"
+    match_process_name: "steamwebhelper"
 
 binding_modes:
   - name: "resize"

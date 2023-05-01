@@ -1,0 +1,8 @@
+{
+    "os": "win11",
+    "workspace": "home",
+    "windowmanager": "glazewm",
+    "prompt": "omp",
+    "taskbar": true,
+    "packages": ["glazewm","nvim","scoop","winfetch"]
+}
