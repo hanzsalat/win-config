@@ -1,6 +1,6 @@
 gaps:
-  inner_gap: 15
-  outer_gap: 15
+  inner_gap: 0
+  outer_gap: 0
 
 general:
   # Whether to show floating windows as always on top.
@@ -47,23 +47,20 @@ workspaces:
     display_name: "Main Workspace"
     bind_to_monitor: 1
   - name: "2"
-    display_name: "VNC Workspace 1"
-    bind_to_monitor: 2
+    display_name: "Browser"
+    bind_to_monitor: 1
   - name: "3"
+    display_name: "VDI"
+    bind_to_monitor: 1
+  - name: "4"
     display_name: "NX Workspace"
     bind_to_monitor: 3
-  - name: "4"
-    bind_to_monitor: 1
-    display_name: "Browser"
   - name: "5"
-    bind_to_monitor: 1
-    display_name: "VDI"
   - name: "6"
-    bind_to_monitor: 1
   - name: "7"
-    bind_to_monitor: 1
   - name: "8"
-    bind_to_monitor: 1
+    display_name: "VNC Workspace 1"
+    bind_to_monitor: 2
   - name: "9"
     display_name: "VNC Workspace 2"
     bind_to_monitor: 2
@@ -73,30 +70,14 @@ window_rules:
   - command: "move to workspace 1"
     match_process_name: "code"
   
-  # VNC Workspace
-  - command: "move to workspace 9"
-    match_title: "^(?=.*SSL).*(VNC.Viewer)$"
-
-  # VNC Workspace
-  - command: "move to workspace 2"
-    match_title: "^(?!.*SSL).*(VNC.Viewer)$"
-  
   # NX Workspace
-  - command: "move to workspace 3"
+  - command: "move to workspace 4"
     match_process_name: "HD Witness"
-
-  # Dont force VNC-Viewer to use WM
-  - command: "set floating"
-    match_process_name: "vncviewer"
-
-  # Dont force VM Horizon to use the WM
-  - command: "set maximized"
-    match_process_name: "vmware-view"
 
   # Task Manager requires admin privileges to manage and should be ignored unless running
   # the WM as admin.
   - command: "ignore"
-    match_process_name: "Taskmgr"
+    match_process_name: "/Taskmgr|OpenWith/"
 
   # Launches system dialogs as floating by default (eg. File Explorer save/open dialog).
   - command: "set floating"
