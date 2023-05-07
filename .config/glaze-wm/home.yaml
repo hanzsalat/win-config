@@ -1,15 +1,17 @@
 gaps:
-  inner_gap: 0
-  outer_gap: 0
+  inner_gap: 5
+  outer_gap: 5
 
 general:
-  # Whether to show floating windows as always on top.
   show_floating_on_top: false
+  focus_border_color: "#ebdbb2"
+  floating_window_move_amount: "5%"
+  toggle_workspace_on_refocus: false
 
 bar:
   height: "30px"
   position: "top"
-  opacity: 1.0
+  opacity: 0.7
   background: "#20242cc4"
   foreground: "#ffffff"
   font_family: "Segoe UI"
@@ -37,17 +39,12 @@ bar:
       margin: "0 4px 0 0"
       padding: "0 8px"
     - type: "clock"
-      # Documentation on formatting date/time string:
-      # https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
       time_formatting: "hh:mm tt  ddd MMM d"
       margin: "0 0 0 10px"
 
 workspaces:
   - name: "1"
-    display_name: "Main Workspace"
-    bind_to_monitor: 1
   - name: "2"
-    bind_to_monitor: 2
   - name: "3"
   - name: "4"
   - name: "5"
@@ -57,37 +54,21 @@ workspaces:
   - name: "9"
 
 window_rules:
-  # Main Workspace
-  - command: "move to workspace 1"
-    match_process_name: "WindowsTerminal"
-
-  # Browser
-  - command: "move to workspace 2"
-    match_process_name: "msedge"
-
-  # Games
-  # Minecraft
   - command: "ignore"
-    match_process_name: "javaw"
-  # Necrosmith
-  - command: "ignore"
-    match_process_name: "necrosmith"
+    match_process_name: "/Taskmgr|FluentSearch|QuickLook/OpenWith"
 
-  # Task Manager requires admin privileges to manage and should be ignored unless running
-  # the WM as admin.
   - command: "ignore"
-    match_process_name: "Taskmgr"
+    match_process_name: "/Loop Hero|javaw|terraria/"
 
-  # Launches system dialogs as floating by default (eg. File Explorer save/open dialog).
   - command: "set floating"
     match_class_name: "#32770"
 
-  # Some applications (eg. Steam) have borders that extend past the normal border size.
-  - command: "resize borders 0px -7px -7px -7px"
+  - commands: ["resize borders 0px -7px -7px -7px", "resize width 85%"]
     match_process_name: "steam"
-  - command: "resize borders 0px -7px -7px -5px"
-    match_process_name: "steamwebhelper"
 
+  - commands: ["resize borders 0px -7px -7px -5px", "resize width 15%"]
+    match_process_name: "steamwebhelper"
+  
 binding_modes:
   - name: "resize"
     keybindings:

@@ -9,5 +9,5 @@ $ErrorActionPreference = 'SilentlyContinue'
     if ($checked.SpotifyTuiQAC) {Import-Module SpotifyTuiCompletion}
     if ($checked.PSWindowsUpdate) {Import-Module PSWindowsUpdate}
     if ($checked.TerminalIcons) {Import-Module Terminal-Icons}
-    if ($checked.Posh -and $config.prompt -eq 1) {oh-my-posh init pwsh --config $PSScriptRoot\..\Themes\zash_V2.omp.json | Invoke-Expression}
-    if ($checked.Starship -and $config.prompt -eq 2) {& ([ScriptBlock]::Create((starship init powershell)))}
+    if ($checked.Posh -and $userconfig.prompt -eq 1 -and $Host.Name -eq 'ConsoleHost') {oh-my-posh init pwsh --config $PSScriptRoot\..\Themes\zash_V2.omp.json | Invoke-Expression}
+    if ($checked.Starship -and $userconfig.prompt -eq 2 -and $Host.Name -eq 'ConsoleHost') {& ([ScriptBlock]::Create((starship init powershell)))}

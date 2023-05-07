@@ -1,231 +1,259 @@
 # default error handling
-$ErrorActionPreference = 'Stop'
-# get userconfig
-$config = Get-Content $PSScriptRoot\userconfig.json | ConvertFrom-Json
-# check fo installed software
-[hashtable]$checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
-# path to the startup folder
-[string]$startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
-# init arraylists
-$shortcuts = New-Object System.Collections.ArrayList
-$junctions = New-Object System.Collections.ArrayList
+    $ErrorActionPreference = 'Stop'
 
-function New-Shortcut {
-    param(
-        [string]
-        # Specifies the file name
-        $name,
-        # Spcifies the target of the shortcut
-        $target,
-        # add arguments if needed
-        $arguments,
-        # path to where the shortcut should be generated
-        $path
-    )
-
-    process {
-        $WshShell = New-Object -comObject WScript.Shell
-        $shortcut = $WshShell.CreateShortcut("$path\$name.lnk")
-        $shortcut.TargetPath = $target
-        $shortcut.Arguments = $arguments
-        $shortcut.Save()
+# function and script blocks
+    function Test-Config {
+        param (
+            $config = $(Get-ChildItem -Path $PSScriptRoot\config.ps1)
+        )
+        
+        process {
+            $content = . $config
+            foreach ($item in $content.GetEnumerator()) {
+                switch ($item.name) {
+                    workspace {
+                        if ($item.value -notmatch 'home|work') {
+                            Write-Error "No valid value for $($item.name) [$($item.value)]"
+                        }
+                    }
+                    windowmanager {
+                        if ($item.value -notmatch 'glazewm|komorebi') {
+                            Write-Error "No valid value for $($item.name) [$($item.value)]"
+                        }
+                    }
+                    prompt {
+                        if ($item.value -notmatch 'omp|starship') {
+                            Write-Error "No valid value for $($item.name) [$($item.value)]"
+                        }
+                    }
+                    taskbar {
+                        if ($item.value.GetType().name -ne 'boolean') {
+                            Write-Error "No valid type for $($item.name) [$($item.value)]"
+                        }
+                    }
+                    packages {
+                        if ($item.value.GetType().BaseType.name -ne 'Array') {
+                            Write-Error "Wrong type of packages $($item.value.GetType().BaseType.name)"
+                        } else {
+                            foreach ($item in $item.value) {
+                                if ($item -notmatch 'glazewm|nvim|winfetch|spt|terminal') {
+                                    Write-Error "Not included package $item"
+                                }
+                            }
+                        }
+                    }
+                    default {
+                        Write-Error "Missing\Wrong option in config [$($item.name)]"
+                    }
+                }
+            }
+        }
+        
+        end {
+            return $content
+        }
     }
-}
-
-function New-Junction {
-    param(
-        [string]
-        # original path of the directory
-        $path,
-        # target path of the junction
-        $target
-    )
+    function New-Shortcut {
+        param(
+            [string]
+            # Specifies the file name
+            $name,
+            # Spcifies the target of the shortcut
+            $target,
+            # add arguments if needed
+            $arguments,
+            # path to where the shortcut should be generated, default use startup dir
+            $path = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+        )
     
-    process {
-        $guid = [guid]::newguid()
-        $tmp = "$env:TEMP\$guid"
-        if (!(Test-Path -Path $path)) {
-            $null = New-Item -ItemType Junction -Path $path -Target $target
-        } 
-        elseif ($((Get-Item $path).Attributes) -notmatch 'ReparsePoint') {
-            $null = New-Item -ItemType Directory -Path $tmp
-            $items = Get-ChildItem -Path $path
-            foreach ($item in $items) {
-                Move-Item -Path $item -Destination $tmp
-            }
-            $null = New-Item -ItemType Junction -Path $path -Target $target
-            foreach ($item in $items) {
-                Move-Item -Path $tmp\$($item.Name) -Destination $target
-            }
-            Remove-Item -Path $tmp -Recurse -Force
+        process {
+            $WshShell = New-Object -comObject WScript.Shell
+            $shortcut = $WshShell.CreateShortcut("$path\$name.lnk")
+            $shortcut.TargetPath = $target
+            $shortcut.Arguments = $arguments
+            $shortcut.Save()
         }
     }
-}
-
-function Out-Error {
-    param(
-        [string]
-        # error message
-        $msg,
-        # error escalation
-        $escnum
-    )
-
-    switch($escnum) {
-        0 {
-            Write-Warning $msg
-        }
-        1{
-            Write-Error $msg
-        }
-        2 {
-            Write-Error $msg
-            Exit
-        }
-        default {
-            Write-Debug 'Something wrong with error handling'
+    function New-Junction {
+        param(
+            [string]
+            # original path of the directory
+            $path,
+            # target path of the junction
+            $target
+        )
+        
+        process {
+            $guid = [guid]::newguid()
+            $tmp = "$env:TEMP\$guid"
+            if (!(Test-Path -Path $path)) {
+                $null = New-Item -ItemType Junction -Path $path -Target $target
+            } 
+            elseif ($((Get-Item $path).Attributes) -notmatch 'ReparsePoint') {
+                $null = New-Item -ItemType Directory -Path $tmp
+                $items = Get-ChildItem -Path $path
+                foreach ($item in $items) {
+                    Move-Item -Path $item -Destination $tmp
+                }
+                $null = New-Item -ItemType Junction -Path $path -Target $target
+                foreach ($item in $items) {
+                    Move-Item -Path $tmp\$($item.Name) -Destination $target
+                }
+                Remove-Item -Path $tmp -Recurse -Force
+            }
         }
     }
-}
 
-# take actions on stuff in the userconfig file
+# get config content and validate it
+    $config = Test-Config
 
+# check for installed software
+    $checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+
+# startup path
+    $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+
+# take actions on stuff in the config file
 # windowmanager
 # glazewm
-    if ($config.windowmanager -eq 'glazewm' -and $checked.GlazeWM) {
+    if ($checked.GlazeWM) {
         # check for komorebi shortcut and delete it
             if (Test-Path "$startupPath\komorebi.lnk") {
                 Remove-Item -Path "$startupPath\komorebi.lnk"
             }
         # add glazewm to $shortcuts
-            [void]$shortcuts.Add(@{
+            $shortcut = @{
                 name = 'glazewm'
                 target = "powershell.exe"
-                arguments = "-WindowStyle hidden -Command glazewm --config=$env:USERPROFILE\.config\glaze-wm\$($config.workspace).yaml"
-                path = $startupPath
-            })
+                arguments = "-WindowStyle hidden -Command glazewm --config=$env:USERPROFILE\.config\glaze-wm\config.yaml"
+            }
+            New-Shortcut @shortcut
         # copy .config files
-            Copy-Item -Path $PSScriptRoot\.config\glaze-wm -Destination $env:USERPROFILE\.config -Recurse -Force
+            if (!(Test-Path $env:USERPROFILE\.config\glaze-wm)) {
+                $null = New-Item $env:USERPROFILE\.config\glaze-wm -ItemType Directory
+            }
+            $copy = @{
+                Path = "$PSScriptRoot\.config\glaze-wm\$($config.workspace).yaml"
+                Destination = "$env:USERPROFILE\.config\glaze-wm\config.yaml"
+            }
+            Copy-Item @copy -Recurse -Force
     }
 # komorebi
-    elseif ($config.windowmanager -eq 'komorebi' -and $checked.Komorebi) {
+    elseif ($checked.Komorebi) {
         # check for glazewm shortcut and delete it
             if (Test-Path "$startupPath\glazewm.lnk") {
                 Remove-Item -Path "$startupPath\glazewm.lnk"
             }
         # add komorebi to $shortcuts
-            [void]$shortcuts.Add(@{
+            $shortcut = @{
                 name = 'komorebi'
                 target = "powershell.exe"
                 arguments = '-WindowStyle hidden -Command komorebic start --await-configuration'
-                path = $startupPath
-            })
+            }
+            New-Shortcut @shortcut
         # copy .config files
-            Copy-Item -Path $PSScriptRoot\.config\komorebi -Destination $env:USERPROFILE\.config -Recurse -Force
+            if (!(Test-Path $env:USERPROFILE\.config\komorebi)) {
+                $null = New-Item $env:USERPROFILE\.config\komorebi -ItemType Directory
+            }
+            $copy = @{
+                Path = "$PSScriptRoot\.config\komorebi\*"
+                Destination = "$env:USERPROFILE\.config\komorebi"
+            }
+            Copy-Item @copy -Recurse -Force
     }
 # error handling
     else {
-        if (!$checked.Komorebi -and $config.windowmanager -eq 'komorebi') {
-            Out-Error -msg 'Missing Komorebi' -escnum 1 
+        if (!$checked.Komorebi) {
+            Write-Error 'Missing Komorebi'
         }
-        if (!$checked.GlazeWM -and $config.windowmanager -eq 'glazewm') {
-            Out-Error -msg 'Missing Glaze-WM' -escnum 1
-        }
-        if ($config.windowmanager -ne ('komorebi' -or 'glazewm')) {
-            Out-Error -msg "Incorrect name of Windowmanager: $($config.windowmanager)" -escnum 0
+        if (!$checked.GlazeWM) {
+            Write-Error 'Missing Glaze-WM'
         }
     }
 
 # taskbar
-# Check for bool type
-    if ($config.taskbar.GetType().name -ne 'Boolean') {
-        Out-Error -msg "Incorrect data type of taskbar setting: $($config.taskbar)" -escnum 2
-    }
 # show taskbar
-    elseif ($config.taskbar -and $checked.Nircmd) {
-        [void]$shortcuts.Add(@{
+    if ($config.taskbar -and $checked.Nircmd) {
+        $shortcut = @{
             name = 'nircmd'
             target = (Get-Command nircmd).Path
             arguments = 'win trans class Shell_TrayWnd 255'
-            path = $startupPath
-        })
+        }
+        New-Shortcut @shortcut
     }
 # remove taskbar
     elseif (!$config.taskbar -and $checked.Nircmd) {
-        [void]$shortcuts.Add(@{
+        $shortcut = @{
             name = 'nircmd'
             target = (Get-Command nircmd).Path
             arguments = 'win trans class Shell_TrayWnd 256'
-            path = $startupPath
-        })
+        }
+        New-Shortcut @shortcut
     }
 # error handling
     else {
         if (!$checked.Nircmd) {
-            Out-Error -msg 'Missing Nircmd' -escnum 1
+            Write-Error 'Missing Nircmd'
         }
     }
 
+
 # powershell + terminal
-    [void]$junctions.Add(@{
-        path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
-        target = "$env:USERPROFILE\.config\terminal"
-    })
-    [void]$junctions.Add(@{
+    $junction = @{
         path = "$env:USERPROFILE\Documents\WindowsPowerShell"
         target = "$env:USERPROFILE\Documents\PowerShell"
-    })
-    Copy-Item -Path $PSScriptRoot\powershell\* -Destination $env:USERPROFILE\Documents\PowerShell -Recurse -Force
+    }
+    New-Junction @junction
+    if (!(Test-Path $env:USERPROFILE\Documents\PowerShell)) {
+        $null = New-Item $env:USERPROFILE\Documents\PowerShell -ItemType Directory
+    }
+    $copy = @{
+        Path = "$PSScriptRoot\powershell\*"
+        Destination = "$env:USERPROFILE\Documents\PowerShell"
+    }
+    Copy-Item @copy -Recurse -Force
 # oh-my-posh
     if ($config.prompt -eq 'omp' -and $checked.Posh) {
-        $null = New-Item -Path $env:USERPROFILE\Documents\PowerShell\config.json -Value '{"prompt": 1}' -Force
+        $null = New-Item -Path $env:USERPROFILE\Documents\PowerShell\userconfig.ps1 -Value "@{Prompt=1}" -Force
     }
 # starship
     elseif ($config.prompt -eq 'starship' -and $checked.Starship) {
-        $null = New-Item -Path $env:USERPROFILE\Documents\PowerShell\config.json -Value '{"prompt": 2}' -Force
+        $null = New-Item -Path $env:USERPROFILE\Documents\PowerShell\userconfig.ps1 -Value "@{Prompt=2}" -Force
     }
 
 # packages
-<#
-    $config.packages.foreach($item ,{
+    foreach ($item in $config.packages) {
         switch ($item) {
-            glazewm {
-            	
-            }
             nvim {
-
+                Write-Host 'nvim config WIP'
             }
-            scoop {
-
-            }
-            nvim {
+            spt {
 
             }
             winfetch {
-
+                if (!(Test-Path $env:USERPROFILE\.config\winfetch)) {
+                    $null = New-Item $env:USERPROFILE\.config\winfetch -ItemType Directory
+                }
+                $copy = @{
+                    Path = "$PSScriptRoot\.config\winfetch\*"
+                    Destination = "$env:USERPROFILE\.config\winfetch"
+                }
+                Copy-Item @copy -Recurse -Force
+            }
+            terminal {
+                $junction = @{
+                    path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
+                    target = "$env:USERPROFILE\.config\terminal"
+                }
+                New-Junction @junction
+                if (!(Test-Path $env:USERPROFILE\.config\terminal)) {
+                    $null = New-Item $env:USERPROFILE\.config\terminal -ItemType Directory
+                }
+                $copy = @{
+                    Path = "$PSScriptRoot\.config\terminal\*"
+                    Destination = "$env:USERPROFILE\.config\terminal"
+                }
+                Copy-Item @copy -Recurse -Force
             }
         }
-    })
-#>
-
-# create junctions for every item in $junctions
-foreach ($item in $junctions) {
-    New-Junction @item
-}
-
-# create shortcut for every item in $shortcuts
-foreach ($item in $shortcuts) {
-    New-Shortcut @item
-}
-
-<#
-# re route the nvim config folder to .config\nvim
-    [void]$junctions.Add(@{
-        path = "$env:LOCALAPPDATA\nvim"
-        target = "$env:USERPROFILE\.config\nvim"
-    })
-
-# copy items to their destination
-    Copy-Item -Path $PSScriptRoot\powershell\* -Destination $env:USERPROFILE\Documents\PowerShell\ -Recurse -Force
-    Copy-Item -Path $PSScriptRoot\.config\* -Destination $env:USERPROFILE\.config -Recurse -Force 
-#>
+    }

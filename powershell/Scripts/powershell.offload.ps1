@@ -1,16 +1,22 @@
-# set komorebi enviorment variable to put config files into .config
-    if ($checked.Komorebi) { $Env:KOMOREBI_CONFIG_HOME = "$env:USERPROFILE\.config\komorebi" }
-
 # settings for psreadline
-    $PSReadLine = @{
-        EditMode = 'Windows'
-        HistoryNoDuplicates = $true
-        BellStyle = 'Visual'
-        PredictionSource = 'History'
-        PredictionViewStyle = 'InlineView'
+    if ($PSVersionTable.PSVersion.Major -eq 7) {
+        $PSReadLine = @{
+            EditMode = 'Windows'
+            HistoryNoDuplicates = $true
+            BellStyle = 'Visual'
+            PredictionSource = 'HistoryAndPlugin'
+            PredictionViewStyle = 'InlineView'
+        }
+        Set-PSReadLineOption @PSReadLine
     }
-    Set-PSReadLineOption @PSReadLine
-    $null = $PSReadLine
+    if ($PSVersionTable.PSVersion.Major -eq 5) {
+        $PSReadLine = @{
+            EditMode = 'Windows'
+            HistoryNoDuplicates = $true
+            BellStyle = 'Visual'
+        }
+        Set-PSReadLineOption @PSReadLine
+    }
 
 # winget completion
     Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
