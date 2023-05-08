@@ -1,6 +1,6 @@
 gaps:
-  inner_gap: 5
-  outer_gap: 5
+  inner_gap: 7
+  outer_gap: 7
 
 general:
   show_floating_on_top: false
@@ -11,10 +11,10 @@ general:
 bar:
   height: "30px"
   position: "top"
-  opacity: 0.7
-  background: "#20242cc4"
-  foreground: "#ffffff"
-  font_family: "Segoe UI"
+  opacity: 1.0
+  background: "#282828"
+  foreground: "#ebdbb2"
+  font_family: "Hack Nerd Font Mono"
   font_size: "13px"
   padding: "4px 6px"
   offset_x: "0"
@@ -55,7 +55,16 @@ workspaces:
 
 window_rules:
   - command: "ignore"
-    match_process_name: "/Taskmgr|FluentSearch|QuickLook/OpenWith"
+    match_process_name: "Taskmgr"
+
+  - command: "ignore"
+    match_process_name: "QuickLook"
+
+  - command: "ignore"
+    match_process_name: "OpenWith"
+
+  - command: "ignore"
+    match_process_name: "FluentSearch"
 
   - command: "ignore"
     match_process_name: "/Loop Hero|javaw|terraria/"

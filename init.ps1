@@ -116,6 +116,8 @@
 # take actions on stuff in the config file
 # windowmanager
 # glazewm
+# .Link
+# https://github.com/lars-berger/GlazeWM 
     if ($checked.GlazeWM) {
         # check for komorebi shortcut and delete it
             if (Test-Path "$startupPath\komorebi.lnk") {
@@ -137,6 +139,9 @@
                 Destination = "$env:USERPROFILE\.config\glaze-wm\config.yaml"
             }
             Copy-Item @copy -Recurse -Force
+        # reload glazewm
+            Get-Process glazewm | Stop-Process
+            Invoke-Item $startupPath\glazewm.lnk
     }
 # komorebi
     elseif ($checked.Komorebi) {
@@ -180,6 +185,7 @@
             arguments = 'win trans class Shell_TrayWnd 255'
         }
         New-Shortcut @shortcut
+        Invoke-Item $startupPath\nircmd.lnk
     }
 # remove taskbar
     elseif (!$config.taskbar -and $checked.Nircmd) {
@@ -189,6 +195,7 @@
             arguments = 'win trans class Shell_TrayWnd 256'
         }
         New-Shortcut @shortcut
+        Invoke-Item $startupPath\nircmd.lnk
     }
 # error handling
     else {
@@ -225,10 +232,29 @@
     foreach ($item in $config.packages) {
         switch ($item) {
             nvim {
-                Write-Host 'nvim config WIP'
+                $junction = @{
+                    path = "$env:LOCALAPPDATA\nvim"
+                    target = "$env:USERPROFILE\.config\nvim"
+                }
+                New-Junction @junction
+                if (!(Test-Path $env:USERPROFILE\.config\nvim)) {
+                    $null = New-Item $env:USERPROFILE\.config\nvim -ItemType Directory
+                }
+                $copy = @{
+                    Path = "$PSScriptRoot\.config\nvim\*"
+                    Destination = "$env:USERPROFILE\.config\nvim"
+                }
+                Copy-Item @copy -Recurse -Force
             }
             spt {
-
+                if (!(Test-Path $env:USERPROFILE\.config\spotify-tui)) {
+                    $null = New-Item $env:USERPROFILE\.config\spotify-tui -ItemType Directory
+                }
+                $copy = @{
+                    Path = "$PSScriptRoot\.config\spotify-tui\*"
+                    Destination = "$env:USERPROFILE\.config\spotify-tui"
+                }
+                Copy-Item @copy -Recurse -Force
             }
             winfetch {
                 if (!(Test-Path $env:USERPROFILE\.config\winfetch)) {

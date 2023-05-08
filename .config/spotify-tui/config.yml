@@ -1,24 +1,24 @@
 theme:
-  active: Cyan # current playing song in list
-  banner: LightCyan # the "spotify-tui" banner on launch
-  error_border: Red # error dialog border
-  error_text: LightRed # error message text (e.g. "Spotify API reported error 404")
-  hint: Yellow # hint text in errors
-  hovered: Magenta # hovered pane border
-  inactive: Gray # borders of inactive panes
-  playbar_background: Black # background of progress bar
-  playbar_progress: LightCyan # filled-in part of the progress bar
-  playbar_progress_text: Cyan # song length and time played/left indicator in the progress bar
-  playbar_text: White # artist name in player pane
-  selected: LightCyan # a) selected pane border, b) hovered item in list, & c) track title in player
+  active: "104, 157, 106" # current playing song in list
+  banner: "142, 192, 124" # the "spotify-tui" banner on launch
+  error_border: "204, 36, 29" # error dialog border
+  error_text: "251, 73, 52" # error message text (e.g. "Spotify API reported error 404")
+  hint: "215, 153, 33" # hint text in errors
+  hovered: "177, 98, 134" # hovered pane border
+  inactive: "124, 111, 100" # borders of inactive panes
+  playbar_background: "80, 73, 69" # background of progress bar
+  playbar_progress: "142, 192, 124" # filled-in part of the progress bar
+  playbar_progress_text: "104, 157, 106" # song length and time played/left indicator in the progress bar
+  playbar_text: "235, 219, 178" # artist name in player pane
+  selected: "142, 192, 124" # a) selected pane border, b) hovered item in list, & c) track title in player
   text: "105, 255, 148" # text in panes
-  header: White # header text in panes (e.g. 'Title', 'Artist', etc.)
+  header: "235, 219, 178" # header text in panes (e.g. 'Title', 'Artist', etc.)
 
 behavior:
   seek_milliseconds: 5000
   volume_increment: 5
   # The lower the number the higher the "frames per second". You can decrease this number so that the audio visualisation is smoother but this can be expensive!
-  tick_rate_milliseconds: 250
+  tick_rate_milliseconds: 100
   # Enable text emphasis (typically italic/bold text styling). Disabling this might be important if the terminal config is otherwise restricted and rendering text escapes interferes with the UI.
   enable_text_emphasis: true
   # Controls whether to show a loading indicator in the top right of the UI whenever communicating with Spotify API

@@ -1,0 +1,8 @@
+require ("plugins-config/tokyonight")
+require ("plugins-config/lualine")
+require ("plugins-config/dashboard")
+require ("plugins-config/telescope")
+require ("plugins-config/nvim-tree")
+require ("plugins-config.notify")
+require ("plugins-config.lsp")
+require ("plugins-config.colortils")

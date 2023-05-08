@@ -3,5 +3,5 @@
     windowmanager = 'glazewm'
     prompt = 'omp'
     taskbar = $true
-    packages = @('nvim','winfetch','terminal')
+    packages = @('nvim','winfetch','terminal','spt')
 }
