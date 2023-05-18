@@ -17,7 +17,6 @@ $ErrorActionPreference = 'Ignore'
     $check['SpotifyTui']      = $commands.Where({$_.Name -contains 'spt.exe'}).path
     $check['Starship']        = $commands.Where({$_.Name -contains 'starship.exe'}).path
     $check['Winfetch']        = $commands.Where({$_.Name -contains 'winfetch.cmd'}).path
-    $check['Terminal']        = $commands.Where({$_.Name -contains 'wt.exe'}).path
     $check['Powershell']      = $commands.Where({$_.Name -contains 'powershell.exe'}).path
     $check['Pwsh']            = $commands.Where({$_.Name -contains 'pwsh.exe'}).path
     $check['Neovim']          = $commands.Where({$_.Name -contains 'nvim.exe'}).path
@@ -33,8 +32,6 @@ $ErrorActionPreference = 'Ignore'
     $check['PackwizQAC']      = $modules.Where({$_.Name -contains 'packwiz-completion'}).path | Select-Object -First 1
     $check['ScoopQAC']        = $modules.Where({$_.Name -contains 'scoop-completion'}).path | Select-Object -First 1
     $check['SpotifyTuiQAC']   = $modules.Where({$_.Name -contains 'spt-completion'}).path | Select-Object -First 1
-    $null = $commands
-    $null = $modules
     
 # generate a list that holds $true/$false for each key of $check based on if an item exists
     $checked = @{}
@@ -44,8 +41,10 @@ $ErrorActionPreference = 'Ignore'
         else { $checked[$item.Key] = $false }
     }
 
-# clear $check
+# clear variables
     $null = $check
+    $null = $commands
+    $null = $modules
 
 # return the list $checked as an hashtable
-    return [hashtable]$checked
+    return $checked

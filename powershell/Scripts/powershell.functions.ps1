@@ -1,6 +1,6 @@
 # reload the profile
     function Initialize-Profile {
-        Remove-Item -Path $PSScriptRoot\..\checked.json
+        Remove-Item -Path $PSScriptRoot\..\Locals\checked.json
         & $profile.CurrentUserAllHosts
     }
 

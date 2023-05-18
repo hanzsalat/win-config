@@ -36,7 +36,7 @@
                             Write-Error "Wrong type of packages $($item.value.GetType().BaseType.name)"
                         } else {
                             foreach ($item in $item.value) {
-                                if ($item -notmatch 'glazewm|nvim|winfetch|spt|terminal') {
+                                if ($item -notmatch 'glazewm|nvim|winfetch|spt|terminal|helix') {
                                     Write-Error "Not included package $item"
                                 }
                             }
@@ -113,11 +113,14 @@
 # startup path
     $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 
+# init hastable for userconfig
+    $userconfig = New-Object -TypeName hashtable 
+
 # take actions on stuff in the config file
 # windowmanager
 # glazewm
 # .Link
-# https://github.com/lars-berger/GlazeWM 
+# https://github.com/lars-berger/GlazeWM
     if ($checked.GlazeWM) {
         # check for komorebi shortcut and delete it
             if (Test-Path "$startupPath\komorebi.lnk") {
@@ -139,9 +142,6 @@
                 Destination = "$env:USERPROFILE\.config\glaze-wm\config.yaml"
             }
             Copy-Item @copy -Recurse -Force
-        # reload glazewm
-            Get-Process glazewm | Stop-Process
-            Invoke-Item $startupPath\glazewm.lnk
     }
 # komorebi
     elseif ($checked.Komorebi) {
@@ -221,25 +221,25 @@
     Copy-Item @copy -Recurse -Force
 # oh-my-posh
     if ($config.prompt -eq 'omp' -and $checked.Posh) {
-        $null = New-Item -Path $env:USERPROFILE\Documents\PowerShell\userconfig.ps1 -Value "@{Prompt=1}" -Force
+        $userconfig['prompt'] = 1
     }
 # starship
     elseif ($config.prompt -eq 'starship' -and $checked.Starship) {
-        $null = New-Item -Path $env:USERPROFILE\Documents\PowerShell\userconfig.ps1 -Value "@{Prompt=2}" -Force
+        $userconfig['prompt'] = 2
     }
 
 # packages
     foreach ($item in $config.packages) {
         switch ($item) {
             nvim {
+                if (!(Test-Path $env:USERPROFILE\.config\nvim)) {
+                    $null = New-Item $env:USERPROFILE\.config\nvim -ItemType Directory
+                }
                 $junction = @{
                     path = "$env:LOCALAPPDATA\nvim"
                     target = "$env:USERPROFILE\.config\nvim"
                 }
                 New-Junction @junction
-                if (!(Test-Path $env:USERPROFILE\.config\nvim)) {
-                    $null = New-Item $env:USERPROFILE\.config\nvim -ItemType Directory
-                }
                 $copy = @{
                     Path = "$PSScriptRoot\.config\nvim\*"
                     Destination = "$env:USERPROFILE\.config\nvim"
@@ -267,19 +267,51 @@
                 Copy-Item @copy -Recurse -Force
             }
             terminal {
+                if (!(Test-Path $env:USERPROFILE\.config\terminal)) {
+                    $null = New-Item $env:USERPROFILE\.config\terminal -ItemType Directory
+                }
                 $junction = @{
                     path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
                     target = "$env:USERPROFILE\.config\terminal"
                 }
                 New-Junction @junction
-                if (!(Test-Path $env:USERPROFILE\.config\terminal)) {
-                    $null = New-Item $env:USERPROFILE\.config\terminal -ItemType Directory
-                }
                 $copy = @{
                     Path = "$PSScriptRoot\.config\terminal\*"
                     Destination = "$env:USERPROFILE\.config\terminal"
                 }
                 Copy-Item @copy -Recurse -Force
             }
+            helix {
+                if (!(Test-Path $env:USERPROFILE\.config\helix)) {
+                    $null = New-Item $env:USERPROFILE\.config\helix -ItemType Directory
+                }
+                $junction = @{
+                    path = "$env:APPDATA\helix"
+                    target = "$env:USERPROFILE\.config\helix"
+                }
+                New-Junction @junction
+                $copy = @{
+                    Path = "$PSScriptRoot\.config\helix\*"
+                    Destination = "$env:USERPROFILE\.config\helix"
+                }
+                Copy-Item @copy -Recurse -Force
+            }
         }
     }
+
+# userconfig
+    $item = @{
+        Path = "$env:USERPROFILE\Documents\PowerShell\Locals\userconfig.json"
+        Value = ($userconfig | ConvertTo-Json)
+    }
+    $null = New-Item @item -Force
+
+# checked
+    $item = @{
+        Path = "$env:USERPROFILE\Documents\PowerShell\Locals\checked.json"
+        Value = ($checked | ConvertTo-Json)
+    }
+    $null = New-Item @item -Force
+
+# init powershell profile
+    & $Profile.CurrentUserAllHosts
