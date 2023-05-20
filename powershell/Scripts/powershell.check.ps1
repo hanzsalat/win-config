@@ -23,9 +23,9 @@ $ErrorActionPreference = 'Ignore'
     $check['Helix']           = $commands.Where({$_.Name -contains 'helix.exe'}).path
     $check['VScode']          = $commands.Where({$_.Name -contains 'code.cmd'}).path
     $check['WinGet']          = $commands.Where({$_.Name -contains 'code.cmd'}).path
+    $check['Whkd']            = $commands.Where({$_.Name -contains 'code.cmd'}).path
     # based on modules
     $check['PSWindowsUpdate'] = $modules.Where({$_.Name -contains 'PSWindowsUpdate'}).path | Select-Object -First 1
-    $check['RandomUtils']     = $modules.Where({$_.Name -contains 'Random-Utils'}).path | Select-Object -First 1
     $check['TerminalIcons']   = $modules.Where({$_.Name -contains 'Terminal-Icons'}).path | Select-Object -First 1
 
 # generate a list that holds $true/$false for each key of $check based on if an item exists

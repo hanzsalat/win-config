@@ -120,7 +120,7 @@
 # glazewm
 # .Link
 # https://github.com/lars-berger/GlazeWM
-    if ($checked.GlazeWM) {
+    if ($checked.GlazeWM -and $config.windowmanager -eq 'glazewm') {
         # check for komorebi shortcut and delete it
             if (Test-Path "$startupPath\komorebi.lnk") {
                 [void](Remove-Item -Path "$startupPath\komorebi.lnk" -Force)
@@ -141,9 +141,13 @@
                 Destination = "$env:USERPROFILE\.config\glaze-wm\config.yaml"
             }
             [void](Copy-Item @copy -Recurse -Force)
+        # Stop komorebi process if started and start glazewm
+            Get-Process komorebi -ErrorAction Ignore | Stop-Process
+            Get-Process whkd -ErrorAction Ignore | Stop-Process
+            Invoke-Item $startupPath\glazewm.lnk
     }
 # komorebi
-    elseif ($checked.Komorebi) {
+    elseif ($checked.Komorebi -and $checked.Whkd -and $config.windowmanager -eq 'komorebi') {
         # check for glazewm shortcut and delete it
             if (Test-Path "$startupPath\glazewm.lnk") {
                 [void](Remove-Item -Path "$startupPath\glazewm.lnk")
@@ -164,6 +168,20 @@
                 Destination = "$env:USERPROFILE\.config\komorebi"
             }
             [void](Copy-Item @copy -Recurse -Force)
+            if (!(Test-Path $env:USERPROFILE\.config\whkd)) {
+                $null = New-Item $env:USERPROFILE\.config\whkd -ItemType Directory
+            }
+            $copy = @{
+                Path = "$PSScriptRoot\.config\whkdrc"
+                Destination = "$env:USERPROFILE\.config"
+            }
+            [void](Copy-Item @copy -Recurse -Force)
+        # set the env variable for komorebi
+            $env:KOMOREBI_CONFIG_HOME = "$env:USERPROFILE\.config\komorebi"
+
+        # Stop galze process if started and start komorebi
+            Get-Process glazewm -ErrorAction Ignore | Stop-Process
+            Invoke-Item $startupPath\komorebi.lnk
     }
 # error handling
     else {
@@ -204,7 +222,7 @@
     }
 
 
-# powershell + terminal
+# powershell
     $junction = @{
         junction = "$env:USERPROFILE\Documents\WindowsPowerShell"
         path = "$env:USERPROFILE\Documents\PowerShell"

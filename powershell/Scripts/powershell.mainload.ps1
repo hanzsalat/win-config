@@ -7,6 +7,12 @@ $ErrorActionPreference = 'Continue'
     if ($checked.PSWindowsUpdate) {Import-Module PSWindowsUpdate}
     if ($checked.TerminalIcons) {Import-Module Terminal-Icons}
     if ($Host.Name -eq 'ConsoleHost') {
-        if ($checked.Posh -and $userconfig.prompt -eq 1) {oh-my-posh init pwsh --config $PSScriptRoot\..\Themes\zash_V2.omp.json | Invoke-Expression}
-        if ($checked.Starship -and $userconfig.prompt -eq 2) {& ([ScriptBlock]::Create((starship init powershell)))}
+        if ($checked.Posh -and $userconfig.prompt -eq 1) {
+            $env:POSH_THEME = "$env:USERPROFILE\Documents\PowerShell\Themes\zash_V2.omp.json"
+            Invoke-Expression (&oh-my-posh init pwsh)
+        }
+        if ($checked.Starship -and $userconfig.prompt -eq 2) {
+            $env:STARSHIP_CONFIG = "$env:USERPROFILE\Documents\PowerShell\Themes\starship.toml"
+            Invoke-Expression (&starship init powershell)
+        }
     }

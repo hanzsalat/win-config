@@ -22,7 +22,7 @@
     . $PSScriptRoot\Scripts\powershell.completion.ps1
 
 # import offload
-    . $PSScriptRoot\Scripts\powershell.offload.ps1
+    . $PSScriptRoot\Scripts\powershell.settings.ps1
 
 # import mainload
     . $PSScriptRoot\Scripts\powershell.mainload.ps1
