@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Continue'
     if ($checked.TerminalIcons) {Import-Module Terminal-Icons}
     if ($Host.Name -eq 'ConsoleHost') {
         if ($checked.Posh -and $userconfig.prompt -eq 1) {
-            $env:POSH_THEME = "$env:USERPROFILE\Documents\PowerShell\Themes\zash_V2.omp.json"
+            $env:POSH_THEME = "$env:USERPROFILE\Documents\PowerShell\Themes\zash.omp.toml"
             Invoke-Expression (&oh-my-posh init pwsh)
         }
         if ($checked.Starship -and $userconfig.prompt -eq 2) {

@@ -1,17 +1,69 @@
 "$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
 final_space = true
 version = 2
+[transient_prompt]
+  background = "transparent"
+  foreground = "#fb4934"
+  template = "@{{ .UserName }} <#62ED8B>\u279c</> "
 
 [[blocks]]
 type = "prompt"
 alignment = "left"
 
   [[blocks.segments]]
+  type = "text"
+  style = "plain"
+  template = "<#8ec07c>\u276f<#d3869b>\u276f "
+
+  [[blocks.segments]]
+  type = "time"
+  style = "plain"
+  template = "{{ .CurrentDate | date .Format }}"
+  foreground = "#8ec07c"
+    [blocks.segments.properties]
+    time_format = "15:04"
+
+  [[blocks.segments]]
+  type = "session"
+  style = "plain"
+  template = " {{ if .SSHSession }}<#83a598>\uF310</>{{ end }}{{ if .Root }}{{ .UserName }}{{ else }}<#fabd2f>{{ .UserName }}</>{{ end }}@{{ .HostName }} "
+  foreground = "#fb4934"
+
+  [[blocks.segments]]
   type = "path"
-  style = "powerline"
-  powerline_symbol = ""
-  foreground = "#ffffff"
-  background = "#61AFEF"
+  style = "plain"
+  template = "{{ .Path }}"
+  foreground = "#83a598"
 
     [blocks.segments.properties]
-    style = "folder"
+    style = "agnoster_short"
+
+  [[blocks.segments]]
+  type = "git"
+  style = "plain"
+  template = " <#fe8019>git:(</>{{ .HEAD }}<#fe8019>)</>"
+  foreground = "#d3869b"
+
+    [blocks.segments.properties]
+    branch_icon = ""
+    fetch_status = false
+
+  [[blocks.segments]]
+  type = "text"
+  style = "plain"
+  template = " {{ if .Root }}#{{ else }}${{ end }}"
+  foreground = "#ebdbb2"
+
+[[blocks]]
+type = "rprompt"
+alignment = "right"
+
+  [[blocks.segments]]
+  type = "spotify"
+  style = "plain"
+  foreground = "#69FF94"
+
+    [blocks.segments.properties]
+    playing_icon = "\uE602 " 
+    pause_icon = "\uF8E3 "
+    stopped_icon = "\uF04D "

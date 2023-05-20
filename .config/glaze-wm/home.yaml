@@ -67,7 +67,13 @@ window_rules:
     match_process_name: "FluentSearch"
 
   - command: "ignore"
-    match_process_name: "/Loop Hero|javaw|terraria/"
+    match_process_name: "Loop Hero"
+
+  - command: "set floating"
+    match_process_name: "javaw"
+
+  - command: "set floating"
+    match_process_name: "terraria"
 
   - command: "set floating"
     match_class_name: "#32770"

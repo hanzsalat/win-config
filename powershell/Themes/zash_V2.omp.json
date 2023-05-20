@@ -82,7 +82,6 @@
         {
           "type": "spotify",
           "style": "plain",
-          "powerline_symbol": "\uE0B0",
           "foreground": "#69FF94",
           "properties": {
             "playing_icon": "\uE602 ",
