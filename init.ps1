@@ -80,26 +80,25 @@
             # original path of the directory
             $path,
             # target path of the junction
-            $target
+            $junction
         )
         
-        process {
+        begin {
             $guid = [guid]::newguid()
-            $tmp = "$env:TEMP\$guid"
-            if (!(Test-Path -Path $path)) {
-                $null = New-Item -ItemType Junction -Path $path -Target $target
-            } 
-            elseif ($((Get-Item $path).Attributes) -notmatch 'ReparsePoint') {
-                $null = New-Item -ItemType Directory -Path $tmp
-                $items = Get-ChildItem -Path $path
-                foreach ($item in $items) {
-                    Move-Item -Path $item -Destination $tmp
-                }
-                $null = New-Item -ItemType Junction -Path $path -Target $target
-                foreach ($item in $items) {
-                    Move-Item -Path $tmp\$($item.Name) -Destination $target
-                }
-                Remove-Item -Path $tmp -Recurse -Force
+            $tmp = "$env:TMP\$guid"
+        }
+    
+        process {
+            if (!(Test-Path -Path $junction)) {
+                New-Item -ItemType Junction -Path $junction -Target $path
+            }
+            elseif ((Get-Item $junction).Attributes -notmatch 'ReparsePoint') {
+                New-Item -ItemType Directory -Path $tmp
+                Get-ChildItem -Path $junction | Copy-Item -Destination $tmp -Recurse -Container
+                Remove-Item $junction -Recurse -Force
+                New-Item -ItemType Junction -Path $junction -Target $path
+                Get-ChildItem -Path $tmp | Copy-Item -Destination $junction -Recurse -Container
+                Remove-Item $tmp -Recurse -Force
             }
         }
     }
@@ -114,7 +113,7 @@
     $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 
 # init hastable for userconfig
-    $userconfig = New-Object -TypeName hashtable 
+    $userconfig = New-Object -TypeName hashtable
 
 # take actions on stuff in the config file
 # windowmanager
@@ -124,7 +123,7 @@
     if ($checked.GlazeWM) {
         # check for komorebi shortcut and delete it
             if (Test-Path "$startupPath\komorebi.lnk") {
-                Remove-Item -Path "$startupPath\komorebi.lnk"
+                [void](Remove-Item -Path "$startupPath\komorebi.lnk" -Force)
             }
         # add glazewm to $shortcuts
             $shortcut = @{
@@ -132,7 +131,7 @@
                 target = "powershell.exe"
                 arguments = "-WindowStyle hidden -Command glazewm --config=$env:USERPROFILE\.config\glaze-wm\config.yaml"
             }
-            New-Shortcut @shortcut
+            [void](New-Shortcut @shortcut)
         # copy .config files
             if (!(Test-Path $env:USERPROFILE\.config\glaze-wm)) {
                 $null = New-Item $env:USERPROFILE\.config\glaze-wm -ItemType Directory
@@ -141,13 +140,13 @@
                 Path = "$PSScriptRoot\.config\glaze-wm\$($config.workspace).yaml"
                 Destination = "$env:USERPROFILE\.config\glaze-wm\config.yaml"
             }
-            Copy-Item @copy -Recurse -Force
+            [void](Copy-Item @copy -Recurse -Force)
     }
 # komorebi
     elseif ($checked.Komorebi) {
         # check for glazewm shortcut and delete it
             if (Test-Path "$startupPath\glazewm.lnk") {
-                Remove-Item -Path "$startupPath\glazewm.lnk"
+                [void](Remove-Item -Path "$startupPath\glazewm.lnk")
             }
         # add komorebi to $shortcuts
             $shortcut = @{
@@ -155,7 +154,7 @@
                 target = "powershell.exe"
                 arguments = '-WindowStyle hidden -Command komorebic start --await-configuration'
             }
-            New-Shortcut @shortcut
+            [void](New-Shortcut @shortcut)
         # copy .config files
             if (!(Test-Path $env:USERPROFILE\.config\komorebi)) {
                 $null = New-Item $env:USERPROFILE\.config\komorebi -ItemType Directory
@@ -164,7 +163,7 @@
                 Path = "$PSScriptRoot\.config\komorebi\*"
                 Destination = "$env:USERPROFILE\.config\komorebi"
             }
-            Copy-Item @copy -Recurse -Force
+            [void](Copy-Item @copy -Recurse -Force)
     }
 # error handling
     else {
@@ -184,7 +183,7 @@
             target = (Get-Command nircmd).Path
             arguments = 'win trans class Shell_TrayWnd 255'
         }
-        New-Shortcut @shortcut
+        [void](New-Shortcut @shortcut)
         Invoke-Item $startupPath\nircmd.lnk
     }
 # remove taskbar
@@ -194,7 +193,7 @@
             target = (Get-Command nircmd).Path
             arguments = 'win trans class Shell_TrayWnd 256'
         }
-        New-Shortcut @shortcut
+        [void](New-Shortcut @shortcut)
         Invoke-Item $startupPath\nircmd.lnk
     }
 # error handling
@@ -207,10 +206,10 @@
 
 # powershell + terminal
     $junction = @{
-        path = "$env:USERPROFILE\Documents\WindowsPowerShell"
-        target = "$env:USERPROFILE\Documents\PowerShell"
+        junction = "$env:USERPROFILE\Documents\WindowsPowerShell"
+        path = "$env:USERPROFILE\Documents\PowerShell"
     }
-    New-Junction @junction
+    [void](New-Junction @junction)
     if (!(Test-Path $env:USERPROFILE\Documents\PowerShell)) {
         $null = New-Item $env:USERPROFILE\Documents\PowerShell -ItemType Directory
     }
@@ -218,7 +217,7 @@
         Path = "$PSScriptRoot\powershell\*"
         Destination = "$env:USERPROFILE\Documents\PowerShell"
     }
-    Copy-Item @copy -Recurse -Force
+    [void](Copy-Item @copy -Recurse -Force)
 # oh-my-posh
     if ($config.prompt -eq 'omp' -and $checked.Posh) {
         $userconfig['prompt'] = 1
@@ -236,15 +235,15 @@
                     $null = New-Item $env:USERPROFILE\.config\nvim -ItemType Directory
                 }
                 $junction = @{
-                    path = "$env:LOCALAPPDATA\nvim"
-                    target = "$env:USERPROFILE\.config\nvim"
+                    junction = "$env:LOCALAPPDATA\nvim"
+                    path = "$env:USERPROFILE\.config\nvim"
                 }
-                New-Junction @junction
+                [void](New-Junction @junction)
                 $copy = @{
                     Path = "$PSScriptRoot\.config\nvim\*"
                     Destination = "$env:USERPROFILE\.config\nvim"
                 }
-                Copy-Item @copy -Recurse -Force
+                [void](Copy-Item @copy -Recurse -Force)
             }
             spt {
                 if (!(Test-Path $env:USERPROFILE\.config\spotify-tui)) {
@@ -254,7 +253,7 @@
                     Path = "$PSScriptRoot\.config\spotify-tui\*"
                     Destination = "$env:USERPROFILE\.config\spotify-tui"
                 }
-                Copy-Item @copy -Recurse -Force
+                [void](Copy-Item @copy -Recurse -Force)
             }
             winfetch {
                 if (!(Test-Path $env:USERPROFILE\.config\winfetch)) {
@@ -264,37 +263,37 @@
                     Path = "$PSScriptRoot\.config\winfetch\*"
                     Destination = "$env:USERPROFILE\.config\winfetch"
                 }
-                Copy-Item @copy -Recurse -Force
+                [void](Copy-Item @copy -Recurse -Force)
             }
             terminal {
                 if (!(Test-Path $env:USERPROFILE\.config\terminal)) {
                     $null = New-Item $env:USERPROFILE\.config\terminal -ItemType Directory
                 }
                 $junction = @{
-                    path = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
-                    target = "$env:USERPROFILE\.config\terminal"
+                    junction = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
+                    path = "$env:USERPROFILE\.config\terminal"
                 }
-                New-Junction @junction
+                [void](New-Junction @junction)
                 $copy = @{
                     Path = "$PSScriptRoot\.config\terminal\*"
                     Destination = "$env:USERPROFILE\.config\terminal"
                 }
-                Copy-Item @copy -Recurse -Force
+                [void](Copy-Item @copy -Recurse -Force)
             }
             helix {
                 if (!(Test-Path $env:USERPROFILE\.config\helix)) {
                     $null = New-Item $env:USERPROFILE\.config\helix -ItemType Directory
                 }
                 $junction = @{
-                    path = "$env:APPDATA\helix"
-                    target = "$env:USERPROFILE\.config\helix"
+                    junction = "$env:APPDATA\helix"
+                    path = "$env:USERPROFILE\.config\helix"
                 }
-                New-Junction @junction
+                [void](New-Junction @junction)
                 $copy = @{
                     Path = "$PSScriptRoot\.config\helix\*"
                     Destination = "$env:USERPROFILE\.config\helix"
                 }
-                Copy-Item @copy -Recurse -Force
+                [void](Copy-Item @copy -Recurse -Force)
             }
         }
     }
@@ -304,14 +303,14 @@
         Path = "$env:USERPROFILE\Documents\PowerShell\Locals\userconfig.json"
         Value = ($userconfig | ConvertTo-Json)
     }
-    $null = New-Item @item -Force
+    [void](New-Item @item -Force)
 
 # checked
     $item = @{
         Path = "$env:USERPROFILE\Documents\PowerShell\Locals\checked.json"
         Value = ($checked | ConvertTo-Json)
     }
-    $null = New-Item @item -Force
+    [void](New-Item @item -Force)
 
 # init powershell profile
     & $Profile.CurrentUserAllHosts

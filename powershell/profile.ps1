@@ -18,6 +18,9 @@
 # import user functions
     . $PSScriptRoot\Scripts\powershell.functions.ps1
 
+# import completions
+    . $PSScriptRoot\Scripts\powershell.completion.ps1
+
 # import offload
     . $PSScriptRoot\Scripts\powershell.offload.ps1
 
