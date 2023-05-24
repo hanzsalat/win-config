@@ -65,11 +65,7 @@ workspaces:
     display_name: "VNC Workspace 2"
     bind_to_monitor: 2
 
-window_rules:
-  # Main Workspace
-  - command: "move to workspace 1"
-    match_process_name: "code"
-  
+window_rules:  
   # NX Workspace
   - command: "move to workspace 4"
     match_process_name: "HD Witness"
@@ -77,7 +73,10 @@ window_rules:
   # Task Manager requires admin privileges to manage and should be ignored unless running
   # the WM as admin.
   - command: "ignore"
-    match_process_name: "/Taskmgr|OpenWith/"
+    match_process_name: "Taskmgr"
+
+  - command: "ignore"
+    match_process_name: "OpenWith"
 
   # Launches system dialogs as floating by default (eg. File Explorer save/open dialog).
   - command: "set floating"

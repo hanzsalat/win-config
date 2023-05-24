@@ -1,7 +1,7 @@
 @{
-    workspace = 'home'
+    workspace = 'work'
     windowmanager = 'glazewm'
     prompt = 'omp'
     taskbar = $true
-    packages = @('nvim','winfetch','terminal','spt','helix')
+    packages = @('winfetch','terminal','spt','helix')
 }
