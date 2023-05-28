@@ -100,6 +100,7 @@ $config = Test-Config
 $checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
 $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 $userconfig = New-Object -TypeName hashtable
+$shims = $env:Path.Split(';').Where({$_ -match 'shims'})
 
 if ($checked.GlazeWM -and $config.windowmanager -eq 'glazewm') {
         if (Test-Path "$startupPath\komorebi.lnk") {
@@ -251,8 +252,9 @@ foreach ($item in $config.packages) {
             if (!(Test-Path $env:USERPROFILE\.config\terminal)) {
                 [void](New-Item $env:USERPROFILE\.config\terminal -ItemType Directory)
             }
+            $location = Resolve-Path("$shims\..\persist\windows-terminal\settings")
             $junction = @{
-                junction = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal*\LocalState"
+                junction = "$location"
                 path = "$env:USERPROFILE\.config\terminal"
             }
             [void](New-Junction @junction)
