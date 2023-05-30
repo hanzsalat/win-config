@@ -7,6 +7,7 @@ general:
   focus_border_color: "#ebdbb2"
   floating_window_move_amount: "5%"
   toggle_workspace_on_refocus: false
+  cursor_follow_focus: true
 
 bar:
   height: "30px"
@@ -28,6 +29,7 @@ bar:
   components_center:
     - type: "window title"
   components_right:
+    - type: "system tray"
     - type: "tiling direction"
       label_horizontal: "⮂"
       label_vertical: "⮁"

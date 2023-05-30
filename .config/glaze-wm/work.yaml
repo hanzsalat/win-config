@@ -3,8 +3,11 @@ gaps:
   outer_gap: 0
 
 general:
-  # Whether to show floating windows as always on top.
   show_floating_on_top: false
+  focus_border_color: "#ebdbb2"
+  floating_window_move_amount: "5%"
+  toggle_workspace_on_refocus: false
+  cursor_follow_focus: true
 
 bar:
   height: "30px"
@@ -26,6 +29,7 @@ bar:
   components_center:
     - type: "window title"
   components_right:
+    - type: "system tray"
     - type: "tiling direction"
       label_horizontal: "⮂"
       label_vertical: "⮁"
@@ -81,10 +85,6 @@ window_rules:
   # Launches system dialogs as floating by default (eg. File Explorer save/open dialog).
   - command: "set floating"
     match_class_name: "#32770"
-
-  # Some applications (eg. Steam) have borders that extend past the normal border size.
-  - command: "resize borders 0px -7px -7px -7px"
-    match_process_name: "steam"
 
 binding_modes:
   - name: "resize"
