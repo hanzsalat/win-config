@@ -77,7 +77,7 @@ window_rules:
   - command: "set floating"
     match_class_name: "#32770"
 
-  - command: "move to workspace 3"
+  - command: "move to workspace 4"
     match_process_name: "HD Witness"
 
   - command: "ignore"
