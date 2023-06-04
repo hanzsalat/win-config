@@ -1,5 +1,3 @@
-$ErrorActionPreference = 'Ignore'
-
 $check = @{}
 $commands = Get-Command -CommandType Application
 $modules = Get-Module -ListAvailable

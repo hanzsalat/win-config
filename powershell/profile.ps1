@@ -1,5 +1,5 @@
-# stopwatch to measure loading speeds of profile
-    #$stopwatch = [system.diagnostics.stopwatch]::StartNew()
+# general settings
+    $ErrorActionPreference = 'Ignore'
 
 # get $checked from powershell.check.ps1 script
     if (!(Test-Path $PSScriptRoot\Locals\checked.json)) {
@@ -26,7 +26,3 @@
 
 # import mainload
     . $PSScriptRoot\Scripts\powershell.mainload.ps1
-
-# stop stopwatch and output the total milliseconds of loading the profile    
-    #$stopwatch.Stop()
-    #$stopwatch.ElapsedMilliseconds

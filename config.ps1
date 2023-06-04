@@ -2,6 +2,6 @@
     workspace = 'home'
     windowmanager = 'glazewm'
     prompt = 'omp'
-    taskbar = $true
+    taskbar = $false
     packages = @('winfetch','terminal','spt','helix')
 }

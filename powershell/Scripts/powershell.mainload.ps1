@@ -1,5 +1,3 @@
-$ErrorActionPreference = 'Continue'
-
 if ($checked.ChocoQAC) {Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 }
 if ($checked.ScoopQAC) {Import-Module scoop-completion}
 if ($checked.PSWindowsUpdate) {Import-Module PSWindowsUpdate}

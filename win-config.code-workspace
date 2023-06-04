@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"powershell.codeFormatting.preset": "OTBS",
+		"powershell.powerShellDefaultVersion": "Windows PowerShell (x64)",
+		"powershell.promptToUpdatePowerShell": false,
+		"terminal.integrated.defaultProfile.windows": "Windows PowerShell",
+		"editor.wordWrapColumn": 80
+	}
+}
