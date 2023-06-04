@@ -80,13 +80,18 @@ window_rules:
   - command: "move to workspace 2"
     match_process_name: "msedge"
 
-  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -7px", "set width 85%"]
+  - commands: ["move to workspace 3", "set floating"]
     match_process_name: "steam"
+    mathc_title: "/^(?:(?!Steam).)*$/"
 
-  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -5px", "set width 15%"]
+  - commands: ["move to workspace 3", "set tiling", "resize borders 0px -7px -7px -7px", "set width 85%"]
+    match_process_name: "steam"
+    match_title: "Steam"
+
+  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -5px"]
     match_process_name: "steamwebhelper"
-    match_titel: "friends list"
-
+    match_title: "Friends List"
+  
   - command: "move to workspace 4"
     match_process_name: "discord"
 
