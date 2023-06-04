@@ -7,15 +7,15 @@ general:
   focus_border_color: "#ebdbb2"
   floating_window_move_amount: "5%"
   toggle_workspace_on_refocus: false
-  cursor_follow_focus: true
+  cursor_follows_focus: true
 
 bar:
   height: "30px"
   position: "top"
   opacity: 1.0
-  background: "#20242cc4"
-  foreground: "#ffffff"
-  font_family: "Segoe UI"
+  background: "#282828"
+  foreground: "#ebdbb2"
+  font_family: "Hack Nerd Font Mono"
   font_size: "13px"
   padding: "4px 6px"
   offset_x: "0"
@@ -41,8 +41,6 @@ bar:
       margin: "0 4px 0 0"
       padding: "0 8px"
     - type: "clock"
-      # Documentation on formatting date/time string:
-      # https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
       time_formatting: "hh:mm tt  ddd MMM d"
       margin: "0 0 0 10px"
 
@@ -70,26 +68,24 @@ workspaces:
     bind_to_monitor: 2
 
 window_rules:  
-  # NX Workspace
-  - command: "move to workspace 4"
-    match_process_name: "HD Witness"
-
-  # Task Manager requires admin privileges to manage and should be ignored unless running
-  # the WM as admin.
   - command: "ignore"
     match_process_name: "Taskmgr"
 
   - command: "ignore"
     match_process_name: "OpenWith"
 
-  # Launches system dialogs as floating by default (eg. File Explorer save/open dialog).
   - command: "set floating"
     match_class_name: "#32770"
+
+  - command: "move to workspace 3"
+    match_process_name: "HD Witness"
+
+  - command: "ignore"
+    match_process_name: "VNC "
 
 binding_modes:
   - name: "resize"
     keybindings:
-      # Resize focused window by a percentage or pixel amount.
       - command: "resize width -2%"
         bindings: ["H", "Left"]
       - command: "resize width +2%"
@@ -98,12 +94,10 @@ binding_modes:
         bindings: ["K", "Up"]
       - command: "resize height -2%"
         bindings: ["J", "Down"]
-      # Press enter/escape to return to default keybindings.
       - command: "binding mode none"
         bindings: ["Escape", "Enter"]
 
 keybindings:
-  # Shift focus in a given direction.
   - command: "focus left"
     bindings: ["Alt+H", "Alt+Left"]
   - command: "focus right"
@@ -113,7 +107,6 @@ keybindings:
   - command: "focus down"
     bindings: ["Alt+J", "Alt+Down"]
 
-  # Move focused window in a given direction.
   - command: "move left"
     bindings: ["Alt+Shift+H", "Alt+Shift+Left"]
   - command: "move right"
@@ -123,7 +116,6 @@ keybindings:
   - command: "move down"
     bindings: ["Alt+Shift+J", "Alt+Shift+Down"]
 
-  # Resize focused window by a percentage or pixel amount.
   - command: "resize width -2%"
     binding: "Alt+U"
   - command: "resize width +2%"
@@ -133,59 +125,44 @@ keybindings:
   - command: "resize height -2%"
     binding: "Alt+I"
 
-  # As an alternative to the resize keybindings above, resize mode enables resizing via
-  # HJKL or arrow keys. The binding mode is defined above with the name "resize".
   - command: "binding mode resize"
     binding: "Alt+R"
 
-  # Change tiling direction. This determines where new tiling windows will be inserted.
   - command: "tiling direction toggle"
     binding: "Alt+V"
 
-  # Change focus between floating / tiling windows.
   - command: "focus mode toggle"
     binding: "Alt+Space"
 
-  # Change the focused window to be floating / tiling.
   - command: "toggle floating"
     binding: "Alt+Shift+Space"
 
-  # Change the focused window to be maximized / unmaximized.
   - command: "toggle maximized"
     binding: "Alt+X"
 
-  # Minimize focused window.
   - command: "set minimized"
     binding: "Alt+M"
 
-  # Close focused window.
   - command: "close"
     binding: "Alt+Shift+Q"
 
-  # Kill GlazeWM process safely.
   - command: "exit wm"
     binding: "Alt+Shift+E"
 
-  # Re-evaluate configuration file.
   - command: "reload config"
     binding: "Alt+Shift+R"
 
-  # Launch CMD terminal (alternatively `exec wt` or `exec %ProgramFiles%/Git/git-bash.exe`
-  # to start Windows Terminal and Git Bash respectively.
-  - command: "exec wt"
+  - command: 'exec %USERPROFILE%\.config\terminal\terminal.lnk'
     binding: "Alt+Enter"
 
-  # Focus the workspace that last had focus.
   - command: "focus workspace recent"
     binding: "Alt+Y"
 
-  # Focus the next/previous workspace defined in `workspaces` config.
   - command: "focus workspace next"
     binding: "Alt+T"
   - command: "focus workspace prev"
     binding: "Alt+Shift+T"
 
-  # Change focus to a workspace defined in `workspaces` config.
   - command: "focus workspace 1"
     binding: "Alt+1"
   - command: "focus workspace 2"
@@ -205,7 +182,6 @@ keybindings:
   - command: "focus workspace 9"
     binding: "Alt+9"
 
-  # Move focused workspace to a monitor in a given direction.
   - command: "move workspace left"
     binding: "Alt+A"
   - command: "move workspace right"
@@ -215,7 +191,6 @@ keybindings:
   - command: "move workspace down"
     binding: "Alt+S"
 
-  # Move focused window to a workspace defined in `workspaces` config.
   - commands: ["move to workspace 1", "focus workspace 1"]
     binding: "Alt+Shift+1"
   - commands: ["move to workspace 2", "focus workspace 2"]

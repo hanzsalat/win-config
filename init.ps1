@@ -3,6 +3,7 @@ $ErrorActionPreference = 'Stop'
 # function and script blocks
 function Test-Config {
     param (
+        [string]
         $config = $(Get-ChildItem -Path $PSScriptRoot\config.ps1)
     )
     

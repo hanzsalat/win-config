@@ -7,7 +7,7 @@ general:
   focus_border_color: "#ebdbb2"
   floating_window_move_amount: "5%"
   toggle_workspace_on_refocus: false
-  cursor_follow_focus: true
+  cursor_follows_focus: true
 
 bar:
   height: "30px"
@@ -47,8 +47,11 @@ bar:
 workspaces:
   - name: "1"
   - name: "2"
+    bind_to_monitor: 2
   - name: "3"
+    bind_to_monitor: 2
   - name: "4"
+    bind_to_monitor: 2
   - name: "5"
   - name: "6"
   - name: "7"
@@ -60,16 +63,10 @@ window_rules:
     match_process_name: "Taskmgr"
 
   - command: "ignore"
-    match_process_name: "QuickLook"
-
-  - command: "ignore"
     match_process_name: "OpenWith"
 
   - command: "ignore"
-    match_process_name: "FluentSearch"
-
-  - command: "ignore"
-    match_process_name: "Loop Hero"
+    match_process_name: "loop hero"
 
   - command: "set floating"
     match_process_name: "javaw"
@@ -80,11 +77,21 @@ window_rules:
   - command: "set floating"
     match_class_name: "#32770"
 
-  - commands: ["resize borders 0px -7px -7px -7px", "resize width 85%"]
+  - command: "move to workspace 2"
+    match_process_name: "msedge"
+
+  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -7px", "set width 85%"]
     match_process_name: "steam"
 
-  - commands: ["resize borders 0px -7px -7px -5px", "resize width 15%"]
+  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -5px", "set width 15%"]
     match_process_name: "steamwebhelper"
+    match_titel: "friends list"
+
+  - command: "move to workspace 4"
+    match_process_name: "discord"
+
+  - command: "move to workspace 4"
+    match_process_name: "spotify" 
   
 binding_modes:
   - name: "resize"
