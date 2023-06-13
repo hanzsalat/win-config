@@ -2,3 +2,4 @@
 - [ ] If config file is already avaible check if choosen things are installed and do init shit
 - [ ] Rework of the hook up of copy files and so ...
 - [ ] Support for the change up of wallpaper
+- [ ] Merge configuration of the init.ps1 to one thing
