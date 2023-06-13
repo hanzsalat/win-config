@@ -1,6 +1,6 @@
 gaps:
-  inner_gap: 7
-  outer_gap: 7
+  inner_gap: 10
+  outer_gap: 10
 
 general:
   show_floating_on_top: false

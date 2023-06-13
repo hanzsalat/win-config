@@ -132,8 +132,8 @@ if ($data.checked.GlazeWM -and $data.config.windowmanager -eq 'glazewm') {
 
     $shortcut = @{
         name = 'glazewm'
-        target = 'powershell.exe'
-        arguments = "-WindowStyle hidden -Command glazewm --config=$($paths.config)\glazewm\config.yaml"
+        target = (Get-Command glazewm).Path
+        arguments = "--config=$($paths.config)\glazewm\config.yaml"
         path = $paths.startup
     }
     New-Shortcut @shortcut
@@ -316,14 +316,8 @@ foreach ($item in $data.config.packages) {
 }
 
 $item = @{
-    Path = "$env:USERPROFILE\Documents\PowerShell\Locals\userconfig.json"
+    Path = "$env:USERPROFILE\Documents\PowerShell\userconfig.json"
     Value = ($data.userconfig | ConvertTo-Json)
-}
-New-Item @item -Force
-
-$item = @{
-    Path = "$env:USERPROFILE\Documents\PowerShell\Locals\checked.json"
-    Value = ($data.checked | ConvertTo-Json)
 }
 New-Item @item -Force
 

@@ -1,7 +1,7 @@
-$check = @{}
+$check = New-Object -TypeName hashtable
+$checked = New-Object -TypeName hashtable
 $commands = Get-Command -CommandType Application
-$modules = Get-Module -ListAvailable
-# based on application
+
 $check['Choco']           = $commands.Where({$_.Name -contains 'choco.exe'}).path
 $check['GlazeWM']         = $commands.Where({$_.Name -contains 'glazewm.exe'}).path
 $check['Komorebi']        = $commands.Where({$_.Name -contains 'komorebi.exe'}).path
@@ -18,20 +18,14 @@ $check['Pwsh']            = $commands.Where({$_.Name -contains 'pwsh.exe'}).path
 $check['Neovim']          = $commands.Where({$_.Name -contains 'nvim.exe'}).path
 $check['Helix']           = $commands.Where({$_.Name -contains 'helix.exe'}).path
 $check['VScode']          = $commands.Where({$_.Name -contains 'code.cmd'}).path
-$check['WinGet']          = $commands.Where({$_.Name -contains 'code.cmd'}).path
-$check['Whkd']            = $commands.Where({$_.Name -contains 'code.cmd'}).path
-# based on modules
-$check['PSWindowsUpdate'] = $modules.Where({$_.Name -contains 'PSWindowsUpdate'}).path | Select-Object -First 1
-$check['TerminalIcons']   = $modules.Where({$_.Name -contains 'Terminal-Icons'}).path | Select-Object -First 1
+$check['WinGet']          = $commands.Where({$_.Name -contains 'winget.exe'}).path
+$check['Whkd']            = $commands.Where({$_.Name -contains 'whkd.exe'}).path
 
-$checked = @{}
 foreach ($item in $check.GetEnumerator()) {
     if ([System.IO.File]::Exists($item.Value)) { $checked[$item.Key] = $true }
     else { $checked[$item.Key] = $false }
 }
 
-$null = $check
-$null = $commands
-$null = $modules
+$check,$commands = $null
 
 return $checked

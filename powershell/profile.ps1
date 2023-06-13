@@ -1,16 +1,11 @@
 # general settings
-    $ErrorActionPreference = 'Ignore'
+    $ErrorActionPreference = 'SilentlyContinue'
 
 # get $checked from powershell.check.ps1 script
-    if (!(Test-Path $PSScriptRoot\Locals\checked.json)) {
-        & $PSScriptRoot\Scripts\powershell.check.ps1 | ConvertTo-Json | Out-File $PSScriptRoot\Locals\checked.json
-    }
-    else {
-        $checked = Get-Content $PSScriptRoot\Locals\checked.json | ConvertFrom-Json
-    }
+    $checked = & $PSScriptRoot\Scripts\powershell.check.ps1
 
 # import content of userconfig
-    $userconfig = Get-Content $PSScriptRoot\Locals\userconfig.json | ConvertFrom-Json
+    $userconfig = Get-Content $PSScriptRoot\userconfig.json | ConvertFrom-Json
 
 # import user aliases
     . $PSScriptRoot\Scripts\powershell.alias.ps1
@@ -18,11 +13,11 @@
 # import user functions
     . $PSScriptRoot\Scripts\powershell.functions.ps1
 
+# import mainload
+    . $PSScriptRoot\Scripts\powershell.mainload.ps1
+
 # import completions
     . $PSScriptRoot\Scripts\powershell.completion.ps1
 
 # import offload
     . $PSScriptRoot\Scripts\powershell.settings.ps1
-
-# import mainload
-    . $PSScriptRoot\Scripts\powershell.mainload.ps1

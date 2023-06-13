@@ -1,7 +1,8 @@
-if ($checked.ChocoQAC) {Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 }
-if ($checked.ScoopQAC) {Import-Module scoop-completion}
-if ($checked.PSWindowsUpdate) {Import-Module PSWindowsUpdate}
-if ($checked.TerminalIcons) {Import-Module Terminal-Icons}
+Import-Module -Name "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+Import-Module -Name 'scoop-completion'
+Import-Module -Name 'PSWindowsUpdate'
+Import-Module -Name 'Terminal-Icons'
+
 if ($Host.Name -eq 'ConsoleHost') {
     if ($checked.Posh -and $userconfig.prompt -eq 1) {
         $env:POSH_THEME = "$env:USERPROFILE\Documents\PowerShell\Themes\zash.omp.toml"
