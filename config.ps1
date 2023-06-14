@@ -1,5 +1,5 @@
 @{
-    workspace = 'home'
+    workspace = 'work'
     windowmanager = 'glazewm'
     prompt = 'omp'
     taskbar = $false

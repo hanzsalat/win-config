@@ -21,32 +21,38 @@ bar:
   offset_x: "0"
   offset_y: "0"
   border_radius: "0"
+  component_separator:
+    label: ""
   components_left:
     - type: "workspaces"
       focused_workspace_background: "#ffffff33"
       displayed_workspace_background: "#00000033"
       default_workspace_background: "transparent"
+    - type: "binding mode"
+      padding: "0 8px"
+      background: "#ffffff33"
+      foreground: "#fabd2f"
   components_center:
     - type: "window title"
   components_right:
     - type: "system tray"
+      padding: "2px 0"
     - type: "tiling direction"
-      label_horizontal: "⮂"
-      label_vertical: "⮁"
-      background: "#ffffff33"
-      margin: "0 4px"
+      label_horizontal: "[⮂]"
+      label_vertical: "[⮁]"
+      background: "#00000000"
       padding: "0 8px"
-    - type: "binding mode"
-      background: "#ffffff33"
-      margin: "0 4px 0 0"
-      padding: "0 8px"
+    - type: "battery"
+      label_draining: "{battery_level}%"
+      label_power_saver: "⚠ {battery_level}%"
+      label_charging: "🗲 {battery_level}%"
     - type: "clock"
       time_formatting: "hh:mm tt  ddd MMM d"
       margin: "0 0 0 10px"
 
 workspaces:
   - name: "1"
-    display_name: "Main Workspace"
+    display_name: "Main"
     bind_to_monitor: 1
   - name: "2"
     display_name: "Browser"
@@ -55,16 +61,16 @@ workspaces:
     display_name: "VDI"
     bind_to_monitor: 1
   - name: "4"
-    display_name: "NX Workspace"
+    display_name: "NX"
     bind_to_monitor: 3
   - name: "5"
   - name: "6"
   - name: "7"
   - name: "8"
-    display_name: "VNC Workspace 1"
+    display_name: "VNC 1"
     bind_to_monitor: 2
   - name: "9"
-    display_name: "VNC Workspace 2"
+    display_name: "VNC 2"
     bind_to_monitor: 2
 
 window_rules:  
