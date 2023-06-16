@@ -104,7 +104,33 @@
         }
     }
 
+    $scoop = {
+        if (!$data.checked.Scoop) {
+            Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+            Invoke-RestMethod get.scoop.sh | Invoke-Expression
+            scoop install main/git
+            $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+        }
+        $bucketlist = scoop bucket list
+        $diff = Compare-Object -ReferenceObject $data.buckets -DifferenceObject $bucketlist.name | 
+            Where-Object {$_.SideIndicator -eq '<='} | Select-Object InputObject
+        foreach ($item in $diff) {
+            scoop bucket add $item.InputObject
+        }
+    }
+
     $windowmanager = {
+        if (!$data.checked.GlazeWM -and $data.config.windowmanager -eq 'glazewm') {
+            scoop install extras/glazewm
+            $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+        }
+
+        if (!$data.checked.Komorebi -and $data.config.windowmanager -eq 'komorebi') {
+            scoop install extras/komorebi
+            scoop install extras/whkd
+            $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+        }
+
         if ($data.checked.GlazeWM -and $data.config.windowmanager -eq 'glazewm') {
             if (Test-Path ($paths.startup + '\komorebi.lnk')) {
                 Remove-Item ($paths.startup + '\komorebi.lnk')
@@ -134,7 +160,8 @@
                 Invoke-Item ($paths.startup + '\glazewm.lnk')
             }
         }
-        elseif ($data.checked.Komorebi -and $data.config.windowmanager -eq 'komorebi') {
+
+        if ($data.checked.Komorebi -and $data.config.windowmanager -eq 'komorebi') {
                 if (Test-Path ($paths.startup + '\glazewm.lnk')) {
                     Remove-Item ($paths.startup + '\glazewm.lnk')
                 }
@@ -170,18 +197,15 @@
                     Invoke-Item ($paths.startup + '\komorebi.lnk')
                 }
         }
-        else {
-            if (!$checked.Komorebi) {
-                Write-Error 'Missing Komorebi'
-            }
-            if (!$checked.GlazeWM) {
-                Write-Error 'Missing Glaze-WM'
-            }
-        }
     }
 
     $taskbar = {
-        if ($data.config.taskbar -and $data.checked.Nircmd) {
+        if (!$data.checked.Nircmd) {
+            scoop install main/nircmd
+            $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+        }
+
+        if ($data.checked.Nircmd -and $data.config.taskbar) {
             $shortcut = @{
                 name = 'nircmd'
                 target = (Get-Command nircmd).Path
@@ -190,7 +214,8 @@
             }
             New-Shortcut @shortcut
         } 
-        elseif (!$data.config.taskbar -and $data.checked.Nircmd) {
+
+        if ($data.checked.Nircmd -and !$data.config.taskbar) {
             $shortcut = @{
                 name = 'nircmd'
                 target = (Get-Command nircmd).Path
@@ -199,11 +224,7 @@
             }
             New-Shortcut @shortcut
         } 
-        else {
-            if (!$checked.Nircmd) {
-                Write-Error 'Missing Nircmd'
-            }
-        }
+
         Invoke-Item ($paths.startup + '\nircmd.lnk')
     }
 
@@ -211,11 +232,13 @@
         if (!(Test-Path "$env:USERPROFILE\Documents\PowerShell")) {
             New-Item "$env:USERPROFILE\Documents\PowerShell" -ItemType Directory
         }
+
         $copy = @{
             Path = "$PSScriptRoot\powershell\*"
             Destination = "$env:USERPROFILE\Documents\PowerShell"
         }
         Copy-Item @copy -Recurse -Force
+
         $junction = @{
             junction = "$env:USERPROFILE\Documents\WindowsPowerShell"
             path = "$env:USERPROFILE\Documents\PowerShell"
@@ -224,10 +247,21 @@
     }
 
     $prompt = {
-        if ($data.config.prompt -eq 'omp' -and $data.checked.Posh) {
+        if (!$data.checked.Posh -and $data.config.prompt -eq 'omp') {
+            scoop install main/oh-my-posh
+            $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+        }
+
+        if (!$data.checked.Starship -and $data.config.prompt -eq 'starship') {
+            scoop install main/starship
+            $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+        }
+
+        if ($data.checked.Posh -and $data.config.prompt -eq 'omp') {
             $data.userconfig['prompt'] = 1
         }
-        elseif ($data.config.prompt -eq 'starship' -and $data.checked.Starship) {
+
+        if ($data.checked.Starship -and $data.config.prompt -eq 'starship') {
             $data.userconfig['prompt'] = 2
         }
     }
@@ -236,6 +270,11 @@
         foreach ($item in $data.config.packages) {
             switch ($item) {
                 nvim {
+                    if (!$data.checked.Neovim) {
+                        scoop install main/neovim
+                        $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+                    }
+
                     if (!(Test-Path ($paths.config + '\nvim'))) {
                         New-Item ($paths.config + '\nvim') -ItemType Directory
                     }
@@ -253,6 +292,11 @@
                     New-Junction @junction  
                 }
                 spt {
+                    if (!$data.checked.SpotifyTui) {
+                        scoop install main/spotify-tui
+                        $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+                    }
+
                     if (!(Test-Path ($paths.config + '\spotify-tui'))) {
                         New-Item ($paths.config + '\spotify-tui') -ItemType Directory
                     }
@@ -264,6 +308,11 @@
                     Copy-Item @copy -Recurse -Force
                 }
                 winfetch {
+                    if (!$data.checked.Winfetch) {
+                        scoop install main/winfetch
+                        $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+                    }
+
                     if (!(Test-Path ($paths.config + '\winfetch'))) {
                         New-Item ($paths.config + '\winfetch') -ItemType Directory
                     }
@@ -275,6 +324,11 @@
                     Copy-Item @copy -Recurse -Force
                 }
                 terminal {
+                    if (!$data.checked.Terminal) {
+                        scoop install extras/windows-terminal
+                        $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+                    }
+
                     if (!(Test-Path ($paths.config + '\terminal'))) {
                         New-Item ($paths.config + '\terminal') -ItemType Directory
                     }
@@ -294,6 +348,11 @@
                     New-Junction @junction
                 }
                 helix {
+                    if (!$data.checked.Helix) {
+                        scoop install main/helix
+                        $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+                    }
+                    
                     if (!(Test-Path ($paths.config + '\helix'))) {
                         New-Item ($paths.config + '\helix') -ItemType Directory
                     }
@@ -328,6 +387,7 @@
         avaible     = . $PSScriptRoot\.config\avaible.ps1
         checked     = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         userconfig  = New-Object -TypeName hashtable
+        buckets     = @('extras','main','nonportable','versions')
     }
 
     $shortcut = New-Object -TypeName hashtable
@@ -337,6 +397,8 @@
 <#
     script itself
 #>
+    & $scoop
+
     & $windowmanager
 
     & $taskbar
@@ -351,6 +413,6 @@
         Path = "$env:USERPROFILE\Documents\PowerShell\userconfig.json"
         Value = ($data.userconfig | ConvertTo-Json)
     }
-    New-Item @item -Force
+    $null = New-Item @item -Force
 
     & $Profile.CurrentUserAllHosts

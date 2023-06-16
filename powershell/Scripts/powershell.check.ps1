@@ -20,6 +20,7 @@ $check['Helix']           = $commands.Where({$_.Name -contains 'helix.exe'}).pat
 $check['VScode']          = $commands.Where({$_.Name -contains 'code.cmd'}).path
 $check['WinGet']          = $commands.Where({$_.Name -contains 'winget.exe'}).path
 $check['Whkd']            = $commands.Where({$_.Name -contains 'whkd.exe'}).path
+$check['Terminal']        = $commands.Where({$_.Name -contains 'wt.exe'}).path
 
 foreach ($item in $check.GetEnumerator()) {
     if ([System.IO.File]::Exists($item.Value)) { $checked[$item.Key] = $true }
