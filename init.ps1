@@ -2,7 +2,7 @@
     general options
 #>
     $ErrorActionPreference = 'Continue'
-
+    $Scope = ''
 <# 
     functions and script blocks 
 #>
@@ -241,15 +241,15 @@
         }
         Copy-Item @copy -Recurse -Force
 
-        if ($data.modules.name -notcontains 'z') {
+        if ($data.modules -notcontains 'z') {
             scoop install extras/z
         }
 
-        if ($data.modules.name -notcontains 'terminal-icons') {
+        if ($data.modules -notcontains 'terminal-icons') {
             scoop install extras/terminal-icons
         }
 
-        if ($data.modules.name -notcontains 'psreadline') {
+        if ($data.modules -notcontains 'psreadline') {
             scoop install extras/psreadline
         }
     }
@@ -273,7 +273,7 @@
             $data.userconfig['prompt'] = 2
         }
 
-        if ($data.fonts.source -notcontains 'Hack Nerd Font Mono') {
+        if ($data.fonts -notcontains 'Hack Nerd Font Mono') {
             scoop install nerd-fonts/Hack-NF-Mono
             $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         }
@@ -402,6 +402,14 @@
         }
     }
 
+    $userconfig = {
+        $item = @{
+            Path = "$env:USERPROFILE\Documents\WindowsPowerShell\userconfig.json"
+            Value = ($data.userconfig | ConvertTo-Json)
+        }
+        $null = New-Item @item -Force
+    }
+
 <# 
     init all needed stuff
 #>
@@ -409,7 +417,7 @@
 
     $paths = @{
         startup     = [System.Environment]::GetFolderPath('Startup')
-        shims       = $env:Path.Split(';').Where({$_ -match 'shims'})
+        shims       = $env:Path.Split(';') | Where-Object {$_ -match 'shims'}
         config      = $env:USERPROFILE + '\.config'
     }
 
@@ -419,8 +427,8 @@
         checked     = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         userconfig  = New-Object -TypeName hashtable
         buckets     = @('extras','main','nonportable','versions','nerd-fonts')
-        modules     = Get-Module -ListAvailable
-        fonts       = [Windows.Media.Fonts]::SystemFontFamilies | Select-Object -Property Source
+        modules     = (Get-Module -ListAvailable).Name
+        fonts       = ([Windows.Media.Fonts]::SystemFontFamilies).Source
     }
 
     $shortcut = New-Object -TypeName hashtable
@@ -442,10 +450,6 @@
 
     & $packages
 
-    $item = @{
-        Path = "$env:USERPROFILE\Documents\WindowsPowerShell\userconfig.json"
-        Value = ($data.userconfig | ConvertTo-Json)
-    }
-    [void](New-Item @item -Force)
+    & $userconfig
 
     & $Profile.CurrentUserAllHosts
