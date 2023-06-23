@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"powershell.codeFormatting.preset": "OTBS",
+		"powershell.powerShellDefaultVersion": "PowerShell (x64)",
+		"powershell.promptToUpdatePowerShell": false
+	}
+}

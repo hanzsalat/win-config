@@ -3,5 +3,10 @@
     windowmanager = 'glazewm'
     prompt = 'omp'
     taskbar = $false
-    packages = @('winfetch','terminal','spt','helix')
+    packages = @(
+        'winfetch',
+        'terminal',
+        'spt',
+        'pwsh'
+    )
 }

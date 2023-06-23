@@ -1,7 +1,6 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "$themes": "https://windowsterminalthemes.dev",
     "actions": 
     [
         {
@@ -34,18 +33,25 @@
     "copyOnSelect": false,
     "defaultProfile": "{d6886144-4f4e-431c-b5b6-300c2485147d}",
     "experimental.rendering.software": true,
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
     "profiles": 
     {
         "defaults": 
         {
-            "colorScheme": "GruvboxDarkHard",
             "backgroundImage": null,
             "backgroundImageOpacity": 0.2,
+            "colorScheme": "GruvboxDarkHard",
             "cursorShape": "vintage",
-            "experimental.retroTerminalEffect": true,
-            "fontFace": "Hack Nerd Font Mono",
-            // "fontSize": 12.0,
-            // "fontWeight": "normal",
+            "experimental.retroTerminalEffect": false,
+            "font": 
+            {
+                "face": "Hack Nerd Font Mono"
+            },
             "opacity": 30,
             "scrollbarState": "hidden",
             "useAcrylic": false,
@@ -54,10 +60,10 @@
         "list": 
         [
             {
-                "commandline": "%HomeDrive%\\Program Files\\PowerShell\\7\\pwsh.exe",
+                "commandline": "%SCOOP_ROOT%\\shims\\pwsh.exe",
                 "guid": "{d6886144-4f4e-431c-b5b6-300c2485147d}",
                 "hidden": false,
-                "icon": "C:\\Program Files\\PowerShell\\7\\assets\\Powershell_black.ico",
+                "icon": "ms-appx:///ProfileIcons/pwsh.png",
                 "name": "PowerShell",
                 "startingDirectory": "%USERPROFILE%"
             },
@@ -128,6 +134,52 @@
             "selectionBackground": "#FFFFFF",
             "white": "#CCCCCC",
             "yellow": "#C19C00"
+        },
+        {
+            "background": "#282828",
+            "black": "#282828",
+            "blue": "#458588",
+            "brightBlack": "#928374",
+            "brightBlue": "#83A598",
+            "brightCyan": "#8EC07C",
+            "brightGreen": "#B8BB26",
+            "brightPurple": "#D3869B",
+            "brightRed": "#FB4934",
+            "brightWhite": "#EBDBB2",
+            "brightYellow": "#FABD2F",
+            "cursorColor": "#EBDBB2",
+            "cyan": "#689D6A",
+            "foreground": "#EBDBB2",
+            "green": "#98971A",
+            "name": "GruvboxDark",
+            "purple": "#B16286",
+            "red": "#CC241D",
+            "selectionBackground": "#665C54",
+            "white": "#A89984",
+            "yellow": "#D79921"
+        },
+        {
+            "background": "#1B1B1B",
+            "black": "#1B1B1B",
+            "blue": "#458588",
+            "brightBlack": "#928374",
+            "brightBlue": "#83A598",
+            "brightCyan": "#8EC07C",
+            "brightGreen": "#B8BB26",
+            "brightPurple": "#D3869B",
+            "brightRed": "#FB4934",
+            "brightWhite": "#EBDBB2",
+            "brightYellow": "#FABD2F",
+            "cursorColor": "#EBDBB2",
+            "cyan": "#689D6A",
+            "foreground": "#EBDBB2",
+            "green": "#98971A",
+            "name": "GruvboxDarkHard",
+            "purple": "#B16286",
+            "red": "#CC241D",
+            "selectionBackground": "#665C54",
+            "white": "#A89984",
+            "yellow": "#D79921"
         },
         {
             "background": "#282C34",
@@ -268,6 +320,29 @@
             "yellow": "#C4A000"
         },
         {
+            "background": "#300A24",
+            "black": "#171421",
+            "blue": "#0037DA",
+            "brightBlack": "#767676",
+            "brightBlue": "#08458F",
+            "brightCyan": "#2C9FB3",
+            "brightGreen": "#26A269",
+            "brightPurple": "#A347BA",
+            "brightRed": "#C01C28",
+            "brightWhite": "#F2F2F2",
+            "brightYellow": "#A2734C",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#3A96DD",
+            "foreground": "#FFFFFF",
+            "green": "#26A269",
+            "name": "Ubuntu-ColorScheme",
+            "purple": "#881798",
+            "red": "#C21A23",
+            "selectionBackground": "#FFFFFF",
+            "white": "#CCCCCC",
+            "yellow": "#A2734C"
+        },
+        {
             "background": "#000000",
             "black": "#000000",
             "blue": "#000080",
@@ -289,54 +364,52 @@
             "selectionBackground": "#FFFFFF",
             "white": "#C0C0C0",
             "yellow": "#808000"
-        },
-        {
-            "name": "GruvboxDark",
-            "black": "#282828",
-            "red": "#cc241d",
-            "green": "#98971a",
-            "yellow": "#d79921",
-            "blue": "#458588",
-            "purple": "#b16286",
-            "cyan": "#689d6a",
-            "white": "#a89984",
-            "brightBlack": "#928374",
-            "brightRed": "#fb4934",
-            "brightGreen": "#b8bb26",
-            "brightYellow": "#fabd2f",
-            "brightBlue": "#83a598",
-            "brightPurple": "#d3869b",
-            "brightCyan": "#8ec07c",
-            "brightWhite": "#ebdbb2",
-            "background": "#282828",
-            "foreground": "#ebdbb2",
-            "selectionBackground": "#665c54",
-            "cursorColor": "#ebdbb2"
-        },
-        {
-            "name": "GruvboxDarkHard",
-            "black": "#1b1b1b",
-            "red": "#cc241d",
-            "green": "#98971a",
-            "yellow": "#d79921",
-            "blue": "#458588",
-            "purple": "#b16286",
-            "cyan": "#689d6a",
-            "white": "#a89984",
-            "brightBlack": "#928374",
-            "brightRed": "#fb4934",
-            "brightGreen": "#b8bb26",
-            "brightYellow": "#fabd2f",
-            "brightBlue": "#83a598",
-            "brightPurple": "#d3869b",
-            "brightCyan": "#8ec07c",
-            "brightWhite": "#ebdbb2",
-            "background": "#1b1b1b",
-            "foreground": "#ebdbb2",
-            "selectionBackground": "#665c54",
-            "cursorColor": "#ebdbb2"
-          }
+        }
     ],
-    "themes": [],
+    "themes": 
+    [
+        {
+            "name": "legacyDark",
+            "tab": 
+            {
+                "background": null,
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "window": 
+            {
+                "applicationTheme": "dark",
+                "useMica": false
+            }
+        },
+        {
+            "name": "legacyLight",
+            "tab": 
+            {
+                "background": null,
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "window": 
+            {
+                "applicationTheme": "light",
+                "useMica": false
+            }
+        },
+        {
+            "name": "legacySystem",
+            "tab": 
+            {
+                "background": null,
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "window": 
+            {
+                "applicationTheme": "system",
+                "useMica": false
+            }
+        }
+    ],
     "useAcrylicInTabRow": true
 }

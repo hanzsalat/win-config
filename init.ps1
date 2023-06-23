@@ -1,7 +1,7 @@
 <# 
     general options
 #>
-    $ErrorActionPreference = 'Stop'
+    $ErrorActionPreference = 'Continue'
 
 <# 
     functions and script blocks 
@@ -41,7 +41,7 @@
                             Write-Error "Wrong type of packages $($item.value.GetType().BaseType.name)"
                         } else {
                             foreach ($item in $item.value) {
-                                if ($item -notmatch 'glazewm|nvim|winfetch|spt|terminal|helix') {
+                                if ($item -notmatch 'glazewm|nvim|winfetch|spt|terminal|helix|pwsh') {
                                     Write-Error "Not included package $item"
                                 }
                             }
@@ -117,6 +117,8 @@
         foreach ($item in $diff) {
             scoop bucket add $item.InputObject
         }
+        $path = (Get-Item $paths.shims).parent.FullName
+        [void](setx SCOOP_ROOT $path)
     }
 
     $windowmanager = {
@@ -200,7 +202,7 @@
     }
 
     $taskbar = {
-        if (!$data.checked.Nircmd) {
+        if (!$data.checked.Nircmd -and !$data.config.taskbar) {
             scoop install main/nircmd
             $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         }
@@ -225,25 +227,31 @@
             New-Shortcut @shortcut
         } 
 
-        Invoke-Item ($paths.startup + '\nircmd.lnk')
+        Invoke-Item ($paths.startup + '\nircmd.lnk') -ErrorAction Ignore
     }
 
     $powershell = {
-        if (!(Test-Path "$env:USERPROFILE\Documents\PowerShell")) {
-            New-Item "$env:USERPROFILE\Documents\PowerShell" -ItemType Directory
+        if (!(Test-Path "$env:USERPROFILE\Documents\WindowsPowerShell")) {
+            New-Item "$env:USERPROFILE\Documents\WindowsPowerShell" -ItemType Directory
         }
 
         $copy = @{
             Path = "$PSScriptRoot\powershell\*"
-            Destination = "$env:USERPROFILE\Documents\PowerShell"
+            Destination = "$env:USERPROFILE\Documents\WindowsPowerShell"
         }
         Copy-Item @copy -Recurse -Force
 
-        $junction = @{
-            junction = "$env:USERPROFILE\Documents\WindowsPowerShell"
-            path = "$env:USERPROFILE\Documents\PowerShell"
+        if ($data.scooplist.name -notcontains 'z') {
+            scoop install extras/z
         }
-        New-Junction @junction
+
+        if ($data.scooplist.name -notcontains 'terminal-icons') {
+            scoop install extras/terminal-icons
+        }
+
+        if ($data.scooplist.name -notcontains 'psreadline') {
+            scoop install extras/psreadline
+        }
     }
 
     $prompt = {
@@ -263,6 +271,11 @@
 
         if ($data.checked.Starship -and $data.config.prompt -eq 'starship') {
             $data.userconfig['prompt'] = 2
+        }
+
+        if ($data.scooplist.name -notcontains 'Hack-NF-Mono') {
+            scoop install nerd-fonts/Hack-NF-Mono
+            $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         }
     }
 
@@ -369,6 +382,22 @@
                     }
                     New-Junction @junction
                 }
+                pwsh {
+                    if (!$data.checked.Pwsh) {
+                        scoop install main/pwsh
+                        $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+                    }
+            
+                    if (!(Test-Path "$env:USERPROFILE\Documents\PowerShell")) {
+                        New-Item "$env:USERPROFILE\Documents\PowerShell" -ItemType Directory
+                    }
+
+                    $junction = @{
+                        junction = "$env:USERPROFILE\Documents\PowerShell"
+                        path = "$env:USERPROFILE\Documents\WindowsPowerShell"
+                    }
+                    New-Junction @junction
+                }
             }
         }
     }
@@ -378,7 +407,7 @@
 #>
     $paths = @{
         startup     = [System.Environment]::GetFolderPath('Startup')
-        shims       = $env:Path.Split(';').Where({$_ -match 'shims'}) | Out-String
+        shims       = $env:Path.Split(';').Where({$_ -match 'shims'})
         config      = $env:USERPROFILE + '\.config'
     }
 
@@ -387,7 +416,8 @@
         avaible     = . $PSScriptRoot\.config\avaible.ps1
         checked     = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         userconfig  = New-Object -TypeName hashtable
-        buckets     = @('extras','main','nonportable','versions')
+        buckets     = @('extras','main','nonportable','versions','nerd-fonts')
+        scooplist   = scoop list
     }
 
     $shortcut = New-Object -TypeName hashtable
@@ -410,9 +440,9 @@
     & $packages
 
     $item = @{
-        Path = "$env:USERPROFILE\Documents\PowerShell\userconfig.json"
+        Path = "$env:USERPROFILE\Documents\WindowsPowerShell\userconfig.json"
         Value = ($data.userconfig | ConvertTo-Json)
     }
-    $null = New-Item @item -Force
+    [void](New-Item @item -Force)
 
     & $Profile.CurrentUserAllHosts

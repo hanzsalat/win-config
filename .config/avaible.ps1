@@ -1,7 +1,9 @@
-@(
-    'glazewm',
-    'helix',
-    'spt',
-    'terminal',
-    'winfetch'
-)
+@{
+    glazewm = $true
+    helix = $true
+    spt = $true
+    terminal = $true
+    winfetch = $true
+    nvim = $false
+    pwsh = $true
+}

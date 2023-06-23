@@ -1,5 +1,6 @@
-- [ ] Add user choice to init script which is generateing the config file
-- [ ] If config file is already avaible check if choosen things are installed and do init shit
-- [ ] Rework of the hook up of copy files and so ...
 - [ ] Support for the change up of wallpaper
-- [ ] Merge configuration of the init.ps1 to one thing
+- [x] Add Package Pwsh
+- [ ] Add Package WinGet
+- [ ] Add Package Hack-NF
+- [x] Change the way powershell is pushed \ seperate pwsh 7.0 to default
+- [ ] Seperate terminal configs if pwsh is missing

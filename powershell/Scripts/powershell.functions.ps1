@@ -1,5 +1,4 @@
 function Initialize-Profile {
-    [void](Remove-Item -Path $PSScriptRoot\..\Locals\checked.json -Force)
     & $profile.CurrentUserAllHosts
 }
 
