@@ -241,15 +241,15 @@
         }
         Copy-Item @copy -Recurse -Force
 
-        if ($data.scooplist.name -notcontains 'z') {
+        if ($data.modules.name -notcontains 'z') {
             scoop install extras/z
         }
 
-        if ($data.scooplist.name -notcontains 'terminal-icons') {
+        if ($data.modules.name -notcontains 'terminal-icons') {
             scoop install extras/terminal-icons
         }
 
-        if ($data.scooplist.name -notcontains 'psreadline') {
+        if ($data.modules.name -notcontains 'psreadline') {
             scoop install extras/psreadline
         }
     }
@@ -273,7 +273,7 @@
             $data.userconfig['prompt'] = 2
         }
 
-        if ($data.scooplist.name -notcontains 'Hack-NF-Mono') {
+        if ($data.fonts.source -notcontains 'Hack Nerd Font Mono') {
             scoop install nerd-fonts/Hack-NF-Mono
             $data.checked = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         }
@@ -403,8 +403,10 @@
     }
 
 <# 
-    init variables,arrays and hastables
+    init all needed stuff
 #>
+    Add-Type -AssemblyName PresentationCore
+
     $paths = @{
         startup     = [System.Environment]::GetFolderPath('Startup')
         shims       = $env:Path.Split(';').Where({$_ -match 'shims'})
@@ -417,7 +419,8 @@
         checked     = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         userconfig  = New-Object -TypeName hashtable
         buckets     = @('extras','main','nonportable','versions','nerd-fonts')
-        scooplist   = scoop list
+        modules     = Get-Module -ListAvailable
+        fonts       = [Windows.Media.Fonts]::SystemFontFamilies | Select-Object -Property Source
     }
 
     $shortcut = New-Object -TypeName hashtable
