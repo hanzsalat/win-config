@@ -53,42 +53,51 @@ bar:
 workspaces:
   - name: "1"
     display_name: "Main"
-    bind_to_monitor: 1
   - name: "2"
     display_name: "Browser"
-    bind_to_monitor: 1
   - name: "3"
     display_name: "VDI"
-    bind_to_monitor: 1
   - name: "4"
     display_name: "NX"
-    bind_to_monitor: 3
   - name: "5"
   - name: "6"
   - name: "7"
   - name: "8"
     display_name: "VNC 1"
-    bind_to_monitor: 2
   - name: "9"
     display_name: "VNC 2"
-    bind_to_monitor: 2
 
-window_rules:  
+window_rules:
+  - command: "move to workspace 2"
+    match_process_name: "chrome"
+
+  - command: "move to workspace 4"
+    match_title: "Nx Witness.*"
+
+  - command: "set floating"
+    match_class_name: "#32770"
+
+  - command: "set floating"
+    match_title: "Sticky Notes"
+
   - command: "ignore"
     match_process_name: "Taskmgr"
 
   - command: "ignore"
     match_process_name: "OpenWith"
 
-  - command: "set floating"
-    match_class_name: "#32770"
-
-  - command: "move to workspace 4"
-    match_process_name: "HD Witness"
-
   - command: "ignore"
     match_process_name: "vncviewer"
     match_title: "VNC Viewer"
+
+  - command: "ignore"
+    match_process_name: "SnippingTool"
+
+  - commands: ["move to workspace 3", "set tiling", resize borders 0px -3px 0px -3px]
+    match_title: "MFG VDI.*"
+
+  - command: resize borders 0px -8px 0px -8px
+    match_process_name: "OUTLOOK"
 
 binding_modes:
   - name: "resize"
@@ -159,7 +168,7 @@ keybindings:
   - command: "reload config"
     binding: "Alt+Shift+R"
 
-  - command: 'exec %USERPROFILE%\.config\terminal\terminal.lnk'
+  - command: 'exec wt.exe'
     binding: "Alt+Enter"
 
   - command: "focus workspace recent"
