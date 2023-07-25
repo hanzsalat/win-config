@@ -4,7 +4,7 @@ gaps:
 
 general:
   show_floating_on_top: true
-  focus_border_color: "#ebdbb2"
+  focus_border_color: "#282828"
   floating_window_move_amount: "5%"
   toggle_workspace_on_refocus: false
   cursor_follows_focus: true

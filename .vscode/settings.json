@@ -1,6 +1,6 @@
 {
     "powershell.codeFormatting.preset": "OTBS",
-    "powershell.powerShellDefaultVersion": "PowerShell (x64)",
+    "powershell.powerShellDefaultVersion": "Pwsh",
     "powershell.promptToUpdatePowerShell": false,
     "editor.wordWrapColumn": 80
 }

@@ -2,7 +2,6 @@
     general options
 #>
     $ErrorActionPreference = 'Continue'
-    $Scope = ''
 <# 
     functions and script blocks 
 #>
@@ -422,7 +421,7 @@
     }
 
     $data = @{
-        config      = Test-Config -config $PSScriptRoot\config.ps1
+        config      = Test-Config -config $PSScriptRoot\config.ps1 -ErrorAction Stop
         avaible     = . $PSScriptRoot\.config\avaible.ps1
         checked     = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
         userconfig  = New-Object -TypeName hashtable

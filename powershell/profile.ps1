@@ -1,5 +1,5 @@
 # general settings
-    $ErrorActionPreference = 'SilentlyContinue'
+    $ErrorActionPreference = 'Continue'
 
 # get $checked from powershell.check.ps1 script
     $checked = & $PSScriptRoot\Scripts\powershell.check.ps1

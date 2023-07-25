@@ -16,3 +16,6 @@ if ($PSVersionTable.PSVersion.Major -eq 5) {
     }
     Set-PSReadLineOption @PSReadLine
 }
+
+Set-Variable -Name onedrive -Value $env:OneDriveConsumer
+Set-Variable -Name tesla -Value $env:OneDriveCommercial

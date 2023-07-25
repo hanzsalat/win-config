@@ -1,9 +1,8 @@
 @{
     glazewm = $true
-    helix = $true
+    helix = $false
     spt = $true
     terminal = $true
     winfetch = $true
     nvim = $false
-    pwsh = $true
 }
