@@ -7,6 +7,7 @@
         'winfetch',
         'terminal',
         'spt',
-        'pwsh'
+        'pwsh',
+        'nvim'
     )
 }
