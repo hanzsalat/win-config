@@ -46,9 +46,13 @@ bar:
 
 workspaces:
   - name: "1"
+    bind_to_monitor: 1
   - name: "2"
+    bind_to_monitor: 2
   - name: "3"
+    bind_to_monitor: 2
   - name: "4"
+    bind_to_monitor: 2
   - name: "5"
   - name: "6"
   - name: "7"
