@@ -265,11 +265,21 @@
         }
 
         if ($data.checked.Posh -and $data.config.prompt -eq 'omp') {
-            $data.userconfig['prompt'] = 1
+            $data.userconfig = @{
+                Prompt = @{
+                    Posh = $true
+                    Starship = $false
+                }
+            }
         }
 
         if ($data.checked.Starship -and $data.config.prompt -eq 'starship') {
-            $data.userconfig['prompt'] = 2
+            $data.userconfig = @{
+                Prompt = @{
+                    Posh = $false
+                    Starship = $true
+                }
+            }
         }
 
         if ($data.fonts -notcontains 'Hack Nerd Font Mono') {
