@@ -1,6 +1,0 @@
-- [ ] Support for the change up of wallpaper
-- [x] Add Package Pwsh
-- [ ] Add Package WinGet
-- [ ] Add Package Hack-NF
-- [x] Change the way powershell is pushed \ seperate pwsh 7.0 to default
-- [ ] Seperate terminal configs if pwsh is missing
