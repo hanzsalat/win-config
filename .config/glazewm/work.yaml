@@ -3,11 +3,12 @@ gaps:
   outer_gap: 0
 
 general:
-  show_floating_on_top: false
-  focus_border_color: "#ebdbb2"
+  show_floating_on_top: true
+  focus_border_color: "#282828"
   floating_window_move_amount: "5%"
   toggle_workspace_on_refocus: false
   cursor_follows_focus: true
+  focus_follows_cursor: true
 
 bar:
   height: "30px"
@@ -21,31 +22,41 @@ bar:
   offset_x: "0"
   offset_y: "0"
   border_radius: "0"
-  component_separator:
-    label: ""
   components_left:
     - type: "workspaces"
       focused_workspace_background: "#ffffff33"
       displayed_workspace_background: "#00000033"
       default_workspace_background: "transparent"
     - type: "binding mode"
-      padding: "0 8px"
+      margin: "0 0 0 10px"
       background: "#ffffff33"
       foreground: "#fabd2f"
   components_center:
     - type: "window title"
   components_right:
     - type: "system tray"
-      padding: "2px 0"
+      label_expand_text: " ❮ "
+      label_collapse_text: " ❯ "
+      margin: "0 0 0 10px"
     - type: "tiling direction"
       label_horizontal: "[⮂]"
       label_vertical: "[⮁]"
       background: "#00000000"
-      padding: "0 8px"
+      margin: "0 0 0 10px"
     - type: "battery"
       label_draining: "{battery_level}%"
       label_power_saver: "⚠ {battery_level}%"
       label_charging: "🗲 {battery_level}%"
+      margin: "0 0 0 10px"
+    - type: "network"
+      label_wifi_strength_0: " ᯤ⁰ "
+      label_wifi_strength_25: " ᯤ²⁵ "
+      label_wifi_strength_50: " ᯤ⁵⁰ "
+      label_wifi_strength_75: " ᯤ⁷⁵ "
+      label_wifi_strength_100: " ᯤ "
+      label_ethernet: " 🖧 "
+      label_no_internet: " ❌ "
+      margin: "0 0 0 10px"
     - type: "clock"
       time_formatting: "hh:mm tt  ddd MMM d"
       margin: "0 0 0 10px"
