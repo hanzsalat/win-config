@@ -1,6 +1,6 @@
 gaps:
-  inner_gap: 0
-  outer_gap: 0
+  inner_gap: 5
+  outer_gap: 5
 
 general:
   show_floating_on_top: true
@@ -11,17 +11,18 @@ general:
   focus_follows_cursor: true
 
 bar:
-  height: "30px"
+  height: "35px"
   position: "top"
   opacity: 1.0
   background: "#282828"
   foreground: "#ebdbb2"
   font_family: "Hack Nerd Font Mono"
   font_size: "13px"
-  padding: "4px 6px"
-  offset_x: "0"
-  offset_y: "0"
-  border_radius: "0"
+  padding: "4px 6px 4px 6px"
+  offset_x: "5"
+  offset_y: "5"
+  border_width: "2"
+  border_color: "#b16286"
   components_left:
     - type: "workspaces"
       focused_workspace_background: "#ffffff33"
@@ -98,8 +99,9 @@ window_rules:
     match_process_name: "OpenWith"
 
   - command: "ignore"
+    match_class_name: "os::Window::Dialog"
     match_process_name: "vncviewer"
-    match_title: "VNC Viewer"
+    match_title: "/.*RealVNC Viewer/"
 
   - command: "ignore"
     match_process_name: "SnippingTool"
