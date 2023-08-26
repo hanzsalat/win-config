@@ -33,6 +33,7 @@
     "copyOnSelect": false,
     "defaultProfile": "{d6886144-4f4e-431c-b5b6-300c2485147d}",
     "experimental.rendering.software": true,
+    "launchMode": "maximizedFocus",
     "newTabMenu": 
     [
         {
