@@ -147,8 +147,8 @@
         
             $shortcut = @{
                 name      = 'glazewm'
-                target    = (Get-Command glazewm).Path
-                arguments = "--config=$($script.paths.config)\glazewm\config.yaml"
+                target    = "powershell.exe"
+                arguments = "glazewm --config=$($script.paths.config)\glazewm\config.yaml"
                 path      = $script.paths.startup
             }
             New-Shortcut @shortcut
@@ -156,7 +156,7 @@
             Get-Process komorebi -ErrorAction Ignore | Stop-Process
             Get-Process whkd -ErrorAction Ignore | Stop-Process
             if (!(Get-Process glazewm -ErrorAction Ignore)) {
-                Invoke-Item ($script.paths.startup + '\glazewm.lnk')
+                Start-Process -FilePath ($script.paths.startup + '\glazewm.lnk')
             }
         }
 
@@ -168,32 +168,37 @@
             if (!(Test-Path ($script.paths.config + '\komorebi'))) {
                 New-Item ($script.paths.config + '\komorebi') -ItemType Directory
             }
+
+            if (!(Test-Path ($script.paths.config + '\whkd'))) {
+                New-Item ($script.paths.config + '\whkd') -ItemType Directory
+            }
         
             $copy = @{
-                Path        = "$PSScriptRoot\.config\komorebi\*"
-                Destination = "$($script.pahts.config)\komorebi"
+                Path        = $PSScriptRoot + '\.config\komorebi\*'
+                Destination = $script.paths.config + '\komorebi'
             }
             Copy-Item @copy -Recurse -Force
-        
+
             $copy = @{
-                Path        = "$PSScriptRoot\.config\whkdrc"
-                Destination = $script.pahts.config
+                Path        = $PSScriptRoot + '\.config\whkd\whkdrc'
+                Destination = $script.paths.config
             }
             Copy-Item @copy -Recurse -Force
         
             $shortcut = @{
                 name      = 'komorebi'
                 target    = "powershell.exe"
-                arguments = '-WindowStyle hidden -Command komorebic start --await-configuration'
+                arguments = 'komorebic start -c $Env:USERPROFILE/.config/komorebi/komorebi.json --whkd'
                 path      = $script.paths.startup
             }
             New-Shortcut @shortcut
+
+            [void](setx KOMOREBI_CONFIG_HOME ($script.paths.config + '\komorebi'))
+            [void](setx WHKD_CONFIG_HOME ($script.paths.config + '\whkd'))
             
-            $env:KOMOREBI_CONFIG_HOME = "$($script.pahts.config)\komorebi"
-        
             Get-Process glazewm -ErrorAction Ignore | Stop-Process
             if (!(Get-Process komorebi -ErrorAction Ignore)) {
-                Invoke-Item ($script.paths.startup + '\komorebi.lnk')
+                Start-Process -FilePath ($script.paths.startup + '\komorebi.lnk')
             }
         }
     }
