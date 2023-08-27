@@ -2,7 +2,7 @@
     Using namespace System
     Using namespace System.Drawing.Text
     $ErrorActionPreference = 'Stop'
-    
+
 # functions/scriptblocks/classes
     function Test-Config {
         [CmdletBinding()]

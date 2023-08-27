@@ -131,6 +131,9 @@ require('lazy').setup({
     },
   },
 
+  -- Transparent background
+  {'xiyaowong/transparent.nvim', opts = {} },
+
   {
     -- Theme inspired by Gruvbox
     'ellisonleao/gruvbox.nvim',
@@ -150,6 +153,7 @@ require('lazy').setup({
         theme = 'gruvbox',
         component_separators = '|',
         section_separators = '',
+
       },
     },
   },

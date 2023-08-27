@@ -5,7 +5,7 @@ gaps:
 general:
   show_floating_on_top: true
   focus_border_color: "#b16286"
-  floating_window_move_amount: "5%"
+  floating_window_move_amount: "1%"
   toggle_workspace_on_refocus: false
   cursor_follows_focus: true
   focus_follows_cursor: true
@@ -59,14 +59,20 @@ bar:
 
 workspaces:
   - name: "1"
-    bind_to_monitor: 1
+    display_name: "1:DEV"
+    bind_to_monitor: "1"
   - name: "2"
-    bind_to_monitor: 2
+    display_name: "2:WWW"
+    bind_to_monitor: "2"
   - name: "3"
-    bind_to_monitor: 2
+    display_name: "3:STEAM"
+    bind_to_monitor: "2"
   - name: "4"
-    bind_to_monitor: 2
+    display_name: "4:MISC"
+    bind_to_monitor: "2"
   - name: "5"
+    display_name: "5:GAME"
+    bind_to_monitor: "1"
   - name: "6"
   - name: "7"
   - name: "8"
@@ -77,51 +83,59 @@ window_rules:
     match_process_name: "Taskmgr"
 
   - command: "ignore"
-    match_process_name: "OpenWith"
+    match_title: "Delete File"
 
   - command: "ignore"
-    match_process_name: "loop hero"
-
-  - command: "set floating"
-    match_process_name: "javaw"
-
-  - command: "set floating"
-    match_process_name: "terraria"
+    match_process_name: "OpenWith"
 
   - command: "set floating"
     match_class_name: "#32770"
 
   - command: "move to workspace 2"
-    match_process_name: "msedge"
+    match_process_name: "firefox"
 
-  - commands: ["move to workspace 3", "set floating"]
-    match_process_name: "steamwebhelper"
+  - command: "set floating"
+    #match_process_name: "steamwebhelper"
+    match_class_name: "SDL_app"
     match_title: "/^(?:(?!Steam|Friends List).)*$/"
 
   - commands: ["move to workspace 3", "set tiling", "resize borders 0px -7px -7px -7px", "set width 85%"]
-    match_process_name: "steamwebhelper"
+    #match_process_name: "steamwebhelper"
+    match_class_name: "SDL_app"
     match_title: "Steam"
 
-  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -5px"]
-    match_process_name: "steamwebhelper"
+  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -5px", "set width 15%"]
+    #match_process_name: "steamwebhelper"
+    match_class_name: "SDL_app"
     match_title: "Friends List"
   
-  - command: "move to workspace 4"
+  - command: "move to workspace 4" 
     match_process_name: "discord"
 
   - command: "move to workspace 4"
-    match_process_name: "spotify" 
+    match_process_name: "spotify"
+  
+  # Games
+
+  - commands: ["move to workspace 5", "set floating"]
+    match_process_name: "loop hero"
+
+  - commands: ["move to workspace 5", "set floating"]
+    match_process_name: "javaw"
+
+  - commands: ["move to workspace 5", "set floating"]
+    match_process_name: "terraria"
 
 binding_modes:
   - name: "resize"
     keybindings:
-      - command: "resize width -2%"
+      - command: "resize width -1%"
         bindings: ["H", "Left"]
-      - command: "resize width +2%"
+      - command: "resize width +1%"
         bindings: ["L", "Right"]
-      - command: "resize height +2%"
+      - command: "resize height +1%"
         bindings: ["K", "Up"]
-      - command: "resize height -2%"
+      - command: "resize height -1%"
         bindings: ["J", "Down"]
       - command: "binding mode none"
         bindings: ["Escape", "Enter", "Alt+R"]
@@ -145,13 +159,13 @@ keybindings:
   - command: "move down"
     bindings: ["Alt+Shift+J", "Alt+Shift+Down"]
 
-  - command: "resize width -2%"
+  - command: "resize width -1%"
     binding: "Alt+U"
-  - command: "resize width +2%"
+  - command: "resize width +1%"
     binding: "Alt+P"
-  - command: "resize height +2%"
+  - command: "resize height +1%"
     binding: "Alt+O"
-  - command: "resize height -2%"
+  - command: "resize height -1%"
     binding: "Alt+I"
 
   - command: "binding mode resize"
@@ -174,9 +188,6 @@ keybindings:
 
   - command: "close"
     binding: "Alt+Shift+Q"
-
-  - command: "exit wm"
-    binding: "Alt+Shift+E"
 
   - command: "reload config"
     binding: "Alt+Shift+R"
