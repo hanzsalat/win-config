@@ -5,7 +5,7 @@
     $checked = & $PSScriptRoot\Scripts\powershell.check.ps1
 
 # import content of userconfig
-    $userconfig = Get-Content $PSScriptRoot\userconfig.json | ConvertFrom-Json
+    $userconfig = Get-Content $env:USERPROFILE\.config\powershell\userconfig.json | ConvertFrom-Json
 
 # import user aliases
     . $PSScriptRoot\Scripts\powershell.alias.ps1

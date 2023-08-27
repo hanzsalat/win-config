@@ -244,20 +244,14 @@
         }
 
         $copy = @{
-            Path        = $PSScriptRoot + '\.config\powershell\*'
-            Destination = $script.paths.config + '\powershell'
+            Path        = $PSScriptRoot + '\powershell\*'
+            Destination = $script.paths.documents + '\PowerShell'
         }
         Copy-Item @copy -Recurse -Force
 
         $junction = @{
-            junction = $script.paths.documents + '\PowerShell'
-            path     = $script.paths.config + '\powershell'
-        }
-        New-Junction @junction
-
-        $junction = @{
             junction = $script.paths.documents + '\WindowsPowerShell'
-            path     = $script.paths.config + '\powershell'
+            path     = $script.paths.documents + '\PowerShell'
         }
         New-Junction @junction
 
@@ -287,8 +281,9 @@
         if ($script.data.checked.Posh -and $script.data.config.prompt -eq 'omp') {
             $script.data.userconfig = @{
                 prompt = @{
-                    omp      = $true
-                    starship = $false
+                    omp       = $true
+                    starship  = $false
+                    themePath = $script.paths.documents + '\PowerShell\Themes' 
                 }
             }
         }
@@ -298,6 +293,7 @@
                 prompt = @{
                     omp      = $false
                     starship = $true
+                    themePath = $script.paths.documents + '\PowerShell\Themes'
                 }
             }
         }
@@ -330,7 +326,7 @@
                         junction = $env:LOCALAPPDATA + '\nvim'
                         path     = $script.paths.config + '\nvim'
                     }
-                    New-Junction @junction  
+                    New-Junction @junction
                 }
                 spt {
                     if (!$script.data.checked.SpotifyTui) {
@@ -419,7 +415,7 @@
     }
     $userconfig = {
         $item = @{
-            Path  = $script.paths.documents + '\WindowsPowerShell\userconfig.json'
+            Path  = $script.paths.config + '\powershell\userconfig.json'
             Value = $script.data.userconfig | ConvertTo-Json
         }
         $null = New-Item @item -Force
@@ -436,7 +432,7 @@
         data  = @{
             config     = $PSScriptRoot + '\config.ps1' | Test-Config
             avaible    = (Get-ChildItem $PSScriptRoot\.config).BaseName
-            checked    = & $PSScriptRoot\.config\powershell\Scripts\powershell.check.ps1
+            checked    = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
             userconfig = New-Object -TypeName hashtable
             buckets    = @('extras', 'main', 'nonportable', 'versions', 'nerd-fonts')
             modules    = (Get-Module -ListAvailable).Name

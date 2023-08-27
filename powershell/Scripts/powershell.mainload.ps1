@@ -8,11 +8,11 @@ if ($PSVersionTable.PSVersion.Major -eq 7) {
 
 if ($Host.Name -eq 'ConsoleHost') {
     if ($checked.Posh -and $userconfig.prompt.omp) {
-        $env:POSH_THEME = "$env:USERPROFILE\Documents\WindowsPowerShell\Themes\zash.omp.toml"
+        $env:POSH_THEME = $userconfig.prompt.themePath + '\zash.omp.toml'
         Invoke-Expression (&oh-my-posh init pwsh) -ErrorAction SilentlyContinue
     }
     if ($checked.Starship -and $userconfig.prompt.starship) {
-        $env:STARSHIP_CONFIG = "$env:USERPROFILE\Documents\WindowsPowerShell\Themes\starship.toml"
+        $env:STARSHIP_CONFIG = $userconfig.prompt.themePath + '\starship.toml'
         Invoke-Expression (&starship init powershell) -ErrorAction SilentlyContinue
     }
 }
