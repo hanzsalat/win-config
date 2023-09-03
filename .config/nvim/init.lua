@@ -135,6 +135,14 @@ require('lazy').setup({
   {'xiyaowong/transparent.nvim', opts = {} },
 
   {
+    -- Markdown preview plugin
+    'iamcco/markdown-preview.nvim',
+    config = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  },
+
+  {
     -- Theme inspired by Gruvbox
     'ellisonleao/gruvbox.nvim',
     priority = 1000,

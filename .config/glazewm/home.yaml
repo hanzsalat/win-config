@@ -2,9 +2,15 @@ gaps:
   inner_gap: 5
   outer_gap: 5
 
+focus_border_color: 
+  active: 
+    enabled: true
+    color: "#b16286"
+  inactive: 
+    enabled: false
+
 general:
   show_floating_on_top: true
-  focus_border_color: "#b16286"
   floating_window_move_amount: "1%"
   toggle_workspace_on_refocus: false
   cursor_follows_focus: true
@@ -38,10 +44,11 @@ bar:
     - type: "system tray"
       label_expand_text: " ❮ "
       label_collapse_text: " ❯ "
-      margin: "0 0 0 10px"
+      margin: "1px 0 0 10px"
+      padding: "2px 2px 2px 2px"
     - type: "tiling direction"
-      label_horizontal: "[⮂]"
-      label_vertical: "[⮁]"
+      label_horizontal: " ⮂ "
+      label_vertical: " ⮁ "
       background: "#00000000"
       margin: "0 0 0 10px"
     - type: "network"
@@ -52,7 +59,7 @@ bar:
       label_wifi_strength_100: " ᯤ "
       label_ethernet: " 🖧 "
       label_no_internet: " ❌ "
-      margin: "0 0 0 10px"
+      margin: "1px 0 0 10px"
     - type: "clock"
       time_formatting: "hh:mm tt  ddd MMM d"
       margin: "0 0 0 10px"
@@ -110,13 +117,12 @@ window_rules:
     match_title: "Friends List"
   
   - command: "move to workspace 4" 
-    match_process_name: "discord"
+    match_process_name: "/.*discord.*/"
 
   - command: "move to workspace 4"
-    match_process_name: "spotify"
+    match_process_name: "/.*spotify.*/"
   
   # Games
-
   - commands: ["move to workspace 5", "set floating"]
     match_process_name: "loop hero"
 
@@ -125,6 +131,9 @@ window_rules:
 
   - commands: ["move to workspace 5", "set floating"]
     match_process_name: "terraria"
+
+  - command: "move to workspace 5"
+    match_process_name: ".*osu.*"
 
 binding_modes:
   - name: "resize"
