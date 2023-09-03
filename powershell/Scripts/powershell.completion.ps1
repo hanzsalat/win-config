@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 # winget completion
-if ($checked.WinGet) {
+if ($checked.WinGet.exists) {
     Register-ArgumentCompleter -Native -CommandName 'winget' -ScriptBlock {
         param($wordToComplete, $commandAst, $cursorPosition)
         [Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
@@ -15,7 +15,7 @@ if ($checked.WinGet) {
 }
 
 # op completion
-if ($checked.Op) {
+if ($checked.{1PasswordCLI}.exists) {
     Register-ArgumentCompleter -Native -CommandName 'op' -ScriptBlock {
         param($wordToComplete, $commandAst, $cursorPosition)
         $commandElements = $commandAst.CommandElements
@@ -774,7 +774,7 @@ if ($checked.Op) {
 }
 
 # spt completion
-if ($checked.SpotifyTui) {
+if ($checked.SpotifyTui.exists) {
     Register-ArgumentCompleter -Native -CommandName 'spt' -ScriptBlock {
         param($wordToComplete, $commandAst, $cursorPosition)
 
@@ -917,7 +917,7 @@ if ($checked.SpotifyTui) {
 }
 
 # oh-my-posh completion
-if ($checked.Posh) {
+if ($checked.Posh.exists) {
     Register-ArgumentCompleter -CommandName ('omp','oh-my-posh') -ScriptBlock {
         param($WordToComplete,$CommandAst,$CursorPosition)
 
@@ -1158,7 +1158,7 @@ if ($checked.Posh) {
 }
 
 # starship completion
-if ($checked.Starship) {  
+if ($checked.Starship.exists) {  
     Register-ArgumentCompleter -Native -CommandName 'starship' -ScriptBlock {
         param($wordToComplete, $commandAst, $cursorPosition)
 

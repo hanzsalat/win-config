@@ -1,30 +1,142 @@
 Using namespace System.IO
 
-$checked = New-Object -TypeName hashtable
 $commands = Get-Command -CommandType Application
+$modules  = Get-Module -ListAvailable
+$checked = New-Object System.Collections.ArrayList
 
-$check = @{
-    GlazeWM    = $commands.Where({ $_.Name -contains 'glazewm.exe' }).path
-    Komorebi   = $commands.Where({ $_.Name -contains 'komorebi.exe' }).path
-    Nircmd     = $commands.Where({ $_.Name -contains 'nircmd.exe' }).path
-    Packwiz    = $commands.Where({ $_.Name -contains 'packwiz.exe' }).path
-    Posh       = $commands.Where({ $_.Name -contains 'oh-my-posh.exe' }).path
-    Scoop      = $commands.Where({ $_.Name -contains 'scoop.cmd' }).path
-    SpotifyTui = $commands.Where({ $_.Name -contains 'spt.exe' }).path
-    Starship   = $commands.Where({ $_.Name -contains 'starship.exe' }).path
-    Winfetch   = $commands.Where({ $_.Name -contains 'winfetch.cmd' }).path
-    Pwsh       = $commands.Where({ $_.Name -contains 'pwsh.exe' }).path
-    Neovim     = $commands.Where({ $_.Name -contains 'nvim.exe' }).path
-    Helix      = $commands.Where({ $_.Name -contains 'helix.exe' }).path
-    VScode     = $commands.Where({ $_.Name -contains 'code.cmd' }).path
-    WinGet     = $commands.Where({ $_.Name -contains 'winget.exe' }).path
-    Whkd       = $commands.Where({ $_.Name -contains 'whkd.exe' }).path
-    Terminal   = $commands.Where({ $_.Name -contains 'wt.exe' }).path
-}
+$list = @(
+    [PSCustomObject]@{ 
+        Name = 'GlazeWM'
+        Pattern = 'glazewm.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Komorebi'
+        Pattern = 'komorebi.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Nircmd'
+        Pattern = 'nircmd.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Packwiz'
+        Pattern = 'packwiz.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Posh'
+        Pattern = 'oh-my-posh.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Scoop'
+        Pattern = 'scoop.cmd'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Spotify-Tui'
+        Pattern = 'spt.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Starship'
+        Pattern = 'starship.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Winfetch'
+        Pattern = 'winfetch.cmd'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Pwsh'
+        Pattern = 'pwsh.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Neovim'
+        Pattern = 'nvim.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Helix'
+        Pattern = 'helix.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'VSCode'
+        Pattern = 'code.cmd'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'WinGet'
+        Pattern = 'winget.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Whkd'
+        Pattern = 'whkd.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'WindwosTerminal'
+        Pattern = 'wt.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = '1PasswordCLI'
+        Pattern = 'op.exe'
+        Type = 'Command'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Z'
+        Pattern = 'z'
+        Type = 'Module'
+    }
+    [PSCustomObject]@{ 
+        Name = 'PSReadLine'
+        Pattern = 'psreadline'
+        Type = 'Module'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Terminal-Icons'
+        Pattern = 'terminal-icons'
+        Type = 'Module'
+    }
+    [PSCustomObject]@{ 
+        Name = 'Scoop-Completion'
+        Pattern = 'scoop-completion'
+        Type = 'Module'
+    }
+)
 
-foreach ($item in $check.GetEnumerator()) {
-    if ([File]::Exists(($item.Value | Select-Object -First 1))) { $checked[$item.Key] = $true }
-    else { $checked[$item.Key] = $false }
+$checked = foreach ($item in $list) {
+    @{
+        $item.Name = [PSCustomObject]@{
+            data = switch ($item.Type) {
+                Command { $commands.Where({ $PSItem.Name -contains $item.Pattern }) }
+                Module { $modules.Where({ $PSItem.Name -contains $item.Pattern }) }
+                Default {}
+            }
+            exists = switch ($item.Type) {
+                Command { 
+                    if ([File]::Exists(($commands.Where({ $PSItem.Name -contains $item.Pattern }).Path | Select-Object -First 1))) 
+                    { $true }
+                    else 
+                    { $false }
+                }
+                Module { 
+                    if ([File]::Exists(($modules.Where({ $PSItem.Name -contains $item.Pattern }).Path | Select-Object -First 1))) 
+                    { $true }
+                    else 
+                    { $false }
+                }
+                Default {}
+            }
+        }
+    }
 }
 
 return $checked

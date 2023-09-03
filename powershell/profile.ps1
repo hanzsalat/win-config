@@ -14,7 +14,7 @@
     . $PSScriptRoot\Scripts\powershell.functions.ps1
 
 # import mainload
-    . $PSScriptRoot\Scripts\powershell.mainload.ps1
+    . $PSScriptRoot\Scripts\powershell.load.ps1
 
 # import completions
     . $PSScriptRoot\Scripts\powershell.completion.ps1
