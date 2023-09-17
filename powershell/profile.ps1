@@ -1,11 +1,14 @@
 # general settings
     $ErrorActionPreference = 'Continue'
 
-# get $checked from powershell.check.ps1 script
-    $checked = & $PSScriptRoot\Scripts\powershell.check.ps1
+# get $checked from powershell.checks.ps1 script
+    $checked = & $PSScriptRoot\Scripts\powershell.checks.ps1
 
-# import content of userconfig
-    $userconfig = Get-Content $env:USERPROFILE\.config\powershell\userconfig.json | ConvertFrom-Json
+# import content of userconfig if avaible
+    $userconfigPath = $env:USERPROFILE + '\.config\powershell\userconfig.json'
+    if (Test-Path $userconfigPath) {
+        $userconfig = Get-Content $userconfigPath | ConvertFrom-Json
+    }
 
 # import user aliases
     . $PSScriptRoot\Scripts\powershell.alias.ps1
@@ -19,5 +22,5 @@
 # import completions
     . $PSScriptRoot\Scripts\powershell.completion.ps1
 
-# import offload
+# import settings
     . $PSScriptRoot\Scripts\powershell.settings.ps1

@@ -19,5 +19,9 @@ if ($checked.PSReadLine.exists) {
     }
 }
 
+if ($checked.Sfsu) {
+    Invoke-Expression (&sfsu hook)
+}
+
 Set-Variable -Name onedrive -Value $env:OneDriveConsumer
 Set-Variable -Name tesla -Value $env:OneDriveCommercial
