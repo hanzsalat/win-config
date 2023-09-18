@@ -40,23 +40,36 @@
             foreach ($thing in $item.Value) {
                 $install = $bucket + '/' + $thing
                 if ($data.scoop.checked -notcontains $thing) {
-                    if ($bucket -match 'nonportable') { gsudo scoop install $install }
+                    if ($bucket -match 'nonportable') { gsudo scoop install $install } 
                     else { scoop install $install }
                 }
-                else { Write-Warning "'$thing' is already installed" } 
+                else { 
+                    Write-Host "'$thing' is already installed" -ForegroundColor Green
+                    Start-Sleep -Milliseconds 200
+                    Clear-Host
+                }
             }
         }
     }
 
     $winget = {
         if (!$data.winget.exists) {
-            Write-Error 'missing winget but how ?'
+            $avaible = $env:Path.Split(';') | Where-Object {$PSItem -match 'WindowsApps'}
+            if ($null -eq $avaible) {
+                Write-Host 'missing winget but how ?' -ForegroundColor DarkYellow
+                [void](setx Path "$env:Path;C:\Users\simon\AppData\Local\Microsoft\WindowsApps")
+                Write-Host 'fixed environmental variable path to include the windowsapps' -ForegroundColor Cyan
+            }
         }
         foreach ($item in $data.winget.list) {
             if ($data.winget.checked -notcontains $item) {
                 winget install --id $item
             }
-            else { Write-Warning "'$item' is already installed" }
+            else { 
+                Write-Host "'$item' is already installed" -ForegroundColor Green
+                Start-Sleep -Milliseconds 200
+                Clear-Host
+            }
         }
     }
 
@@ -87,6 +100,7 @@
                     'spotify-tui'
                     'winfetch'
                     'yarn'
+                    'fzf'
                 )
                 extras = @(
                     'discord'
