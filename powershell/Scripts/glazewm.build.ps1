@@ -10,8 +10,8 @@ function Build-GlazeWM {
     )
 
     begin {
-        Get-Command git -CommandType Application -ErrorAction Stop
-        Resolve-Path ($env:USERPROFILE + '/github/GlazeWM') -ErrorAction Stop
+        $null = Get-Command git -CommandType Application -ErrorAction Stop
+        $null = Resolve-Path ($env:USERPROFILE + '/github/GlazeWM') -ErrorAction Stop
         $oldPath = $PWD
         $projectFile = "$Path\GlazeWM.App\GlazeWM.App.csproj"
     }

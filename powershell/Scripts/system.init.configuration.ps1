@@ -52,7 +52,7 @@
         }
     }
 
-    $scoop = {
+    $setEnvVariables = {
         if ($script.data.checked.Scoop) {
             [void](setx SCOOP_ROOT (Get-Item $script.paths.shims).parent.FullName)
         }
@@ -310,7 +310,7 @@
 
     $userconfig = {
         $item = @{
-            Path  = $script.paths.config + '\powershell\userconfig.json'
+            Path  = "$($script.paths.config)\powershell\userconfig.json"
             Value = $script.data.userconfig | ConvertTo-Json
         }
         $null = New-Item @item -Force
@@ -321,28 +321,26 @@
         paths = @{
             startup   = [Environment]::GetFolderPath(7)
             documents = [Environment]::GetFolderPath(5)
-            config    = $env:USERPROFILE + '\.config'
+            config    = "$env:USERPROFILE\.config"
             shims     = $env:Path.Split(';') | Where-Object { $_ -match 'shims' }
-            tmprepo   = $env:TMP + '\win-config'
+            tmprepo   = "$env:TMP\win-config"
 
         }
         data  = @{
-            avaible    = . $PSScriptRoot + '\.config\avaible.ps1'
+            avaible    = . "$PSScriptRoot\.config\avaible.ps1"
             checked    = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
             userconfig = @{
                 prompt = @{
                     posh      = $null
                     starship  = $null
-                    themePath = $script.paths.documents + '\PowerShell\Themes' 
+                    themePath = "$($script.paths.documents)\PowerShell\Themes" 
                 }
             }
-            buckets    = @('extras', 'main', 'nonportable', 'versions', 'nerd-fonts')
-            fonts      = (New-Object InstalledFontCollection).Families
         }
     }
 
 # script itself
-    & $scoop
+    & $setEnvVariables
     & $getuserchoice
     & $git
     & $windowmanager
