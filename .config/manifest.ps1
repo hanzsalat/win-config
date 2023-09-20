@@ -3,95 +3,95 @@ $REPO_ROOT_PATH = (Get-item $PSScriptRoot).Parent.ResolvedTarget
 $CONFIG_ROOT_PATH = Get-item $PSScriptRoot
 $CONFIG_USER_PATH = $env:USERPROFILE + '\.config'
 
-[PSCustomObject]@{
+[PSCustomObject][ordered]@{
+	version = "0.0.HHmm.MMddyy"
 	name = "default"
 	description = $null
 	path = Resolve-Path "$CONFIG_ROOT_PATH"
-	link = [PSCustomObject]@{
-		path = $null
-	}
 	target = $null
-	userchoice = [PSCustomObject]@{
+	link = $null
+	userchoice = [PSCustomObject][ordered]@{
 		question = $null
+		target = $null
 		options = @(
-			[PSCustomObject]@{
+			[PSCustomObject][ordered]@{
 				awnser = $null
 				path = $null
 			}
 		)
-		target = $null
 	}
 }
-[PSCustomObject]@{
-	name = "glazewm"
+[PSCustomObject][ordered]@{
+	version = "0.0.0.0"
+	name = "GlazeWM"
 	description = "include configuration files for my home and work config of glazewm"
 	path = Resolve-Path "$CONFIG_ROOT_PATH\glazewm"
-	link = $null
 	target = "$CONFIG_USER_PATH\glazewm"
-	userchoice = [PSCustomObject]@{
+	link = $null
+	userchoice = [PSCustomObject][ordered]@{
 		question = "load which config ?"
+		target = "$CONFIG_USER_PATH\glazewm\config.yaml"
 		options = @(
-			[PSCustomObject]@{
+			[PSCustomObject][ordered]@{
 				awnser = "home"
 				path = "$CONFIG_ROOT_PATH\glazewm\home.yaml"
 			}
-			[PSCustomObject]@{
+			[PSCustomObject][ordered]@{
 				awnser = "work"
 				path = "$CONFIG_ROOT_PATH\glazewm\work.yaml"
 			}
 		)
-		target = "$CONFIG_USER_PATH\glazewm\config.yaml"
 	}
 }
-[PSCustomObject]@{
-	name = "nvim"
+[PSCustomObject][ordered]@{
+	version = "0.0.0.0"
+	name = "Neovim"
 	description = "my nvim configuration"
 	path = Resolve-Path "$CONFIG_ROOT_PATH\nvim"
-	link = [PSCustomObject]@{
-		path = "$env:LOCALAPPDATA\nvim"
-	}
 	target = "$CONFIG_USER_PATH\nvim"
+	link = "$env:LOCALAPPDATA\nvim"
 	userchoice = $null
 }
-[PSCustomObject]@{
-	name = "winfetch"
+[PSCustomObject][ordered]@{
+	version = "0.0.0.0"
+	name = "Winfetch"
 	description = "my winfetch configuration"
 	path = Resolve-Path "$CONFIG_ROOT_PATH\winfetch"
-	link = $null
 	target = "$CONFIG_USER_PATH\winfetch"
+	link = $null
 	userchoice = $null
 }
-[PSCustomObject]@{
-	name = "terminal"
+[PSCustomObject][ordered]@{
+	version = "0.0.0.0"
+	name = "Windows Terminal"
 	description = "include configuration files for my home and work config of the terminal"
 	path = Resolve-Path "$CONFIG_ROOT_PATH\terminal"
-	link = [PSCustomObject]@{
-		path = @(
-			"$env:SCOOP_ROOT\persist\windows-terminal"
-			"$env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
-		)
-	}
 	target = "$CONFIG_USER_PATH\terminal"
+	link = @(
+		"$env:SCOOP_ROOT\persist\windows-terminal"
+		"$env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+	)
 	userchoice = [PSCustomObject]@{
 		question = "load which config ?"
+		target = "$CONFIG_USER_PATH\terminal\settings.json"
 		options = @(
-			[PSCustomObject]@{
+			[PSCustomObject][ordered]@{
 				awnser = "home"
 				path = "$CONFIG_ROOT_PATH\terminal\home.json"
 			}
-			[PSCustomObject]@{
-				awner = "work"
+			[PSCustomObject][ordered]@{
+				awnser = "work"
 				path = "$CONFIG_ROOT_PATH\terminal\work.json"
 			}
 		)
-		target = "$CONFIG_USER_PATH\terminal\settings.json"
 	}
 }
-[PSCustomObject]@{
+[PSCustomObject][ordered]@{
+	version = "0.0.0.0"
 	name = "Spotify-TUI"
 	description = "my spt configuration"
 	path = Resolve-Path "$CONFIG_ROOT_PATH\spt"
-	link = $null
 	target = "$CONFIG_USER_PATH\spotify-tui"
+	link = $null
 	userchoice = $null
 }

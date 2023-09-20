@@ -10,7 +10,7 @@ $image = "$PSScriptRoot/winfetch.png"
 # $logo = "Windows 11"
 
 # Specify width for image/logo
-$imgwidth = 45
+$imgwidth = 40
 
 # Specify minimum alpha value for image pixels to be visible
 # $alphathreshold = 50

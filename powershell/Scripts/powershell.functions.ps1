@@ -20,5 +20,16 @@
         Format-List
     }   
 
+# change host name of shell
+    function Set-ShellName {
+        param (
+            [parameter(Mandatory,Position = 0,ValueFromPipeline)]
+            [ValidateNotNullOrEmpty]
+            [string]$name
+        )
+        
+        $Host.UI.RawUI.WindowTitle = $name
+    }
+
 # list of advanced functions/scripts to import
     . $PSScriptRoot/glazewm.build.ps1

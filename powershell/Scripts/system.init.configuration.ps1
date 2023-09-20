@@ -318,28 +318,29 @@
 
 # data and varialbe sets
     $script = @{
-        paths = @{
-            startup   = [Environment]::GetFolderPath(7)
-            documents = [Environment]::GetFolderPath(5)
-            config    = "$env:USERPROFILE\.config"
-            shims     = $env:Path.Split(';') | Where-Object { $_ -match 'shims' }
-            tmprepo   = "$env:TMP\win-config"
-
+        PATH = @{
+            STATUP      = [Environment]::GetFolderPath(7)
+            DOCS        = [Environment]::GetFolderPath(5)
+            USER_CONFIG = "$env:USERPROFILE\.config"
+            SCOOP_SHIMS = $env:Path.Split(';') | Where-Object { $_ -match 'shims' }
+            REPO_TMP    = "$env:TMP\win-config"
+            REPO_ROOT   = (Get-Item $PSScriptRoot).Parent.Parent.ResolvedTarget
         }
-        data  = @{
-            avaible    = . "$PSScriptRoot\.config\avaible.ps1"
-            checked    = & $PSScriptRoot\powershell\Scripts\powershell.check.ps1
+        DATA = @{
+            manifest   = & $PSScriptRoot\..\..\.config\manifest.ps1
+            checked    = & $PSScriptRoot\powershell.checks.ps1
             userconfig = @{
                 prompt = @{
                     posh      = $null
                     starship  = $null
-                    themePath = "$($script.paths.documents)\PowerShell\Themes" 
+                    themePath = "$($script.PATH.DOCS)\PowerShell\Themes" 
                 }
             }
         }
     }
 
 # script itself
+    <#
     & $setEnvVariables
     & $getuserchoice
     & $git
@@ -350,3 +351,5 @@
     & $prompt
     & $userconfig
     & $Profile.CurrentUserAllHosts
+    #>
+    $script
