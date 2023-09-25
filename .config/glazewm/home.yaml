@@ -1,6 +1,14 @@
+general:
+  focus_follows_cursor: true
+  cursor_follows_focus: true
+  toggle_workspace_on_refocus: false
+  show_floating_on_top: true
+  floating_window_move_amount: "1%"
+  window_animations: false
+
 gaps:
-  inner_gap: 5
-  outer_gap: 5
+  inner_gap: "5px"
+  outer_gap: "5px"
 
 focus_border_color: 
   active: 
@@ -8,13 +16,6 @@ focus_border_color:
     color: "#b16286"
   inactive: 
     enabled: false
-
-general:
-  show_floating_on_top: true
-  floating_window_move_amount: "1%"
-  toggle_workspace_on_refocus: false
-  cursor_follows_focus: true
-  focus_follows_cursor: true
 
 bar:
   height: "35px"
@@ -31,12 +32,13 @@ bar:
   border_color: "#b16286"
   components_left:
     - type: "workspaces"
-      focused_workspace_background: "#ffffff33"
-      displayed_workspace_background: "#00000033"
+      focused_workspace_background: "transparent"
+      focused_workspace_foreground: "#fabd2f"
+      displayed_workspace_background: "transparent"
       default_workspace_background: "transparent"
     - type: "binding mode"
       margin: "0 0 0 10px"
-      background: "#ffffff33"
+      background: ""
       foreground: "#fabd2f"
   components_center:
     - type: "window title"
@@ -49,20 +51,15 @@ bar:
     - type: "tiling direction"
       label_horizontal: " ⮂ "
       label_vertical: " ⮁ "
-      background: "#00000000"
+      background: "transparent"
       margin: "0 0 0 10px"
     - type: "network"
-      label_wifi_strength_0: " ᯤ⁰ "
-      label_wifi_strength_25: " ᯤ²⁵ "
-      label_wifi_strength_50: " ᯤ⁵⁰ "
-      label_wifi_strength_75: " ᯤ⁷⁵ "
-      label_wifi_strength_100: " ᯤ "
       label_ethernet: " 🖧 "
       label_no_internet: " ❌ "
-      margin: "1px 0 0 10px"
+      margin: "0 0 0 10px"
     - type: "clock"
       time_formatting: "hh:mm tt  ddd MMM d"
-      margin: "0 0 0 10px"
+      margin: "0 5px 0 10px"
 
 workspaces:
   - name: "1"

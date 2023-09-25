@@ -10,7 +10,7 @@ $image = "$PSScriptRoot/winfetch.png"
 # $logo = "Windows 11"
 
 # Specify width for image/logo
-$imgwidth = 40
+$imgwidth = 35
 
 # Specify minimum alpha value for image pixels to be visible
 # $alphathreshold = 50
@@ -49,7 +49,7 @@ $imgwidth = 40
 # Configure which disks are shown
 # $ShowDisks = @("C:", "D:")
 # Show all available disks
-$ShowDisks = @("*")
+# $ShowDisks = @("*")
 
 # Configure which package managers are shown
 # disabling unused ones will improve speed
@@ -72,8 +72,8 @@ $ShowPkgs = @("winget", "scoop", "choco")
 # 'textbar' is for text + bar.
 # 'bartext' is for bar + text.
 $cpustyle = 'bartext'
-$memorystyle = 'bartext'
-$diskstyle = 'bartext'
+#$memorystyle = 'bartext'
+#$diskstyle = 'bartext'
 $batterystyle = 'bartext'
 
 
@@ -84,26 +84,26 @@ $batterystyle = 'bartext'
     "title"
     "dashes"
     "os"
-    "computer"
-    "kernel"
-    "motherboard"
+    # "computer"
+    # "kernel"
+    # "motherboard"
     # "custom_time"  # use custom info line
     "uptime"
     # "ps_pkgs"  # takes some time
     "pkgs"
     "pwsh"
-    "resolution"
-    "terminal"
-    "theme"
+    # "resolution"
+    # "terminal"
+    # "theme"
     "cpu"
     "gpu"
     "cpu_usage"
-    "memory"
-    "disk"
+    # "memory"
+    # "disk"
     "battery"
     # "locale"
     # "weather"
-    # "local_ip"
+    "local_ip"
     # "public_ip"
     "blank"
     "colorbar"
