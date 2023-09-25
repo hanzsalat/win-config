@@ -22,7 +22,7 @@ $CONFIG_USER_PATH = $env:USERPROFILE + '\.config'
 	}
 }
 [PSCustomObject][ordered]@{
-	version = "0.0.0.0"
+	version = "0.1.0.0"
 	name = "GlazeWM"
 	description = "include configuration files for my home and work config of glazewm"
 	path = Resolve-Path "$CONFIG_ROOT_PATH\glazewm"
