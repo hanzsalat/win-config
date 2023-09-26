@@ -24,7 +24,6 @@
     function Set-ShellName {
         param (
             [parameter(Mandatory,Position = 0,ValueFromPipeline)]
-            [ValidateNotNullOrEmpty]
             [string]$name
         )
         
