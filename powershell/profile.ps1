@@ -11,7 +11,7 @@
     }
 
 # import user aliases
-    . $PSScriptRoot\Scripts\powershell.alias.ps1
+    . $PSScriptRoot\Scripts\powershell.aliases.ps1
 
 # import user functions
     . $PSScriptRoot\Scripts\powershell.functions.ps1
@@ -20,7 +20,7 @@
     . $PSScriptRoot\Scripts\powershell.load.ps1
 
 # import completions
-    . $PSScriptRoot\Scripts\powershell.completion.ps1
+    . $PSScriptRoot\Scripts\powershell.completions.ps1
 
 # import settings
     . $PSScriptRoot\Scripts\powershell.settings.ps1

@@ -1,5 +1,18 @@
 function Build-Manifest {
-    param ($path)
+    <#
+    .SYNOPSIS
+        Builds the manifest file for .config folder of win-config repo
+    .LINK
+        https://github.com/hanzsalat/win-config/
+    .DESCRIPTION
+        Atm 
+    #>
+
+    param (
+        [string]$path,
+        [Alias("GV")]
+        [switch]${generate-versions}
+    )
 
     begin {
         $paths = Get-ChildItem $path
@@ -12,9 +25,6 @@ function Build-Manifest {
     }
 
     process {
-        $version
+        
     }
 }
-
-$path = (Get-Item $PSScriptRoot).Parent.Parent.FullName + '\.config\glazewm'
-Build-Manifest -path $path
