@@ -1,0 +1,135 @@
+#:schema = "https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/schema.json"
+final_space = true
+version = 2
+
+[palettes]
+template = "dark"
+
+[palettes.list.dark]
+bg0 = "#282828"
+bg1 = "#3c3836"
+bg2 = "#504945"
+bg3 = "#665c54"
+bg4 = "#7c6f64"
+fg0 = "#fbf1c7"
+fg1 = "#ebdbb2"
+fg2 = "#d5c4a1"
+fg3 = "#bdae93"
+fg4 = "#a89984"
+red = "#fb4934"
+green = "#b8bb26"
+yellow = "#fabd2f"
+blue = "#83a598"
+purple = "#d3869b"
+aqua = "#8ec07c"
+orange = "#fe8019"
+neutral_red = "#cc241d"
+neutral_green = "#98971a"
+neutral_yellow = "#d79921"
+neutral_blue = "#458588"
+neutral_purple = "#b16286"
+neutral_aqua = "#689d6a"
+gray = "#928374"
+
+[palettes.list.light]
+bg0 = "#fbf1c7"
+bg1 = "#ebdbb2"
+bg2 = "#d5c4a1"
+bg3 = "#bdae93"
+bg4 = "#a89984"
+fg0 = "#282828"
+fg1 = "#3c3836"
+fg2 = "#504945"
+fg3 = "#665c54"
+fg4 = "#7c6f64"
+red = "#9d0006"
+green = "#79740e"
+yellow = "#b57614"
+blue = "#076678"
+purple = "#8f3f71"
+aqua = "#427b58"
+orange = "#af3a03"
+neutral_red = "#cc241d"
+neutral_green = "#98971a"
+neutral_yellow = "#d79921"
+neutral_blue = "#458588"
+neutral_purple = "#b16286"
+neutral_aqua = "#689d6a"
+gray = "#928374"
+
+[transient_prompt]
+background = "transparent"
+foreground = "p:red"
+template = "@{{ .UserName }} <#62ED8B>\u279c</>"
+
+[[blocks]]
+type = "prompt"
+alignment = "left"
+
+  [[blocks.segments]]
+  type = "text"
+  style = "plain"
+  foreground = "p:aqua"
+  template = "❯"
+
+  [[blocks.segments]]
+  type = "text"
+  style = "plain"
+  foreground = "p:purple"
+  template = "❯ "
+
+  [[blocks.segments]]
+  type = "time"
+  style = "plain"
+  template = "{{ .CurrentDate | date .Format }} "
+  foreground = "p:aqua"
+
+    [blocks.segments.properties]
+    time_format = "3:04 PM"
+
+  [[blocks.segments]]
+  type = "session"
+  style = "plain"
+  template = "{{ if .SSHSession }}\ueba9 {{ end }}{{ if .Root }}<p:red>{{ end }}{{ .UserName }}</><p:red>@</><p:green>{{ .HostName }}</> "
+  foreground = "p:yellow"
+
+  [[blocks.segments]]
+  type = "path"
+  style = "plain"
+  template = "{{ .Path }} "
+  foreground = "p:blue"
+
+    [blocks.segments.properties]
+    style = "agnoster_short"
+
+  [[blocks.segments]]
+  type = "git"
+  style = "plain"
+  template = "<p:orange>git:(</>{{ if or (.Working.Changed) (.Staging.Changed) (gt .StashCount 0) }}<p:yellow>{{ .HEAD }}</>{{ else }}<p:purple>{{ .HEAD }}</>{{ end }}{{ if (gt .Ahead 0)}}<p:cyan>{{ .BranchStatus }}</>{{ end }}{{ if (gt .Behind 0)}}<p:cyan>{{ .BranchStatus }}</>{{ end }}{{ if .Staging.Changed }} <p:green>{{ .Staging.String }}</>{{ end }}{{ if .Working.Changed }} <p:red>{{ .Working.String }}</>{{ end }}<p:orange>)</> "
+  foreground = "p:purple"
+
+    [blocks.segments.properties]
+    branch_icon = ""
+    fetch_status = true
+    fetch_status_count = true
+    fetch_worktree_count = true
+
+  [[blocks.segments]]
+  type = "text"
+  style = "plain"
+  template = "{{ if .Root }}#{{ else }}${{ end }} "
+  foreground = "p:fg1"
+
+[[blocks]]
+type = "rprompt"
+alignment = "right"
+
+  [[blocks.segments]]
+  type = "spotify"
+  style = "plain"
+  foreground = "p:green"
+
+    [blocks.segments.properties]
+    playing_icon = "\uE602 "
+    pause_icon = "\uF8E3 "
+    stopped_icon = "\uF04D "
