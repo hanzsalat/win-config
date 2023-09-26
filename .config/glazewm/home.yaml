@@ -1,0 +1,257 @@
+general:
+  focus_follows_cursor: true
+  cursor_follows_focus: true
+  toggle_workspace_on_refocus: false
+  show_floating_on_top: true
+  floating_window_move_amount: "1%"
+  window_animations: false
+
+gaps:
+  inner_gap: "5px"
+  outer_gap: "5px"
+
+focus_border_color: 
+  active: 
+    enabled: true
+    color: "#b16286"
+  inactive: 
+    enabled: false
+
+bar:
+  height: "35px"
+  position: "top"
+  opacity: 1.0
+  background: "#282828"
+  foreground: "#ebdbb2"
+  font_family: "Hack Nerd Font Mono"
+  font_size: "13px"
+  padding: "4px 6px 4px 6px"
+  offset_x: "5"
+  offset_y: "5"
+  border_width: "2"
+  border_color: "#b16286"
+  components_left:
+    - type: "workspaces"
+      focused_workspace_background: "transparent"
+      focused_workspace_foreground: "#fabd2f"
+      displayed_workspace_background: "transparent"
+      default_workspace_background: "transparent"
+    - type: "binding mode"
+      margin: "0 0 0 10px"
+      background: ""
+      foreground: "#fabd2f"
+  components_center:
+    - type: "window title"
+  components_right:
+    - type: "system tray"
+      label_expand_text: " ❮ "
+      label_collapse_text: " ❯ "
+      margin: "1px 0 0 10px"
+      padding: "2px 2px 2px 2px"
+    - type: "tiling direction"
+      label_horizontal: " ⮂ "
+      label_vertical: " ⮁ "
+      background: "transparent"
+      margin: "0 0 0 10px"
+    - type: "network"
+      label_ethernet: " 🖧 "
+      label_no_internet: " ❌ "
+      margin: "0 0 0 10px"
+    - type: "clock"
+      time_formatting: "hh:mm tt  ddd MMM d"
+      margin: "0 5px 0 10px"
+
+workspaces:
+  - name: "1"
+    display_name: "1:DEV"
+    bind_to_monitor: "1"
+  - name: "2"
+    display_name: "2:WWW"
+    bind_to_monitor: "2"
+  - name: "3"
+    display_name: "3:STEAM"
+    bind_to_monitor: "2"
+  - name: "4"
+    display_name: "4:MISC"
+    bind_to_monitor: "2"
+  - name: "5"
+    display_name: "5:GAME"
+    bind_to_monitor: "1"
+  - name: "6"
+  - name: "7"
+  - name: "8"
+  - name: "9"
+
+window_rules:
+  - command: "ignore"
+    match_process_name: "Taskmgr"
+
+  - command: "ignore"
+    match_title: "Delete File"
+
+  - command: "ignore"
+    match_process_name: "OpenWith"
+
+  - command: "set floating"
+    match_class_name: "#32770"
+
+  - command: "move to workspace 2"
+    match_process_name: "firefox"
+
+  - command: "set floating"
+    #match_process_name: "steamwebhelper"
+    match_class_name: "SDL_app"
+    match_title: "/^(?:(?!Steam|Friends List).)*$/"
+
+  - commands: ["move to workspace 3", "set tiling", "resize borders 0px -7px -7px -7px", "set width 85%"]
+    #match_process_name: "steamwebhelper"
+    match_class_name: "SDL_app"
+    match_title: "Steam"
+
+  - commands: ["move to workspace 3", "resize borders 0px -7px -7px -5px", "set width 15%"]
+    #match_process_name: "steamwebhelper"
+    match_class_name: "SDL_app"
+    match_title: "Friends List"
+  
+  - command: "move to workspace 4" 
+    match_process_name: "/.*discord.*/"
+
+  - command: "move to workspace 4"
+    match_process_name: "/.*spotify.*/"
+  
+  # Games
+  - commands: ["move to workspace 5", "set floating"]
+    match_process_name: "loop hero"
+
+  - commands: ["move to workspace 5", "set floating"]
+    match_process_name: "javaw"
+
+  - commands: ["move to workspace 5", "set floating"]
+    match_process_name: "terraria"
+
+  - command: "move to workspace 5"
+    match_process_name: ".*osu.*"
+
+binding_modes:
+  - name: "resize"
+    keybindings:
+      - command: "resize width -1%"
+        bindings: ["H", "Left"]
+      - command: "resize width +1%"
+        bindings: ["L", "Right"]
+      - command: "resize height +1%"
+        bindings: ["K", "Up"]
+      - command: "resize height -1%"
+        bindings: ["J", "Down"]
+      - command: "binding mode none"
+        bindings: ["Escape", "Enter", "Alt+R"]
+
+keybindings:
+  - command: "focus left"
+    bindings: ["Alt+H", "Alt+Left"]
+  - command: "focus right"
+    bindings: ["Alt+L", "Alt+Right"]
+  - command: "focus up"
+    bindings: ["Alt+K", "Alt+Up"]
+  - command: "focus down"
+    bindings: ["Alt+J", "Alt+Down"]
+
+  - command: "move left"
+    bindings: ["Alt+Shift+H", "Alt+Shift+Left"]
+  - command: "move right"
+    bindings: ["Alt+Shift+L", "Alt+Shift+Right"]
+  - command: "move up"
+    bindings: ["Alt+Shift+K", "Alt+Shift+Up"]
+  - command: "move down"
+    bindings: ["Alt+Shift+J", "Alt+Shift+Down"]
+
+  - command: "resize width -1%"
+    binding: "Alt+U"
+  - command: "resize width +1%"
+    binding: "Alt+P"
+  - command: "resize height +1%"
+    binding: "Alt+O"
+  - command: "resize height -1%"
+    binding: "Alt+I"
+
+  - command: "binding mode resize"
+    binding: "Alt+R"
+
+  - command: "tiling direction toggle"
+    binding: "Alt+V"
+
+  - command: "focus mode toggle"
+    binding: "Alt+Space"
+
+  - command: "toggle floating"
+    binding: "Alt+Shift+Space"
+
+  - command: "toggle maximized"
+    binding: "Alt+X"
+
+  - command: "set minimized"
+    binding: "Alt+M"
+
+  - command: "close"
+    binding: "Alt+Shift+Q"
+
+  - command: "reload config"
+    binding: "Alt+Shift+R"
+
+  - command: "exec wt"
+    binding: "Alt+Enter"
+
+  - command: "focus workspace recent"
+    binding: "Alt+Y"
+
+  - command: "focus workspace next"
+    binding: "Alt+T"
+  - command: "focus workspace prev"
+    binding: "Alt+Shift+T"
+
+  - command: "focus workspace 1"
+    binding: "Alt+1"
+  - command: "focus workspace 2"
+    binding: "Alt+2"
+  - command: "focus workspace 3"
+    binding: "Alt+3"
+  - command: "focus workspace 4"
+    binding: "Alt+4"
+  - command: "focus workspace 5"
+    binding: "Alt+5"
+  - command: "focus workspace 6"
+    binding: "Alt+6"
+  - command: "focus workspace 7"
+    binding: "Alt+7"
+  - command: "focus workspace 8"
+    binding: "Alt+8"
+  - command: "focus workspace 9"
+    binding: "Alt+9"
+
+  - command: "move workspace left"
+    binding: "Alt+A"
+  - command: "move workspace right"
+    binding: "Alt+F"
+  - command: "move workspace up"
+    binding: "Alt+D"
+  - command: "move workspace down"
+    binding: "Alt+S"
+
+  - commands: ["move to workspace 1", "focus workspace 1"]
+    binding: "Alt+Shift+1"
+  - commands: ["move to workspace 2", "focus workspace 2"]
+    binding: "Alt+Shift+2"
+  - commands: ["move to workspace 3", "focus workspace 3"]
+    binding: "Alt+Shift+3"
+  - commands: ["move to workspace 4", "focus workspace 4"]
+    binding: "Alt+Shift+4"
+  - commands: ["move to workspace 5", "focus workspace 5"]
+    binding: "Alt+Shift+5"
+  - commands: ["move to workspace 6", "focus workspace 6"]
+    binding: "Alt+Shift+6"
+  - commands: ["move to workspace 7", "focus workspace 7"]
+    binding: "Alt+Shift+7"
+  - commands: ["move to workspace 8", "focus workspace 8"]
+    binding: "Alt+Shift+8"
+  - commands: ["move to workspace 9", "focus workspace 9"]
+    bindings: ["Alt+Shift+9"]
