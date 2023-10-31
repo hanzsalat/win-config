@@ -16,10 +16,6 @@
             "keys": "ctrl+v"
         },
         {
-            "command": "find",
-            "keys": "ctrl+shift+f"
-        },
-        {
             "command": 
             {
                 "action": "splitPane",
@@ -27,6 +23,10 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
+        },
+        {
+            "command": "find",
+            "keys": "ctrl+shift+f"
         }
     ],
     "copyFormatting": "none",
@@ -81,10 +81,18 @@
                 "name": "Command Prompt"
             },
             {
-                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
                 "hidden": false,
-                "name": "Azure Cloud Shell",
-                "source": "Windows.Terminal.Azure"
+                "name": "Ubuntu",
+                "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
+            },
+            {
+                "commandline": "pwsh.exe -command \"spt\"",
+                "guid": "{c53736cb-4957-44f9-87a6-52b43f3ab307}",
+                "hidden": false,
+                "icon": "C:\\Users\\simon\\Downloads\\spotify-logo.png",
+                "name": "Spotify",
+                "tabTitle": "Spotify"
             }
         ]
     },
@@ -367,50 +375,6 @@
             "yellow": "#808000"
         }
     ],
-    "themes": 
-    [
-        {
-            "name": "legacyDark",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "dark",
-                "useMica": false
-            }
-        },
-        {
-            "name": "legacyLight",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "light",
-                "useMica": false
-            }
-        },
-        {
-            "name": "legacySystem",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "system",
-                "useMica": false
-            }
-        }
-    ],
+    "themes": [],
     "useAcrylicInTabRow": true
 }

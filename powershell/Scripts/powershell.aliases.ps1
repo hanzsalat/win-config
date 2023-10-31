@@ -13,6 +13,8 @@ if ($checked.Helix.exists) {
 if ($checked.Neovim.exists) {
     Set-Alias -Name vim -Value nvim -Description 'Neovim short term' 
 }
-if (Get-Command -Name Initialize-Profile -ErrorAction SilentlyContinue) {
-    Set-Alias -Name init -Value Initialize-Profile -Description 'Initialize-Profile short term'
-}
+
+Set-Alias -Name init -Value Initialize-Profile -Description 'Initialize-Profile short term'
+Set-Alias -Name zip -Value Compress-Archive -Description 'easier command name to zip a file'
+Set-Alias -Name unzip -Value Expand-Archive -Description 'easier command name to unzip a file'
+Set-Alias -Name df -Value Get-Disk -Description 'report file system space usage'

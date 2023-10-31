@@ -1,8 +1,16 @@
-# general
+# namespaces
     Using namespace System.IO
     Using namespace System.Collections
-    $ErrorActionPreference = 'Stop'
 
+# parameter    
+    param(
+        [ValidateSetAttribute('work','home')]
+        [string]$workspace
+    )
+
+# general
+    $ErrorActionPreference = 'Stop'
+    
 # scriptblocks
     $exists = {
         param([switch]$scoop,[switch]$winget)
@@ -38,15 +46,19 @@
             }
             $bucket = $item.key
             foreach ($thing in $item.Value) {
-                $install = $bucket + '/' + $thing
-                if ($data.scoop.checked -notcontains $thing) {
-                    if ($bucket -match 'nonportable') { gsudo scoop install $install } 
-                    else { scoop install $install }
+                $install = $bucket + '/' + $thing.name
+                if ($data.scoop.checked -notcontains $thing.name) {
+                    if ($thing.flags -contains $workspace) {
+                        if ($thing.flags -contains 'admin') {
+                            gsudo scoop install $install
+                            } 
+                        else { scoop install $install }
+                    }
                 }
                 else { 
-                    Write-Host "'$thing' is already installed" -ForegroundColor Green
-                    Start-Sleep -Milliseconds 200
-                    Clear-Host
+                    Write-Host "'$( $thing.name )' is already installed" -ForegroundColor Green
+                    Start-Sleep -Milliseconds 100
+                    #Clear-Host
                 }
             }
         }
@@ -62,13 +74,15 @@
             }
         }
         foreach ($item in $data.winget.list) {
-            if ($data.winget.checked -notcontains $item) {
-                winget install --id $item
+            if ($data.winget.checked -notcontains $item.name) {
+                if ($item.flags -contains $workspace) {
+                    gsudo winget install --id $item.name
+                }
             }
             else { 
-                Write-Host "'$item' is already installed" -ForegroundColor Green
-                Start-Sleep -Milliseconds 200
-                Clear-Host
+                Write-Host "'$( $item.name )' is already installed" -ForegroundColor Green
+                Start-Sleep -Milliseconds 100
+                #Clear-Host
             }
         }
     }
@@ -80,58 +94,231 @@
             checked = & $check -scoop
             list = [ordered]@{
                 main = @(
-                    '1password-cli'
-                    '7zip'
-                    'bottom'
-                    'dark'
-                    'dotnet-sdk'
-                    'gcc'
-                    'gdb'
-                    'gh'
-                    'git'
-                    'gsudo'
-                    'innounp'
-                    'neovim'
-                    'nircmd'
-                    'nodejs'
-                    'oh-my-posh'
-                    'pwsh'
-                    'python'
-                    'spotify-tui'
-                    'winfetch'
-                    'yarn'
-                    'fzf'
+                    [PSCustomObject]@{
+                        name = '1password-cli'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = '7zip'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'btop'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'chezmoi'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'dark'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'dotnet-sdk'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'ffmpeg'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'fzf'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'gcc'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'gdb'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'gh'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'git'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'gsudo'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'helix'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'innounp'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'lf'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'neovim'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'nircmd'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'nodejs'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'oh-my-posh'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'pwsh'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'python'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'spotify-tui'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'tldr'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'winfetch'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'yarn'
+                        flags = @('work','home')
+                    }
                 )
                 extras = @(
-                    'discord'
-                    'firefox'
-                    'gimp'
-                    'powertoys'
-                    'psreadline'
-                    'scoop-completion'
-                    'sfsu'
-                    'spotify'
-                    'terminal-icons'
-                    'vcredist2022'
-                    'vscode'
-                    'windows-terminal'
-                    'z'
+                    [PSCustomObject]@{
+                        name = 'discord'
+                        flags = @('home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'firefox'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'gimp'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'Keypirinha'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'moonlight'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'obsidian'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'psreadline'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'scoop-completion'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'sfsu'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'sharex'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'spotify'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'sunshine'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'terminal-icons'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'vcredist'
+                        flags = @('work','home','admin')
+                    }
+                    [PSCustomObject]@{
+                        name = 'vscode'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'windows-terminal'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'z'
+                        flags = @('work','home')
+                    }
                 )
                 versions = @(
-                    'dotnet-nightly'
-                    'steam'
-                    'winget-preview'
+                    [PSCustomObject]@{
+                        name = 'dotnet-nightly'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'steam'
+                        flags = @('home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'winget-preview'
+                        flags = @('work','home')
+                    }
                 )
                 java = @(
-                    'temurin-jdk'
-                    'temurin-lts-jdk'
+                    [PSCustomObject]@{
+                        name = 'temurin-jdk'
+                        flags = @('work','home')
+                    }
+                    [PSCustomObject]@{
+                        name = 'temurin-lts-jdk'
+                        flags =  @('work','home')
+                    }
                 )
                 nirsoft = @(
-                    'winlister'
+                    [PSCustomObject]@{
+                        name = 'guipropview'
+                        flags = @('work','home')
+                    }
                 )
                 nonportable = @(
-                    'equalizer-apo-np'
-                    'nvidia-display-driver-dch-np'
+                    [PSCustomObject]@{
+                        name = 'equalizer-apo-np'
+                        flags = @('home','admin')
+                    }
+                    [PSCustomObject]@{
+                        name = 'nvidia-display-driver-dch-np'
+                        flags = @('home','admin')
+                    }
+                    [PSCustomObject]@{
+                        name = 'vmware-horizon-client-np'
+                        flags = @('work','admin')
+                    }
+                )
+                'nerd-fonts' = @(
+                    [PSCustomObject]@{
+                        name = 'Hack-NF-Mono'
+                        flags = @('work','home')
+                    }
+
                 )
             }
         }
@@ -139,7 +326,14 @@
             exists = & $exists -winget
             checked = & $check -winget
             list = @(
-                'AgileBits.1Password'
+                [PSCustomObject]@{
+                    name = 'AgileBits.1Password'
+                    flags = @('work','home','admin')
+                }
+                [PSCustomObject]@{
+                    name = 'PrismLauncher.PrismLauncher'
+                    flags = @('home','admin')
+                }
             )
         }
     }

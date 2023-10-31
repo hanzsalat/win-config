@@ -117,7 +117,7 @@ alignment = "left"
   [[blocks.segments]]
   type = "text"
   style = "plain"
-  template = "{{ if .Root }}#{{ else }}${{ end }} "
+  template = "{{ if .Root }}#{{ else }}${{ end }}"
   foreground = "p:fg1"
 
 [[blocks]]

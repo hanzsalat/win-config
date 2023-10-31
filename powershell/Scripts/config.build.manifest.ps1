@@ -1,7 +1,7 @@
 function Build-Manifest {
     <#
     .SYNOPSIS
-        Builds the manifest file versions for .config folder of win-config repo
+        Builds the manifest file for .config folder of win-config repo
     .LINK
         https://github.com/hanzsalat/win-config/
     .DESCRIPTION
@@ -9,7 +9,9 @@ function Build-Manifest {
     #>
 
     param (
-        [string]$path
+        [string]$path,
+        [Alias("GV")]
+        [switch]${generate-versions}
     )
 
     begin {

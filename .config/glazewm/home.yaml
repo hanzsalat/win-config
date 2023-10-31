@@ -1,5 +1,12 @@
+defs:
+    background: &bg "#282828"
+    foreground: &fg "#ebdbb2"
+    fadeing: &fd "#504945"
+    transparent: &trans "transparent"
+    firstcolor: &c1 "#d65d0e"
+
 general:
-  focus_follows_cursor: true
+  focus_follows_cursor: false
   cursor_follows_focus: true
   toggle_workspace_on_refocus: false
   show_floating_on_top: true
@@ -7,75 +14,66 @@ general:
   window_animations: false
 
 gaps:
-  inner_gap: "5px"
-  outer_gap: "5px"
+  inner_gap: "10px"
+  outer_gap: "10px"
 
-focus_border_color: 
+focus_borders: 
   active: 
     enabled: true
-    color: "#b16286"
+    color: *c1
   inactive: 
     enabled: false
+    color: *bg
 
 bar:
   height: "35px"
   position: "top"
   opacity: 1.0
-  background: "#282828"
-  foreground: "#ebdbb2"
+  background: *bg
+  foreground: *fd
   font_family: "Hack Nerd Font Mono"
-  font_size: "13px"
-  padding: "4px 6px 4px 6px"
-  offset_x: "5"
-  offset_y: "5"
-  border_width: "2"
-  border_color: "#b16286"
+  font_size: "15px"
+    #padding: "4px 6px 4px 6px"
+  component_separator:
+    label_right: " | "
   components_left:
     - type: "workspaces"
-      focused_workspace_background: "transparent"
-      focused_workspace_foreground: "#fabd2f"
-      displayed_workspace_background: "transparent"
-      default_workspace_background: "transparent"
+      focused_workspace_border_width: "0px 0px 2px 0px"
+      focused_workspace_border_color: *c1
+      focused_workspace_background: *trans
+      focused_workspace_foreground: *fg
+      displayed_workspace_foreground: *fg
+      displayed_workspace_background: *trans
+      default_workspace_foreground: *fd
+      default_worksapce_background: *trans
     - type: "binding mode"
-      margin: "0 0 0 10px"
-      background: ""
-      foreground: "#fabd2f"
+      foreground: *c1
   components_center:
-    - type: "window title"
-  components_right:
-    - type: "system tray"
-      label_expand_text: " ❮ "
-      label_collapse_text: " ❯ "
-      margin: "1px 0 0 10px"
-      padding: "2px 2px 2px 2px"
-    - type: "tiling direction"
-      label_horizontal: " ⮂ "
-      label_vertical: " ⮁ "
-      background: "transparent"
-      margin: "0 0 0 10px"
-    - type: "network"
-      label_ethernet: " 🖧 "
-      label_no_internet: " ❌ "
-      margin: "0 0 0 10px"
     - type: "clock"
-      time_formatting: "hh:mm tt  ddd MMM d"
-      margin: "0 5px 0 10px"
+      foreground: *fg
+      time_formatting: "dddd, MMMM MM"
+  components_right:
+    - type: "network"
+      foreground: *fg
+      label_ethernet: "🖧 "
+      label_no_internet: "❌ "
+    - type: "volume"
+      foreground: *fg
+    - type: "clock"
+      foreground: *fg
+      time_formatting: "hh:mm tt"
+      margin: "0px 10px 0px 10px"
 
 workspaces:
   - name: "1"
-    display_name: "1:DEV"
     bind_to_monitor: "1"
   - name: "2"
-    display_name: "2:WWW"
     bind_to_monitor: "2"
   - name: "3"
-    display_name: "3:STEAM"
     bind_to_monitor: "2"
   - name: "4"
-    display_name: "4:MISC"
     bind_to_monitor: "2"
   - name: "5"
-    display_name: "5:GAME"
     bind_to_monitor: "1"
   - name: "6"
   - name: "7"
@@ -92,10 +90,18 @@ window_rules:
   - command: "ignore"
     match_process_name: "OpenWith"
 
+  - command: "ignore"
+    match_title: "Moonlight"
+    match_class_name: "SDL_app"
+
+  - command: "ignore"
+    match_title: "ueli"
+    match_class_name: "Chrome_WidgetWin_1"
+
   - command: "set floating"
     match_class_name: "#32770"
 
-  - command: "move to workspace 2"
+  - commands: ["move to workspace 2", "resize borders 0px -3px -3px -3px"]
     match_process_name: "firefox"
 
   - command: "set floating"
@@ -180,8 +186,8 @@ keybindings:
   - command: "tiling direction toggle"
     binding: "Alt+V"
 
-  - command: "focus mode toggle"
-    binding: "Alt+Space"
+      #- command: "focus mode toggle"
+      #binding: "Alt+Space"
 
   - command: "toggle floating"
     binding: "Alt+Shift+Space"

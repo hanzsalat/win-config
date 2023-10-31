@@ -1,6 +1,7 @@
 # reload powershell profile
-    function Initialize-Profile {
-        & $profile.CurrentUserAllHosts
+    function Initialize-Profile 
+    {
+        . $profile.CurrentUserAllHosts
     }
 
 # shutdown system
@@ -14,14 +15,16 @@
     }
 
 # get all starup applications
-    function Get-Startup {
+    function Get-Startup 
+    {
         Get-CimInstance Win32_StartupCommand |
         Select-Object Name,Command,Location,User |
         Format-List
     }   
 
 # change host name of shell
-    function Set-ShellName {
+    function Set-ShellName 
+    {
         param (
             [parameter(Mandatory,Position = 0,ValueFromPipeline)]
             [string]$name
