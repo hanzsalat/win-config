@@ -335,7 +335,7 @@
                 }
             )
         }
-        workspace = $Host.UI.PromptForChoice('Workspace selection','on which workspace are you ?',@('&work','&home'),1)
+        workspace = $Host.UI.PromptForChoice('Workspace selection','on which workspace are you ?',@('&work','&home'),1) | ForEach-Object { if ($PSItem -eq 1) {'home'} else {'work'} }
     }
 
 # script
