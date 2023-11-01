@@ -42,18 +42,16 @@
             $bucket = $item.key
             foreach ($thing in $item.Value) {
                 $install = $bucket + '/' + $thing.name
-                if ($data.scoop.checked -notcontains $thing.name) {
-                    if ($thing.flags -contains $data.workspace) {
-                        if ($thing.flags -contains 'admin') {
-                            gsudo scoop install $install
-                            } 
+                if ($thing.flags -contains $data.workspace) {
+                    if ($data.scoop.checked -notcontains $thing.name) {
+                        if ($thing.flags -contains 'admin') { gsudo scoop install $install } 
                         else { scoop install $install }
                     }
-                }
-                else { 
-                    Write-Host "'$( $thing.name )' is already installed" -ForegroundColor Green
-                    Start-Sleep -Milliseconds 100
-                    #Clear-Host
+                    else {
+                        Write-Host "'$( $thing.name )' is already installed" -ForegroundColor Green
+                        Start-Sleep -Milliseconds 100
+                        #Clear-Host
+                    }
                 }
             }
         }
@@ -69,15 +67,13 @@
             }
         }
         foreach ($item in $data.winget.list) {
-            if ($data.winget.checked -notcontains $item.name) {
-                if ($item.flags -contains $data.workspace) {
-                    gsudo winget install --id $item.name
+            if ($item.flags -contains $data.workspace) {
+                if ($data.winget.checked -notcontains $item.name) { gsudo winget install --id $item.name }
+                else { 
+                    Write-Host "'$( $item.name )' is already installed" -ForegroundColor Green
+                    Start-Sleep -Milliseconds 100
+                    #Clear-Host
                 }
-            }
-            else { 
-                Write-Host "'$( $item.name )' is already installed" -ForegroundColor Green
-                Start-Sleep -Milliseconds 100
-                #Clear-Host
             }
         }
     }
