@@ -1,12 +1,7 @@
 # namespaces
     Using namespace System.IO
     Using namespace System.Collections
-
-# parameter    
-    param(
-        [ValidateSetAttribute('work','home')]
-        [string]$workspace
-    )
+    Using namespace System.Management.Automation.Host
 
 # general
     $ErrorActionPreference = 'Stop'
@@ -48,7 +43,7 @@
             foreach ($thing in $item.Value) {
                 $install = $bucket + '/' + $thing.name
                 if ($data.scoop.checked -notcontains $thing.name) {
-                    if ($thing.flags -contains $workspace) {
+                    if ($thing.flags -contains $data.workspace) {
                         if ($thing.flags -contains 'admin') {
                             gsudo scoop install $install
                             } 
@@ -75,7 +70,7 @@
         }
         foreach ($item in $data.winget.list) {
             if ($data.winget.checked -notcontains $item.name) {
-                if ($item.flags -contains $workspace) {
+                if ($item.flags -contains $data.workspace) {
                     gsudo winget install --id $item.name
                 }
             }
@@ -257,6 +252,10 @@
                         flags = @('work','home','admin')
                     }
                     [PSCustomObject]@{
+                        name = 'vncviewer'
+                        flags = @('work')
+                    }
+                    [PSCustomObject]@{
                         name = 'vscode'
                         flags = @('work','home')
                     }
@@ -336,6 +335,7 @@
                 }
             )
         }
+        workspace = $Host.UI.PromptForChoice('Workspace selection','on which workspace are you ?',@('&work','&home'),1)
     }
 
 # script
