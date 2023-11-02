@@ -22,7 +22,7 @@
         elseif ($null -ne (Get-Command winget -CommandType Application) -and $winget) {
             $guid = [System.Guid]::NewGuid()
             $filename = $env:USERPROFILE + '\' + $guid + '.json'
-            winget export -o $filename
+            $null = winget export -o $filename
             (Get-Content $filename | ConvertFrom-Json).Sources.packages.packageidentifier  
             Remove-Item $filename
         }
@@ -192,10 +192,6 @@
                 )
                 extras = @(
                     [PSCustomObject]@{
-                        name = 'discord'
-                        flags = @('home')
-                    }
-                    [PSCustomObject]@{
                         name = 'firefox'
                         flags = @('work','home')
                     }
@@ -328,6 +324,10 @@
                 [PSCustomObject]@{
                     name = 'PrismLauncher.PrismLauncher'
                     flags = @('home','admin')
+                }
+                [PSCustomObject]@{
+                    name = 'Discord.Discord'
+                    flags = @('home')
                 }
             )
         }

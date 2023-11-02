@@ -19,8 +19,8 @@ if ($checked.PSReadLine.exists) {
     }
 }
 
-if ($checked.Sfsu) {
-    #Invoke-Expression (&sfsu hook)
+if ($checked.Sfsu -and $userconfig.sfsu) {
+    Invoke-Expression (&sfsu hook)
 }
 
 if (Test-Path $env:OneDriveConsumer -ErrorAction Ignore) {

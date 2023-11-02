@@ -1,7 +1,11 @@
 # reload powershell profile
-    function Initialize-Profile 
+    function Initialize-Powershell
     {
-        . $profile.CurrentUserAllHosts
+        switch ($PSVersionTable.PSVersion.Major) {
+            7 { Invoke-Command { & pwsh } -NoNewScope }
+            5 { Invoke-Command { & powershell } -NoNewScope }
+            default { . $PROFILE.CurrentUserAllHosts }
+        }
     }
 
 # shutdown system
@@ -31,6 +35,14 @@
         )
         
         $Host.UI.RawUI.WindowTitle = $name
+    }
+
+# fix stuck glazewm
+    function Repair-GlazeWM {
+        if (Get-Process GlazeWM) {
+            Get-Process GlazeWM | Stop-Process
+        }
+        Start-Process powershell -ArgumentList "glazewm --config=$env:USERPROFILE\.config\glazewm\config.yaml" -WindowStyle Hidden
     }
 
 # list of advanced functions/scripts to import
