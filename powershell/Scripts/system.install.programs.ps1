@@ -4,7 +4,7 @@
     Using namespace System.Management.Automation.Host
 
 # general
-    $ErrorActionPreference = 'Stop'
+    $ErrorActionPreference = 'Continue'
     
 # scriptblocks
     $exists = {
